@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.apu_SeedShop2_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.apu.seedshop.jpa.Packings</class>
+    <class>com.apu.seedshop.jpa.Packages</class>
+    <class>com.apu.seedshop.jpa.Availability</class>
+    <class>com.apu.seedshop.jpa.UsersGender</class>
+    <class>com.apu.seedshop.jpa.AnOrder</class>
+    <class>com.apu.seedshop.jpa.Providers</class>
+    <class>com.apu.seedshop.jpa.ProductLocations</class>
+    <class>com.apu.seedshop.jpa.Manufactures</class>
+    <class>com.apu.seedshop.jpa.Invoices</class>
+    <class>com.apu.seedshop.jpa.DeliveryStatuses</class>
+    <class>com.apu.seedshop.jpa.Products</class>
+    <class>com.apu.seedshop.jpa.ProductProvider</class>
+    <class>com.apu.seedshop.jpa.AProduct</class>
+    <class>com.apu.seedshop.jpa.UsersAuthorization</class>
+    <class>com.apu.seedshop.jpa.Users</class>
+    <class>com.apu.seedshop.jpa.DeliveryServices</class>
+    <properties>
+<!--        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/seedsdb?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="qwerty"/>-->
+    </properties> 
+  </persistence-unit>
+</persistence>
