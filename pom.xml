@@ -6,7 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>SeedShop</module>
+        <module>SeedShop2</module>
         <module>SeedShopAPI</module>
     </modules>
     <properties>
