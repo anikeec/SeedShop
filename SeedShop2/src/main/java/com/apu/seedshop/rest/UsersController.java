@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsersController {
-private static final Logger logger =  LoggerFactory.getLogger(UsersController.class);
+    private static final Logger logger =  LoggerFactory.getLogger(UsersController.class);
     @Autowired         
     UsersService usersService;
     @Autowired

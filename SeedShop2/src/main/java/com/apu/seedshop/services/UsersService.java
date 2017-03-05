@@ -31,7 +31,19 @@ UsersRepository usersRepository;
         return u;
     }
     
-    public List<Users> findUserByName(String secName, String firstName){
+    public List<Users> findUserByName(String name){
+        List<Users> udl = usersRepository.findByFirstName(name);
+        List<Users> res = new ArrayList<>();
+        for(Users u:udl){
+            System.out.println(u.getUserId() + ", " +
+                                u.getSecName()+ ", " + 
+                                u.getFirstName());
+            res.add(u);
+        }        
+        return res;
+    }
+    
+    public List<Users> findBySecNameAndFirstName(String secName, String firstName){
         List<Users> udl = usersRepository.findBySecNameAndFirstName(secName, firstName);
         List<Users> res = new ArrayList<>();
         for(Users u:udl){
@@ -40,10 +52,6 @@ UsersRepository usersRepository;
                                 u.getFirstName());
             res.add(u);
         }        
-        /*
-        udl.forEach((ud) -> {
-            res.add(userRepository.findOne(ud.getUserId()));
-        });*/
         return res;
     }
 

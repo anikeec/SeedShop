@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId")
     , @NamedQuery(name = "Users.findBySecName", query = "SELECT u FROM Users u WHERE u.secName = :secName")
-    , @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE u.firstName = :firstName")
+    , @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%',:firstName,'%'))")
     , @NamedQuery(name = "Users.findByThirdName", query = "SELECT u FROM Users u WHERE u.thirdName = :thirdName")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
     , @NamedQuery(name = "Users.findByPhones", query = "SELECT u FROM Users u WHERE u.phones = :phones")

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 
 public class UsersMapper {
-private static final Logger logger =  LoggerFactory.getLogger(UsersMapper.class);
+    private static final Logger logger =  LoggerFactory.getLogger(UsersMapper.class);
 
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     @Autowired
