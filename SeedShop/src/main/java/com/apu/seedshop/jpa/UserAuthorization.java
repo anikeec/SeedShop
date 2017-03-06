@@ -10,8 +10,10 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,14 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author apu
  */
 @Entity
-@Table(name = "users_authorization")
+@Table(name = "user_authorization")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UsersAuthorization.findAll", query = "SELECT u FROM UsersAuthorization u")
-    , @NamedQuery(name = "UsersAuthorization.findByUserId", query = "SELECT u FROM UsersAuthorization u WHERE u.userId = :userId")
-    , @NamedQuery(name = "UsersAuthorization.findByLogin", query = "SELECT u FROM UsersAuthorization u WHERE u.login = :login")
-    , @NamedQuery(name = "UsersAuthorization.findByPasswdHash", query = "SELECT u FROM UsersAuthorization u WHERE u.passwdHash = :passwdHash")})
-public class UsersAuthorization implements Serializable {
+    @NamedQuery(name = "UserAuthorization.findAll", query = "SELECT u FROM UserAuthorization u")
+    , @NamedQuery(name = "UserAuthorization.findByUserId", query = "SELECT u FROM UserAuthorization u WHERE u.userId = :userId")
+    , @NamedQuery(name = "UserAuthorization.findByLogin", query = "SELECT u FROM UserAuthorization u WHERE u.login = :login")
+    , @NamedQuery(name = "UserAuthorization.findByPasswdHash", query = "SELECT u FROM UserAuthorization u WHERE u.passwdHash = :passwdHash")})
+public class UserAuthorization implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,15 +49,18 @@ public class UsersAuthorization implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "passwd_hash")
     private String passwdHash;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private User user;
 
-    public UsersAuthorization() {
+    public UserAuthorization() {
     }
 
-    public UsersAuthorization(Integer userId) {
+    public UserAuthorization(Integer userId) {
         this.userId = userId;
     }
 
-    public UsersAuthorization(Integer userId, String login, String passwdHash) {
+    public UserAuthorization(Integer userId, String login, String passwdHash) {
         this.userId = userId;
         this.login = login;
         this.passwdHash = passwdHash;
@@ -85,6 +90,14 @@ public class UsersAuthorization implements Serializable {
         this.passwdHash = passwdHash;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -95,10 +108,10 @@ public class UsersAuthorization implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsersAuthorization)) {
+        if (!(object instanceof UserAuthorization)) {
             return false;
         }
-        UsersAuthorization other = (UsersAuthorization) object;
+        UserAuthorization other = (UserAuthorization) object;
         if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
@@ -107,7 +120,7 @@ public class UsersAuthorization implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.seedshop.jpa.UsersAuthorization[ userId=" + userId + " ]";
+        return "com.apu.seedshop.jpa.UserAuthorization[ userId=" + userId + " ]";
     }
     
 }

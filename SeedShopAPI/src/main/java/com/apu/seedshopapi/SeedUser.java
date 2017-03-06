@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class SeedsUser {
+public class SeedUser {
     @XmlElement(required=false)
     public Integer userId;
     @XmlElement(required=true)

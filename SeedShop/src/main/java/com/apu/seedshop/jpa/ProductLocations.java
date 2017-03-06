@@ -47,11 +47,11 @@ public class ProductLocations implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationId")
     private Collection<Availability> availabilityCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
-    private Collection<Invoices> invoicesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "destinationId")
-    private Collection<Invoices> invoicesCollection1;
+    private Collection<Invoices> invoicesCollection;
     @OneToMany(mappedBy = "currentLocId")
+    private Collection<Invoices> invoicesCollection1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
     private Collection<Invoices> invoicesCollection2;
 
     public ProductLocations() {

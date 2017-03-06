@@ -118,24 +118,24 @@ public class Invoices implements Serializable {
     private String addInfoM;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Collection<AnOrder> anOrderCollection;
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne(optional = false)
-    private Users userId;
-    @JoinColumn(name = "delivery_id", referencedColumnName = "delivery_id")
-    @ManyToOne(optional = false)
-    private DeliveryServices deliveryId;
-    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    @ManyToOne(optional = false)
-    private DeliveryStatuses statusId;
-    @JoinColumn(name = "source_id", referencedColumnName = "location_id")
-    @ManyToOne(optional = false)
-    private ProductLocations sourceId;
     @JoinColumn(name = "destination_id", referencedColumnName = "location_id")
     @ManyToOne(optional = false)
     private ProductLocations destinationId;
     @JoinColumn(name = "current_loc_id", referencedColumnName = "location_id")
     @ManyToOne
     private ProductLocations currentLocId;
+    @JoinColumn(name = "status_id", referencedColumnName = "status_id")
+    @ManyToOne(optional = false)
+    private DeliveryStatuses statusId;
+    @JoinColumn(name = "delivery_id", referencedColumnName = "delivery_id")
+    @ManyToOne(optional = false)
+    private DeliveryServices deliveryId;
+    @JoinColumn(name = "source_id", referencedColumnName = "location_id")
+    @ManyToOne(optional = false)
+    private ProductLocations sourceId;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private User userId;
 
     public Invoices() {
     }
@@ -285,38 +285,6 @@ public class Invoices implements Serializable {
         this.anOrderCollection = anOrderCollection;
     }
 
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
-    public DeliveryServices getDeliveryId() {
-        return deliveryId;
-    }
-
-    public void setDeliveryId(DeliveryServices deliveryId) {
-        this.deliveryId = deliveryId;
-    }
-
-    public DeliveryStatuses getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(DeliveryStatuses statusId) {
-        this.statusId = statusId;
-    }
-
-    public ProductLocations getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(ProductLocations sourceId) {
-        this.sourceId = sourceId;
-    }
-
     public ProductLocations getDestinationId() {
         return destinationId;
     }
@@ -331,6 +299,38 @@ public class Invoices implements Serializable {
 
     public void setCurrentLocId(ProductLocations currentLocId) {
         this.currentLocId = currentLocId;
+    }
+
+    public DeliveryStatuses getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(DeliveryStatuses statusId) {
+        this.statusId = statusId;
+    }
+
+    public DeliveryServices getDeliveryId() {
+        return deliveryId;
+    }
+
+    public void setDeliveryId(DeliveryServices deliveryId) {
+        this.deliveryId = deliveryId;
+    }
+
+    public ProductLocations getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(ProductLocations sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

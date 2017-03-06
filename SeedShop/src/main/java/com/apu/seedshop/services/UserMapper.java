@@ -1,31 +1,31 @@
 package com.apu.seedshop.services;
 
-import com.apu.seedshop.jpa.Users;
-import com.apu.seedshop.repository.UsersRepository;
-import com.apu.seedshopapi.SeedsUser;
+import com.apu.seedshop.jpa.User;
+import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.apu.seedshop.repository.UserRepository;
 
 @Component
 
-public class UsersMapper {
-    private static final Logger logger =  LoggerFactory.getLogger(UsersMapper.class);
+public class UserMapper {
+    private static final Logger logger =  LoggerFactory.getLogger(UserMapper.class);
 
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     @Autowired
-    UsersRepository usersRepository;
+    UserRepository userRepository;
     
 /**
  * Maps internal JPA model to external REST model
  * @param u internal user model
  * @return external REST user model
  */
-    public SeedsUser fromInternal(Users u) {
-        SeedsUser su = null;
+    public SeedUser fromInternal(User u) {
+        SeedUser su = null;
         if (u != null) {
-            su = new SeedsUser();
+            su = new SeedUser();
             //Userdetails ud = u.getUserdetails();
             //lu.isLibrarian = u.getUserId() < 100;
             su.firstName = u.getFirstName();
@@ -47,11 +47,11 @@ public class UsersMapper {
  * @param su REST model
  * @return internal Users with all required fields set
  */
-    public Users toInternal(SeedsUser su) {
-        Users u = null;
+    public User toInternal(SeedUser su) {
+        User u = null;
         //first, check if it exists
         if (su.userId != null) {
-            u = usersRepository.findOne(su.userId);
+            u = userRepository.findOne(su.userId);
         }
         if (u == null) { //not found, create new
             logger.debug("Creating new user");

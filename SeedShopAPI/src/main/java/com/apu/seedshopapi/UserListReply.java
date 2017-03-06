@@ -8,5 +8,5 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserListReply extends GenericReply{
     @XmlElement(required=true)
-    public List<SeedsUser> users = new ArrayList<>();
+    public List<SeedUser> users = new ArrayList<>();
 }

@@ -4,9 +4,9 @@
  */
 package com.apu.seedshop.rest;
 
-import com.apu.seedshop.jpa.Users;
-import com.apu.seedshop.services.UsersMapper;
-import com.apu.seedshop.services.UsersService;
+import com.apu.seedshop.jpa.User;
+import com.apu.seedshop.services.UserMapper;
+import com.apu.seedshop.services.UserService;
 import com.apu.seedshopapi.UserListReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class UsersController {
-    private static final Logger logger =  LoggerFactory.getLogger(UsersController.class);
+public class UserController {
+    private static final Logger logger =  LoggerFactory.getLogger(UserController.class);
     @Autowired         
-    UsersService usersService;
+    UserService userService;
     @Autowired
-    UsersMapper usersMapper;    
+    UserMapper userMapper;    
     
     @RequestMapping(path="/users/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserListReply getAllUsers(){
         UserListReply reply = new UserListReply();
-        for(Users u: usersService.getAllUsers()){
-           reply.users.add(usersMapper.fromInternal(u));    
+        for(User u: userService.getAllUsers()){
+           reply.users.add(userMapper.fromInternal(u));    
         }
         return reply;
     }
@@ -38,7 +38,7 @@ public class UsersController {
     @RequestMapping(path="/users/byid/{userid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserListReply getUserById(@PathVariable Integer userid ){
         UserListReply reply = new UserListReply();
-        reply.users.add(usersMapper.fromInternal(usersService.getUserById(userid)));
+        reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));
         return reply;
     }
     

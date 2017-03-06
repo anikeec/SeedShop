@@ -6,29 +6,32 @@
 package com.apu.seedshop.jpa;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author apu
  */
 @Entity
-@Table(name = "users_gender")
+@Table(name = "user_gender")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UsersGender.findAll", query = "SELECT u FROM UsersGender u")
-    , @NamedQuery(name = "UsersGender.findByGenderId", query = "SELECT u FROM UsersGender u WHERE u.genderId = :genderId")
-    , @NamedQuery(name = "UsersGender.findByName", query = "SELECT u FROM UsersGender u WHERE u.name = :name")})
-public class UsersGender implements Serializable {
+    @NamedQuery(name = "UserGender.findAll", query = "SELECT u FROM UserGender u")
+    , @NamedQuery(name = "UserGender.findByGenderId", query = "SELECT u FROM UserGender u WHERE u.genderId = :genderId")
+    , @NamedQuery(name = "UserGender.findByName", query = "SELECT u FROM UserGender u WHERE u.name = :name")})
+public class UserGender implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,15 +44,17 @@ public class UsersGender implements Serializable {
     @Size(min = 1, max = 1)
     @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "genderId")
+    private Collection<User> userCollection;
 
-    public UsersGender() {
+    public UserGender() {
     }
 
-    public UsersGender(Integer genderId) {
+    public UserGender(Integer genderId) {
         this.genderId = genderId;
     }
 
-    public UsersGender(Integer genderId, String name) {
+    public UserGender(Integer genderId, String name) {
         this.genderId = genderId;
         this.name = name;
     }
@@ -70,6 +75,15 @@ public class UsersGender implements Serializable {
         this.name = name;
     }
 
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -80,10 +94,10 @@ public class UsersGender implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsersGender)) {
+        if (!(object instanceof UserGender)) {
             return false;
         }
-        UsersGender other = (UsersGender) object;
+        UserGender other = (UserGender) object;
         if ((this.genderId == null && other.genderId != null) || (this.genderId != null && !this.genderId.equals(other.genderId))) {
             return false;
         }
@@ -92,7 +106,7 @@ public class UsersGender implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.seedshop.jpa.UsersGender[ genderId=" + genderId + " ]";
+        return "com.apu.seedshop.jpa.UserGender[ genderId=" + genderId + " ]";
     }
     
 }

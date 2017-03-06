@@ -5,8 +5,8 @@
  */
 package com.apu.seedshop.tests.unit;
 
-import com.apu.seedshop.jpa.Users;
-import com.apu.seedshop.services.UsersService;
+import com.apu.seedshop.jpa.User;
+import com.apu.seedshop.services.UserService;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UsersServiceTest {
     
     @Autowired
-    private UsersService usersService;
+    private UserService usersService;
     
     public UsersServiceTest() {
     }
@@ -54,7 +54,7 @@ public class UsersServiceTest {
     @Test
     public void testGetAllUsers() throws Exception {
         System.out.println("getAllUsers");
-        List<Users> result = usersService.getAllUsers();
+        List<User> result = usersService.getAllUsers();
         int count = result.size();
         int expCount = 2;
         assertEquals(expCount, count);
@@ -69,8 +69,8 @@ public class UsersServiceTest {
     public void testGetUserById() throws Exception {
         System.out.println("getUserById");
         Integer id = 2;
-        Users notExpResult = null;
-        Users result = usersService.getUserById(id);
+        User notExpResult = null;
+        User result = usersService.getUserById(id);
         assert(result != notExpResult);
         //fail("The test case is a prototype.");
     }
@@ -84,7 +84,7 @@ public class UsersServiceTest {
         System.out.println("findUserByName");
         String name = "пет";
         int expResult = 1;
-        List<Users> result = usersService.findUserByName(name);
+        List<User> result = usersService.findUserByName(name);
         assert(result.get(0).getUserId() == expResult);
         //fail("The test case is a prototype.");
     }
@@ -95,10 +95,10 @@ public class UsersServiceTest {
     @Test
     public void testAddUser() {
         System.out.println("addUser");
-        Users u = null;
-        UsersService instance = new UsersService();
-        Users expResult = null;
-        Users result = instance.addUser(u);
+        User u = null;
+        UserService instance = new UserService();
+        User expResult = null;
+        User result = instance.addUser(u);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -111,7 +111,7 @@ public class UsersServiceTest {
     public void testDelUser() {
         System.out.println("delUser");
         Integer id = null;
-        UsersService instance = new UsersService();
+        UserService instance = new UserService();
         instance.delUser(id);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
