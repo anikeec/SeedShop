@@ -13,6 +13,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class UsersServiceTest {
+    private static final Logger logger =  LoggerFactory.getLogger(UsersServiceTest.class);
     
     @Autowired
     private UserService usersService;
@@ -53,12 +56,13 @@ public class UsersServiceTest {
      */
     @Test
     public void testGetAllUsers() throws Exception {
-        System.out.println("getAllUsers");
+        logger.debug("Test - getAllUsers");
         List<User> result = usersService.getAllUsers();
         int count = result.size();
         int expCount = 2;
         assertEquals(expCount, count);
         //fail("The test case is a prototype.");
+        logger.debug("OK");
     }
 
     /**
@@ -67,12 +71,13 @@ public class UsersServiceTest {
      */
     @Test
     public void testGetUserById() throws Exception {
-        System.out.println("getUserById");
+        logger.debug("Test - getUserById");
         Integer id = 2;
         User notExpResult = null;
         User result = usersService.getUserById(id);
         assert(result != notExpResult);
         //fail("The test case is a prototype.");
+        logger.debug("OK");
     }
 
     /**

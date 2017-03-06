@@ -56,7 +56,7 @@ UserRepository userRepository;
     }
 
     public User addUser(User u) {
-        logger.debug("Adding users %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
+        logger.debug("Adding users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
         u = userRepository.save(u);
         return u;
     }
@@ -64,7 +64,7 @@ UserRepository userRepository;
     public void delUser(Integer id){
         User u = userRepository.findOne(id);
         if(u!=null){
-            logger.debug("Deleting users %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
+            logger.debug("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
             //List<Ugroup> gl = u.getUgroupList();
             //detailsRepository.delete(id);
             userRepository.delete(id);
