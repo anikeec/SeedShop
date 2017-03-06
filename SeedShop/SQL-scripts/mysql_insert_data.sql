@@ -1,15 +1,15 @@
 use seedsdb;
 
-INSERT INTO USERS_GENDER(gender_id, name) VALUES (0, 'F');
-INSERT INTO USERS_GENDER(gender_id, name) VALUES (1, 'M');
+INSERT INTO USER_GENDER(gender_id, name) VALUES (0, 'F');
+INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'M');
 
-INSERT INTO USERS(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
+INSERT INTO USER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары');
-INSERT INTO USERS(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
+INSERT INTO USER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси');
 
-INSERT INTO USERS_AUTHORIZATION(user_id, login, passwd_hash) VALUES (1, 'Peter', 'asdf5gfG54fh');
-INSERT INTO USERS_AUTHORIZATION(user_id, login, passwd_hash) VALUES (2, 'Oleg', 'g3456f6364fh');
+INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (1, 'Peter', 'asdf5gfG54fh');
+INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (2, 'Oleg', 'g3456f6364fh');
 
 INSERT INTO DELIVERY_SERVICES(delivery_id, name, collect_avail) VALUES (1, 'Новая почта', 1);
 INSERT INTO DELIVERY_SERVICES(delivery_id, name, collect_avail) VALUES (2, 'Деливери', 0);

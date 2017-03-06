@@ -1,18 +1,18 @@
 use seedsdb;
 
-/* info table of users genders */
-/* DROP TABLE USERS_GENDER; */
+/* info table of user genders */
+/* DROP TABLE USER_GENDER; */
 
-CREATE TABLE USERS_GENDER(
+CREATE TABLE USER_GENDER(
  gender_id  INT NOT NULL,
  name VARCHAR(1) NOT NULL,
  PRIMARY KEY (gender_id)
 );
 
 /* table of users */
-/* DROP TABLE USERS; */
+/* DROP TABLE USER; */
 
-CREATE TABLE USERS(
+CREATE TABLE USER(
  user_id  INT NOT NULL,
  sec_name VARCHAR(30) NOT NULL,
  first_name VARCHAR(20) NOT NULL,
@@ -27,18 +27,18 @@ CREATE TABLE USERS(
  area VARCHAR(30),
  city VARCHAR(30),
  PRIMARY KEY (user_id),
- FOREIGN KEY (gender_id) REFERENCES USERS_GENDER (gender_id)
+ FOREIGN KEY (gender_id) REFERENCES USER_GENDER (gender_id)
 );
 
 /* table of users authorization */
-/* DROP TABLE USERS_AUTHORIZATION; */
+/* DROP TABLE USER_AUTHORIZATION; */
 
-CREATE TABLE USERS_AUTHORIZATION(
+CREATE TABLE USER_AUTHORIZATION(
  user_id  INT NOT NULL,
  login VARCHAR(25) NOT NULL,
  passwd_hash VARCHAR(25) NOT NULL,
  PRIMARY KEY (user_id),
- FOREIGN KEY (user_id) REFERENCES USERS (user_id)
+ FOREIGN KEY (user_id) REFERENCES USER (user_id)
 );
 
 
@@ -97,7 +97,7 @@ CREATE TABLE INVOICES(
  add_info_u TEXT,
  add_info_m TEXT,
  PRIMARY KEY (order_id),
- FOREIGN KEY (user_id) REFERENCES USERS (user_id),
+ FOREIGN KEY (user_id) REFERENCES USER (user_id),
  FOREIGN KEY (delivery_id) REFERENCES DELIVERY_SERVICES (delivery_id),
  FOREIGN KEY (status_id) REFERENCES DELIVERY_STATUSES (status_id),
  FOREIGN KEY (source_id) REFERENCES PRODUCT_LOCATIONS (location_id),

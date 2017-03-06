@@ -14,9 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <artifactId>SeedShop2</artifactId>
+    <artifactId>SeedShop</artifactId>
     <groupId>com.apu</groupId>    
-    <name>SeedShop2</name>
+    <name>SeedShop</name>
     <version>1.0-SNAPSHOT</version>
     <url>http://projects.spring.io/spring-boot/</url>
 
