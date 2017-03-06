@@ -8,6 +8,7 @@ package com.apu.seedshop.jpa;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,46 +26,46 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author apu
  */
 @Entity
-@Table(name = "user_gender")
+@Table(name = "pack")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserGender.findAll", query = "SELECT u FROM UserGender u")
-    , @NamedQuery(name = "UserGender.findByGenderId", query = "SELECT u FROM UserGender u WHERE u.genderId = :genderId")
-    , @NamedQuery(name = "UserGender.findByName", query = "SELECT u FROM UserGender u WHERE u.name = :name")})
-public class UserGender implements Serializable {
+    @NamedQuery(name = "Pack.findAll", query = "SELECT p FROM Pack p")
+    , @NamedQuery(name = "Pack.findByPackId", query = "SELECT p FROM Pack p WHERE p.packId = :packId")
+    , @NamedQuery(name = "Pack.findByName", query = "SELECT p FROM Pack p WHERE p.name = :name")})
+public class Pack implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "gender_id")
-    private Integer genderId;
+    @Column(name = "pack_id")
+    private Integer packId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1)
+    @Size(min = 1, max = 20)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "genderId")
-    private Collection<Appuser> appuserCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "packId")
+    private Collection<Packing> packingCollection;
 
-    public UserGender() {
+    public Pack() {
     }
 
-    public UserGender(Integer genderId) {
-        this.genderId = genderId;
+    public Pack(Integer packId) {
+        this.packId = packId;
     }
 
-    public UserGender(Integer genderId, String name) {
-        this.genderId = genderId;
+    public Pack(Integer packId, String name) {
+        this.packId = packId;
         this.name = name;
     }
 
-    public Integer getGenderId() {
-        return genderId;
+    public Integer getPackId() {
+        return packId;
     }
 
-    public void setGenderId(Integer genderId) {
-        this.genderId = genderId;
+    public void setPackId(Integer packId) {
+        this.packId = packId;
     }
 
     public String getName() {
@@ -76,29 +77,29 @@ public class UserGender implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Appuser> getAppuserCollection() {
-        return appuserCollection;
+    public Collection<Packing> getPackingCollection() {
+        return packingCollection;
     }
 
-    public void setAppuserCollection(Collection<Appuser> appuserCollection) {
-        this.appuserCollection = appuserCollection;
+    public void setPackingCollection(Collection<Packing> packingCollection) {
+        this.packingCollection = packingCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (genderId != null ? genderId.hashCode() : 0);
+        hash += (packId != null ? packId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserGender)) {
+        if (!(object instanceof Pack)) {
             return false;
         }
-        UserGender other = (UserGender) object;
-        if ((this.genderId == null && other.genderId != null) || (this.genderId != null && !this.genderId.equals(other.genderId))) {
+        Pack other = (Pack) object;
+        if ((this.packId == null && other.packId != null) || (this.packId != null && !this.packId.equals(other.packId))) {
             return false;
         }
         return true;
@@ -106,7 +107,7 @@ public class UserGender implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.seedshop.jpa.UserGender[ genderId=" + genderId + " ]";
+        return "com.apu.seedshop.jpa.Pack[ packId=" + packId + " ]";
     }
     
 }

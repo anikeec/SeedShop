@@ -51,7 +51,7 @@ public class UserAuthorization implements Serializable {
     private String passwdHash;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false)
-    private User user;
+    private Appuser appuser;
 
     public UserAuthorization() {
     }
@@ -90,12 +90,12 @@ public class UserAuthorization implements Serializable {
         this.passwdHash = passwdHash;
     }
 
-    public User getUser() {
-        return user;
+    public Appuser getAppuser() {
+        return appuser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppuser(Appuser appuser) {
+        this.appuser = appuser;
     }
 
     @Override

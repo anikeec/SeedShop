@@ -48,7 +48,7 @@ public class AProduct implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    private Collection<Products> productsCollection;
+    private Collection<Product> productCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<ProductProvider> productProviderCollection;
     @OneToMany(mappedBy = "parentId")
@@ -86,12 +86,12 @@ public class AProduct implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Products> getProductsCollection() {
-        return productsCollection;
+    public Collection<Product> getProductCollection() {
+        return productCollection;
     }
 
-    public void setProductsCollection(Collection<Products> productsCollection) {
-        this.productsCollection = productsCollection;
+    public void setProductCollection(Collection<Product> productCollection) {
+        this.productCollection = productCollection;
     }
 
     @XmlTransient

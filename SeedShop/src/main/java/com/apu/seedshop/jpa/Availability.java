@@ -41,12 +41,12 @@ public class Availability implements Serializable {
     @NotNull
     @Column(name = "amount")
     private int amount;
-    @JoinColumn(name = "barcode", referencedColumnName = "barcode")
-    @ManyToOne(optional = false)
-    private Products barcode;
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
     @ManyToOne(optional = false)
-    private ProductLocations locationId;
+    private ProductLocation locationId;
+    @JoinColumn(name = "barcode", referencedColumnName = "barcode")
+    @ManyToOne(optional = false)
+    private Product barcode;
 
     public Availability() {
     }
@@ -76,20 +76,20 @@ public class Availability implements Serializable {
         this.amount = amount;
     }
 
-    public Products getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(Products barcode) {
-        this.barcode = barcode;
-    }
-
-    public ProductLocations getLocationId() {
+    public ProductLocation getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(ProductLocations locationId) {
+    public void setLocationId(ProductLocation locationId) {
         this.locationId = locationId;
+    }
+
+    public Product getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(Product barcode) {
+        this.barcode = barcode;
     }
 
     @Override

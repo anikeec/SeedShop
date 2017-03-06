@@ -48,12 +48,12 @@ public class AnOrder implements Serializable {
     @NotNull
     @Column(name = "amount")
     private int amount;
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
-    @ManyToOne(optional = false)
-    private Invoices orderId;
     @JoinColumn(name = "barcode", referencedColumnName = "barcode")
     @ManyToOne(optional = false)
-    private Products barcode;
+    private Product barcode;
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    @ManyToOne(optional = false)
+    private Invoice orderId;
 
     public AnOrder() {
     }
@@ -92,20 +92,20 @@ public class AnOrder implements Serializable {
         this.amount = amount;
     }
 
-    public Invoices getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Invoices orderId) {
-        this.orderId = orderId;
-    }
-
-    public Products getBarcode() {
+    public Product getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(Products barcode) {
+    public void setBarcode(Product barcode) {
         this.barcode = barcode;
+    }
+
+    public Invoice getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Invoice orderId) {
+        this.orderId = orderId;
     }
 
     @Override

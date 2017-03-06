@@ -10,9 +10,9 @@ CREATE TABLE USER_GENDER(
 );
 
 /* table of users */
-/* DROP TABLE USER; */
+/* DROP TABLE APPUSER; */
 
-CREATE TABLE USER(
+CREATE TABLE APPUSER(
  user_id  INT NOT NULL,
  sec_name VARCHAR(30) NOT NULL,
  first_name VARCHAR(20) NOT NULL,
@@ -38,15 +38,15 @@ CREATE TABLE USER_AUTHORIZATION(
  login VARCHAR(25) NOT NULL,
  passwd_hash VARCHAR(25) NOT NULL,
  PRIMARY KEY (user_id),
- FOREIGN KEY (user_id) REFERENCES USER (user_id)
+ FOREIGN KEY (user_id) REFERENCES APPUSER (user_id)
 );
 
 
 
 /* info table of delivery services */
-/* DROP TABLE DELIVERY_SERVICES; */
+/* DROP TABLE DELIVERY_SERVICE; */
 
-CREATE TABLE DELIVERY_SERVICES(
+CREATE TABLE DELIVERY_SERVICE(
  delivery_id INT NOT NULL,
  name VARCHAR(30) NOT NULL,
  collect_avail INT NOT NULL,
@@ -54,27 +54,27 @@ CREATE TABLE DELIVERY_SERVICES(
 );
 
 /* info table of delivery statuses */
-/* DROP TABLE DELIVERY_STATUSES; */
+/* DROP TABLE DELIVERY_STATUS; */
 
-CREATE TABLE DELIVERY_STATUSES(
+CREATE TABLE DELIVERY_STATUS(
  status_id INT NOT NULL,
  status VARCHAR(30) NOT NULL, 
  PRIMARY KEY (status_id)
 );
 
 /* info table of available product locations */
-/* DROP TABLE PRODUCT_LOCATIONS; */
+/* DROP TABLE PRODUCT_LOCATION; */
 
-CREATE TABLE PRODUCT_LOCATIONS(
+CREATE TABLE PRODUCT_LOCATION(
  location_id INT NOT NULL,
  name VARCHAR(15) NOT NULL,
  PRIMARY KEY (location_id)
 );
 
 /* table of invoices */
-/* DROP TABLE INVOICES; */
+/* DROP TABLE INVOICE; */
 
-CREATE TABLE INVOICES( 
+CREATE TABLE INVOICE( 
  order_id INT NOT NULL,
  user_id  INT NOT NULL,  
  order_date DATE NOT NULL,
@@ -97,18 +97,18 @@ CREATE TABLE INVOICES(
  add_info_u TEXT,
  add_info_m TEXT,
  PRIMARY KEY (order_id),
- FOREIGN KEY (user_id) REFERENCES USER (user_id),
- FOREIGN KEY (delivery_id) REFERENCES DELIVERY_SERVICES (delivery_id),
- FOREIGN KEY (status_id) REFERENCES DELIVERY_STATUSES (status_id),
- FOREIGN KEY (source_id) REFERENCES PRODUCT_LOCATIONS (location_id),
- FOREIGN KEY (destination_id) REFERENCES PRODUCT_LOCATIONS (location_id),
- FOREIGN KEY (current_loc_id) REFERENCES PRODUCT_LOCATIONS (location_id)
+ FOREIGN KEY (user_id) REFERENCES APPUSER (user_id),
+ FOREIGN KEY (delivery_id) REFERENCES DELIVERY_SERVICE (delivery_id),
+ FOREIGN KEY (status_id) REFERENCES DELIVERY_STATUS (status_id),
+ FOREIGN KEY (source_id) REFERENCES PRODUCT_LOCATION (location_id),
+ FOREIGN KEY (destination_id) REFERENCES PRODUCT_LOCATION (location_id),
+ FOREIGN KEY (current_loc_id) REFERENCES PRODUCT_LOCATION (location_id)
 );
 
 /* info table of manufactures */
-/* DROP TABLE MANUFACTURES; */
+/* DROP TABLE MANUFACTURE; */
 
-CREATE TABLE MANUFACTURES(
+CREATE TABLE MANUFACTURE(
  manufact_id INT NOT NULL,
  name VARCHAR(50) NOT NULL,
  address VARCHAR(100) NOT NULL,
@@ -127,39 +127,39 @@ CREATE TABLE A_PRODUCT(
 );
 
 /* info table of packages */
-/* DROP TABLE PACKAGES; */
+/* DROP TABLE PACK; */
 
-CREATE TABLE PACKAGES(
- package_id INT NOT NULL,
+CREATE TABLE PACK(
+ pack_id INT NOT NULL,
  name VARCHAR(20) NOT NULL,
- PRIMARY KEY (package_id)
+ PRIMARY KEY (pack_id)
 );
 
 /* info table of packing */
-/* DROP TABLE PACKINGS; */
+/* DROP TABLE PACKING; */
 
-CREATE TABLE PACKINGS(
+CREATE TABLE PACKING(
  packing_id INT NOT NULL,
  weight DECIMAL(6,2),
  amount INT,
- package_id INT NOT NULL,
+ pack_id INT NOT NULL,
  PRIMARY KEY (packing_id),
- FOREIGN KEY (package_id) REFERENCES PACKAGES (package_id)
+ FOREIGN KEY (pack_id) REFERENCES PACK (pack_id)
 );
 
 /* table of exist products */
-/* DROP TABLE PRODUCTS; */
+/* DROP TABLE PRODUCT; */
 
-CREATE TABLE PRODUCTS(
+CREATE TABLE PRODUCT(
  barcode VARCHAR(15) NOT NULL,
  manufact_id INT NOT NULL,
  product_id INT NOT NULL,
  packing_id INT NOT NULL,
  price DECIMAL(6,2) NOT NULL,
  PRIMARY KEY (barcode),
- FOREIGN KEY (manufact_id) REFERENCES MANUFACTURES (manufact_id),
+ FOREIGN KEY (manufact_id) REFERENCES MANUFACTURE (manufact_id),
  FOREIGN KEY (product_id) REFERENCES A_PRODUCT (product_id),
- FOREIGN KEY (packing_id) REFERENCES PACKINGS (packing_id)
+ FOREIGN KEY (packing_id) REFERENCES PACKING (packing_id)
 );
 
 /* table of orders */
@@ -172,14 +172,14 @@ CREATE TABLE AN_ORDER(
  price DECIMAL(6,2) NOT NULL,
  amount INT NOT NULL,
  PRIMARY KEY (id),
- FOREIGN KEY (barcode) REFERENCES PRODUCTS (barcode),
- FOREIGN KEY (order_id) REFERENCES INVOICES (order_id)
+ FOREIGN KEY (barcode) REFERENCES PRODUCT (barcode),
+ FOREIGN KEY (order_id) REFERENCES INVOICE (order_id)
 );
 
-/* info table of providers */
-/* DROP TABLE PROVIDERS; */
+/* info table of PROVIDER */
+/* DROP TABLE PROVIDER; */
 
-CREATE TABLE PROVIDERS(
+CREATE TABLE PROVIDER(
  provider_id INT NOT NULL,
  name VARCHAR(50) NOT NULL,
  address VARCHAR(100) NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE PRODUCT_PROVIDER(
  provider_id INT NOT NULL,
  PRIMARY KEY (id),
  FOREIGN KEY (product_id) REFERENCES A_PRODUCT (product_id),
- FOREIGN KEY (provider_id) REFERENCES PROVIDERS (provider_id)
+ FOREIGN KEY (provider_id) REFERENCES PROVIDER (provider_id)
 );
 
 /* info table of products availability on different locations */
@@ -207,8 +207,8 @@ CREATE TABLE AVAILABILITY(
  barcode VARCHAR(15) NOT NULL,
  amount INT NOT NULL,
  PRIMARY KEY (id),
- FOREIGN KEY (location_id) REFERENCES PRODUCT_LOCATIONS (location_id),
- FOREIGN KEY (barcode) REFERENCES PRODUCTS (barcode)
+ FOREIGN KEY (location_id) REFERENCES PRODUCT_LOCATION (location_id),
+ FOREIGN KEY (barcode) REFERENCES PRODUCT (barcode)
 );
 
 

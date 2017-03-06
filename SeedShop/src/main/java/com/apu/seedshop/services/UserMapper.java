@@ -1,6 +1,6 @@
 package com.apu.seedshop.services;
 
-import com.apu.seedshop.jpa.User;
+import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class UserMapper {
  * @param u internal user model
  * @return external REST user model
  */
-    public SeedUser fromInternal(User u) {
+    public SeedUser fromInternal(Appuser u) {
         SeedUser su = null;
         if (u != null) {
             su = new SeedUser();
@@ -47,8 +47,8 @@ public class UserMapper {
  * @param su REST model
  * @return internal Users with all required fields set
  */
-    public User toInternal(SeedUser su) {
-        User u = null;
+    public Appuser toInternal(SeedUser su) {
+        Appuser u = null;
         //first, check if it exists
         if (su.userId != null) {
             u = userRepository.findOne(su.userId);

@@ -4,7 +4,7 @@
  */
 package com.apu.seedshop.services;
 
-import com.apu.seedshop.jpa.User;
+import com.apu.seedshop.jpa.Appuser;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -22,19 +22,19 @@ private static final Logger logger =  LoggerFactory.getLogger(UserService.class)
 UserRepository userRepository;
 
   
-    public List<User> getAllUsers(){
+    public List<Appuser> getAllUsers(){
         return  userRepository.findAll();
     }
 
-    public User getUserById(Integer id) {
-        User u = userRepository.findOne(id);
+    public Appuser getUserById(Integer id) {
+        Appuser u = userRepository.findOne(id);
         return u;
     }
     
-    public List<User> findUserByName(String name){
-        List<User> udl = userRepository.findByFirstName(name);
-        List<User> res = new ArrayList<>();
-        for(User u:udl){
+    public List<Appuser> findUserByName(String name){
+        List<Appuser> udl = userRepository.findByFirstName(name);
+        List<Appuser> res = new ArrayList<>();
+        for(Appuser u:udl){
             System.out.println(u.getUserId() + ", " +
                                 u.getSecName()+ ", " + 
                                 u.getFirstName());
@@ -43,10 +43,10 @@ UserRepository userRepository;
         return res;
     }
     
-    public List<User> findBySecNameAndFirstName(String secName, String firstName){
-        List<User> udl = userRepository.findBySecNameAndFirstName(secName, firstName);
-        List<User> res = new ArrayList<>();
-        for(User u:udl){
+    public List<Appuser> findBySecNameAndFirstName(String secName, String firstName){
+        List<Appuser> udl = userRepository.findBySecNameAndFirstName(secName, firstName);
+        List<Appuser> res = new ArrayList<>();
+        for(Appuser u:udl){
             System.out.println(u.getUserId() + ", " +
                                 u.getSecName()+ ", " + 
                                 u.getFirstName());
@@ -55,16 +55,16 @@ UserRepository userRepository;
         return res;
     }
 
-    public User addUser(User u) {
-        logger.debug("Adding users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
+    public Appuser addUser(Appuser u) {
+        logger.debug(String.format("Adding users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));
         u = userRepository.save(u);
         return u;
     }
 
     public void delUser(Integer id){
-        User u = userRepository.findOne(id);
+        Appuser u = userRepository.findOne(id);
         if(u!=null){
-            logger.debug("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId());
+            logger.debug(String.format("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));
             //List<Ugroup> gl = u.getUgroupList();
             //detailsRepository.delete(id);
             userRepository.delete(id);

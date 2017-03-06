@@ -5,8 +5,14 @@
  */
 package com.apu.seedshop.tests.unit;
 
-import com.apu.seedshop.jpa.User;
+import com.apu.seedshop.jpa.Appuser;
+import com.apu.seedshop.jpa.Invoice;
+import com.apu.seedshop.jpa.UserAuthorization;
+import com.apu.seedshop.jpa.UserGender;
+import com.apu.seedshop.repository.InvoiceRepository;
+import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshop.services.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,16 +26,22 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
 public class UsersServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(UsersServiceTest.class);
     
     @Autowired
     private UserService usersService;
+    
+    @Autowired
+    private UserGenderRepository ugRepository;
+    
+    @Autowired
+    private InvoiceRepository iRepository;
     
     public UsersServiceTest() {
     }
@@ -57,12 +69,11 @@ public class UsersServiceTest {
     @Test
     public void testGetAllUsers() throws Exception {
         logger.debug("Test - getAllUsers");
-        List<User> result = usersService.getAllUsers();
+        List<Appuser> result = usersService.getAllUsers();
         int count = result.size();
         int expCount = 2;
         assertEquals(expCount, count);
         //fail("The test case is a prototype.");
-        logger.debug("OK");
     }
 
     /**
@@ -73,11 +84,10 @@ public class UsersServiceTest {
     public void testGetUserById() throws Exception {
         logger.debug("Test - getUserById");
         Integer id = 2;
-        User notExpResult = null;
-        User result = usersService.getUserById(id);
+        Appuser notExpResult = null;
+        Appuser result = usersService.getUserById(id);
         assert(result != notExpResult);
         //fail("The test case is a prototype.");
-        logger.debug("OK");
     }
 
     /**
@@ -86,10 +96,10 @@ public class UsersServiceTest {
      */
     @Test
     public void testFindUserByName()  throws Exception {
-        System.out.println("findUserByName");
+        logger.debug("Test - findUserByName");
         String name = "пет";
         int expResult = 1;
-        List<User> result = usersService.findUserByName(name);
+        List<Appuser> result = usersService.findUserByName(name);
         assert(result.get(0).getUserId() == expResult);
         //fail("The test case is a prototype.");
     }
@@ -98,28 +108,57 @@ public class UsersServiceTest {
      * Test of addUser method, of class UsersService.
      */
     @Test
+    @Transactional 
     public void testAddUser() {
-        System.out.println("addUser");
-        User u = null;
-        UserService instance = new UserService();
-        User expResult = null;
-        User result = instance.addUser(u);
+        logger.debug("Test - addUser");
+        
+        UserGender ug = ugRepository.findByGenderId(0).get(0);//new UserGender();
+        //ug.setGenderId(3);
+        //ug.setName("F");
+        //Appuser user = usersService.getUserById(0);
+        
+        Appuser u = new Appuser();
+        u.setUserId(3);
+        u.setSecName("Аникейчик");
+        u.setFirstName("Павел");
+        u.setThirdName("Юрьевич");
+        u.setEmail("pasha_anik@ukr.net");
+        u.setPhones("");
+        u.setDiscount(0);
+        
+        UserAuthorization ua = new UserAuthorization();
+        ua.setUserId(1);
+        ua.setLogin("");
+        ua.setPasswdHash("");
+        ua.setAppuser(u);
+        
+        u.setUserAuthorization(ua);
+        
+        Invoice inv = iRepository.findByOrderId(1).get(0);
+        
+        List<Appuser> list = new ArrayList<Appuser>();
+        list.add(u);
+        ug.setAppuserCollection(list);      
+        //ugRepository.save(ug);
+        u.setGenderId(ug);
+        Appuser expResult = u;
+        Appuser result = usersService.addUser(u);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of delUser method, of class UsersService.
      */
-    @Test
+/*    @Test
     public void testDelUser() {
-        System.out.println("delUser");
+        logger.debug("Test - delUser");
         Integer id = null;
         UserService instance = new UserService();
         instance.delUser(id);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+  */  
 }

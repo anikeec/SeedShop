@@ -41,7 +41,7 @@ public class ProductProvider implements Serializable {
     private AProduct productId;
     @JoinColumn(name = "provider_id", referencedColumnName = "provider_id")
     @ManyToOne(optional = false)
-    private Providers providerId;
+    private Provider providerId;
 
     public ProductProvider() {
     }
@@ -66,11 +66,11 @@ public class ProductProvider implements Serializable {
         this.productId = productId;
     }
 
-    public Providers getProviderId() {
+    public Provider getProviderId() {
         return providerId;
     }
 
-    public void setProviderId(Providers providerId) {
+    public void setProviderId(Provider providerId) {
         this.providerId = providerId;
     }
 
