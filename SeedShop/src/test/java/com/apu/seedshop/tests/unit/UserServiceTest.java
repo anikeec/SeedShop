@@ -6,14 +6,11 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.Appuser;
-import com.apu.seedshop.jpa.Invoice;
-import com.apu.seedshop.jpa.UserAuthorization;
 import com.apu.seedshop.jpa.UserGender;
 import com.apu.seedshop.repository.InvoiceRepository;
-import com.apu.seedshop.repository.UserGenderRepository;
+import com.apu.seedshop.services.UserGenderService;
 import com.apu.seedshop.services.UserService;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,28 +24,26 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UsersServiceTest {
-    private static final Logger logger =  LoggerFactory.getLogger(UsersServiceTest.class);
+public class UserServiceTest {
+    private static final Logger logger =  LoggerFactory.getLogger(UserServiceTest.class);
+    Integer genderId = 1;
+    Integer userId = 100;
     
     @Autowired
     private UserService usersService;
     
     @Autowired
-    private UserGenderRepository ugRepository;
+    private UserGenderService ugService;
     
-    @Autowired
-    private InvoiceRepository iRepository;
-    
-    public UsersServiceTest() {
+    public UserServiceTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() {        
     }
     
     @AfterClass
@@ -57,10 +52,13 @@ public class UsersServiceTest {
     
     @Before
     public void setUp() {
+        //UserGender ug = new UserGender(genderId,"M");
+        //ugService.addUserGender(ug);
     }
     
     @After
     public void tearDown() {
+        //ugService.delUserGender(genderId);
     }
 
     /**
@@ -74,7 +72,6 @@ public class UsersServiceTest {
         int count = result.size();
         int expCount = 2;
         assert(expCount <= count);
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -88,7 +85,6 @@ public class UsersServiceTest {
         Appuser notExpResult = null;
         Appuser result = usersService.getUserById(id);
         assert(result != notExpResult);
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -96,70 +92,44 @@ public class UsersServiceTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testFindUserByName()  throws Exception {
+    public void testFindUserByName() throws Exception {
         logger.debug("Test - findUserByName");
         String name = "пет";
         int expResult = 1;
         List<Appuser> result = usersService.findUserByName(name);
         assert(result.get(0).getUserId() == expResult);
-        //fail("The test case is a prototype.");
     }
 
     /**
      * Test of addUser method, of class UsersService.
+     * @throws java.lang.Exception
      */
     @Test
-    @Transactional 
-    public void testAddUser() {
-        logger.debug("Test - addUser");
-        
-        UserGender ug = ugRepository.findByGenderId(0).get(0);//new UserGender();
-        //ug.setGenderId(3);
-        //ug.setName("F");
-        //Appuser user = usersService.getUserById(0);
-        
+    public void testAddUser() throws Exception {
+        logger.debug("Test - addUser");       
         Appuser u = new Appuser();
-        u.setUserId(3);
-        u.setSecName("Аникейчик");
-        u.setFirstName("Павел");
-        u.setThirdName("Юрьевич");
-        u.setEmail("pasha_anik@ukr.net");
-        u.setPhones("");
-        u.setDiscount(new BigDecimal("0.5"));
+        u.setUserId(userId);
+        u.setSecName("A");
+        u.setFirstName("P");
+        u.setThirdName("Y");
+        u.setEmail("apu");
+        u.setPhones("3");
+        u.setDiscount(new BigDecimal("0.5"));         
+        u.setBirthday(null);
+        u.setCountry("");
+        u.setRegion("");
+        u.setArea("");
+        u.setCity("");
+        u.setGenderId(ugService.getUserGenderById(genderId));
         
-        UserAuthorization ua = new UserAuthorization();
-        ua.setUserId(1);
-        ua.setLogin("");
-        ua.setPasswdHash("");
-        ua.setAppuser(u);
-        
-        u.setUserAuthorization(ua);
-        
-        Invoice inv = iRepository.findByOrderId(1).get(0);
-        
-        List<Appuser> list = new ArrayList<Appuser>();
-        list.add(u);
-        ug.setAppuserCollection(list);      
-        //ugRepository.save(ug);
-        u.setGenderId(ug);
         Appuser expResult = u;
-        Appuser result = usersService.addUser(u);
+        usersService.addUser(u);
+        Appuser result = usersService.getUserById(userId);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        usersService.delUser(userId);
+        result = usersService.getUserById(userId);
+        expResult = null;
+        assertEquals(expResult, result);
     }
-
-    /**
-     * Test of delUser method, of class UsersService.
-     */
-/*    @Test
-    public void testDelUser() {
-        logger.debug("Test - delUser");
-        Integer id = null;
-        UserService instance = new UserService();
-        instance.delUser(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-  */  
+    
 }

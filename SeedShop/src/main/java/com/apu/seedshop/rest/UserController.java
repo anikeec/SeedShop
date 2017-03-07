@@ -40,12 +40,7 @@ public class UserController {
     @RequestMapping(path="/users/byid/{userid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserListReply getUserById(@PathVariable Integer userid ){
         UserListReply reply = new UserListReply();
-        reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));
-        
-        //Appuser user = userService.getUserById(1);
-        //user.setUserId(4);
-        //userService.addUser(user);
-        
+        reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));        
         return reply;
     }
     
