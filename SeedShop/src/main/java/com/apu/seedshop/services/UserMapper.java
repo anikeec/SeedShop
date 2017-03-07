@@ -37,16 +37,20 @@ public class UserMapper {
     public SeedUser fromInternal(Appuser u) {
         SeedUser su = null;
         if (u != null) {
-            su = new SeedUser();
-            //Userdetails ud = u.getUserdetails();
-            //lu.isLibrarian = u.getUserId() < 100;
-            su.firstName = u.getFirstName();
+            su = new SeedUser();          
             su.userId = u.getUserId();
-            /*
-            if (ud != null) {
-                lu.firstName = u.getUserdetails().getFirstName();
-                lu.lastName = u.getUserdetails().getLastName();
-            }*/
+            su.firstName = u.getFirstName();
+            su.secName = u.getSecName();
+            su.thirdName = u.getThirdName();
+            su.email = u.getEmail();
+            su.phones = u.getPhones();
+            su.discount = "" + u.getDiscount();
+            su.birthday = "" + u.getBirthday();            
+            su.genderId = u.getGenderId().getGenderId();
+            su.country = u.getCountry();
+            su.region = u.getRegion();
+            su.area = u.getArea();
+            su.city = u.getCity();         
         }
         return su;
     }
