@@ -8,6 +8,7 @@ import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshop.services.UserMapper;
 import com.apu.seedshop.services.UserService;
 import com.apu.seedshopapi.AddUserRequest;
+import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.UserListReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,5 +59,18 @@ public class UserController {
         }
         return rep;
     } 
+    
+    @RequestMapping(path="/users/del/{userid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public GenericReply delUser(@PathVariable Integer userid ){
+            GenericReply rep = new GenericReply();
+        try{
+            userService.delUser(userid);
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding user. Expetion: "+e.getMessage(),e);
+        }
+        return rep;       
+    }
     
 }
