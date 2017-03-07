@@ -1,12 +1,21 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
+import com.apu.seedshop.jpa.UserGender;
+import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.apu.seedshop.repository.UserRepository;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
 
 @Component
 
@@ -16,6 +25,9 @@ public class UserMapper {
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    UserGenderRepository ugRepository;
     
 /**
  * Maps internal JPA model to external REST model
@@ -55,13 +67,29 @@ public class UserMapper {
         }
         if (u == null) { //not found, create new
             logger.debug("Creating new user");
-            //au = newUser();
+            u = new Appuser();
         }
         logger.debug("Updating existing user");
-        //au.setUsername(lu.login);
-        //au.getUserdetails().setFirstName(lu.firstName);
-        //au.getUserdetails().setLastName(lu.lastName);
+        u.setUserId(su.userId);
+        u.setFirstName(su.firstName);
+        u.setSecName(su.secName);
+        u.setThirdName(su.thirdName);
+        DateFormat format = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
+        Date date = null;
+        try { 
+            date = format.parse(su.birthday);//"15.03.1980"
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        u.setBirthday(date);
+        u.setDiscount(new BigDecimal(su.discount));
         u.setEmail(su.email);
+        u.setPhones(su.phones);
+        u.setGenderId(ugRepository.findByGenderId(su.genderId).get(0));
+        u.setCountry(su.country);
+        u.setRegion(su.region);
+        u.setArea(su.area);
+        u.setCity(su.city);
         return u;
     }
 }

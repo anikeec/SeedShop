@@ -19,7 +19,7 @@ CREATE TABLE APPUSER(
  third_name VARCHAR(20),
  email VARCHAR(30) NOT NULL,
  phones VARCHAR(40) NOT NULL,
- discount DECIMAL NOT NULL,
+ discount DECIMAL(6,2) NOT NULL,
  birthday DATE,
  gender_id INT,
  country VARCHAR(20),

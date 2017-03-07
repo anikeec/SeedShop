@@ -4,7 +4,7 @@ INSERT INTO USER_GENDER(gender_id, name) VALUES (0, 'F');
 INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'M');
 
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
-(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары');
+(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары');
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси');
 

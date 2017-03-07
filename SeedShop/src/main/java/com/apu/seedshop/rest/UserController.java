@@ -42,11 +42,26 @@ public class UserController {
         UserListReply reply = new UserListReply();
         reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));
         
-        Appuser user = userService.getUserById(1);
-        user.setUserId(4);
-        userService.addUser(user);
+        //Appuser user = userService.getUserById(1);
+        //user.setUserId(4);
+        //userService.addUser(user);
         
         return reply;
     }
+    
+    @RequestMapping(path="/users/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public UserListReply addUser( @RequestBody AddUserRequest req){
+        UserListReply rep = new UserListReply();
+        try{
+           Appuser au;
+           au = userService.addUser(userMapper.toInternal(req.user));
+           rep.users.add(userMapper.fromInternal(au));
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding user. Expetion: "+e.getMessage(),e);
+        }
+        return rep;
+    } 
     
 }

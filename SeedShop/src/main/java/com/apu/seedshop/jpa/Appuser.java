@@ -6,6 +6,7 @@
 package com.apu.seedshop.jpa;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -83,7 +84,7 @@ public class Appuser implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "discount")
-    private long discount;
+    private BigDecimal discount;
     @Column(name = "birthday")
     @Temporal(TemporalType.DATE)
     private Date birthday;
@@ -114,7 +115,7 @@ public class Appuser implements Serializable {
         this.userId = userId;
     }
 
-    public Appuser(Integer userId, String secName, String firstName, String email, String phones, long discount) {
+    public Appuser(Integer userId, String secName, String firstName, String email, String phones, BigDecimal discount) {
         this.userId = userId;
         this.secName = secName;
         this.firstName = firstName;
@@ -171,11 +172,11 @@ public class Appuser implements Serializable {
         this.phones = phones;
     }
 
-    public long getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(long discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
