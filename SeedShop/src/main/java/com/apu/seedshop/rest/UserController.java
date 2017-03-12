@@ -68,7 +68,7 @@ public class UserController {
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
-            logger.error("Error adding user. Expetion: "+e.getMessage(),e);
+            logger.error("Error delete user. Expetion: "+e.getMessage(),e);
         }
         return rep;       
     }
