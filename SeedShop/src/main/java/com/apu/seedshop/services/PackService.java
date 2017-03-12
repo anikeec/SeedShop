@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PackService {
-private static final Logger logger =  LoggerFactory.getLogger(PackingService.class);   
+private static final Logger logger =  LoggerFactory.getLogger(PackService.class);   
 
 @Autowired
 PackRepository packRepository;
