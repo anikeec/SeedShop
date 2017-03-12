@@ -52,6 +52,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Invoice.findByDeclaration", query = "SELECT i FROM Invoice i WHERE i.declaration = :declaration")})
 public class Invoice implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "backorderId")
+    private Collection<Invoice> invoiceCollection;
+    @JoinColumn(name = "backorder_id", referencedColumnName = "order_id")
+    @ManyToOne
+    private Invoice backorderId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -356,6 +362,23 @@ public class Invoice implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Invoice[ orderId=" + orderId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
+    }
+
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
+    }
+
+    public Invoice getBackorderId() {
+        return backorderId;
+    }
+
+    public void setBackorderId(Invoice backorderId) {
+        this.backorderId = backorderId;
     }
     
 }

@@ -46,7 +46,9 @@ public class SeedInvoice {
     @XmlElement(required=true)
     public String destL;
     @XmlElement(required=true)
-    public String currL;  
+    public String currL; 
+    @XmlElement(required=true)
+    public Integer backorderId;
     @XmlElement(required=true)
     public String addInfoU;
     @XmlElement(required=true)

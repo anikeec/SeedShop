@@ -50,6 +50,8 @@ public class InvoiceMapper {
                 si.destL = "" + inv.getDestinationId().getName();
             if(inv.getCurrentLocId() != null) 
                 si.currL = "" + inv.getCurrentLocId().getName();
+            if(inv.getBackorderId() != null) 
+                si.backorderId = inv.getBackorderId().getOrderId();
             si.addInfoU = inv.getAddInfoU();
             si.addInfoM = inv.getAddInfoM();      
         }

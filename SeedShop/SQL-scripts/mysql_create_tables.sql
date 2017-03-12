@@ -94,6 +94,7 @@ CREATE TABLE INVOICE(
  delivery_office INT NOT NULL,
  prepayment BOOLEAN,
  declaration VARCHAR(30),
+ backorder_id INT,
  add_info_u TEXT,
  add_info_m TEXT,
  PRIMARY KEY (order_id),
@@ -102,7 +103,8 @@ CREATE TABLE INVOICE(
  FOREIGN KEY (status_id) REFERENCES DELIVERY_STATUS (status_id),
  FOREIGN KEY (source_id) REFERENCES PRODUCT_LOCATION (location_id),
  FOREIGN KEY (destination_id) REFERENCES PRODUCT_LOCATION (location_id),
- FOREIGN KEY (current_loc_id) REFERENCES PRODUCT_LOCATION (location_id)
+ FOREIGN KEY (current_loc_id) REFERENCES PRODUCT_LOCATION (location_id),
+ FOREIGN KEY (backorder_id) REFERENCES INVOICE (order_id)
 );
 
 /* info table of manufactures */

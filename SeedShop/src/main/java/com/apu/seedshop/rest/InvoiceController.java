@@ -43,18 +43,18 @@ public class InvoiceController {
         reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderid)));        
         return reply;
     }
-    /*
-    @RequestMapping(path="/products/del/{barcode}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delProduct(@PathVariable String barcode ){
-            GenericReply rep = new GenericReply();
+    
+    @RequestMapping(path="/invoices/del/{orderid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public GenericReply delInvoice(@PathVariable Integer orderid){
+        GenericReply rep = new GenericReply();
         try{
-            productService.delProduct(barcode);
+            invoiceService.delInvoice(orderid);
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
-            logger.error("Error delete product. Expetion: " + e.getMessage(),e);
+            logger.error("Error delete invoice. Expetion: " + e.getMessage(),e);
         }
         return rep;       
     }
-    */
+    
 }
