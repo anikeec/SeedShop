@@ -45,6 +45,7 @@ public class UserControllerTest {
         AddUserRequest rq = new AddUserRequest();
         rq.user = new SeedUser();
         rq.user.userId = 100;
+        rq.user.login = "";
         rq.user.secName = "A";
         rq.user.firstName = "P";
         rq.user.thirdName = "Y";
@@ -56,7 +57,7 @@ public class UserControllerTest {
         rq.user.region = "C";
         rq.user.area = "C";
         rq.user.city = "C";
-        rq.user.genderId = 1;
+        rq.user.gender = "M";
         
         ObjectMapper om = new ObjectMapper();
         String content = om.writeValueAsString(rq);

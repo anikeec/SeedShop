@@ -1,7 +1,7 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
-import com.apu.seedshop.jpa.UserGender;
+import com.apu.seedshop.repository.UserAuthorizRepository;
 import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
@@ -29,6 +29,9 @@ public class UserMapper {
     @Autowired
     UserGenderRepository ugRepository;
     
+    @Autowired
+    UserAuthorizRepository uaRepository;
+    
 /**
  * Maps internal JPA model to external REST model
  * @param u internal user model
@@ -38,7 +41,10 @@ public class UserMapper {
         SeedUser su = null;
         if (u != null) {
             su = new SeedUser();          
-            su.userId = u.getUserId();
+            su.userId = u.getUserId();            
+            if(uaRepository.findByUserId(u.getUserId()).size() > 0) {
+                su.login = uaRepository.findByUserId(u.getUserId()).get(0).getLogin();
+            }
             su.firstName = u.getFirstName();
             su.secName = u.getSecName();
             su.thirdName = u.getThirdName();
@@ -46,7 +52,7 @@ public class UserMapper {
             su.phones = u.getPhones();
             su.discount = "" + u.getDiscount();
             su.birthday = "" + u.getBirthday();            
-            su.genderId = u.getGenderId().getGenderId();
+            su.gender = u.getGenderId().getName();
             su.country = u.getCountry();
             su.region = u.getRegion();
             su.area = u.getArea();
@@ -89,7 +95,7 @@ public class UserMapper {
         u.setDiscount(new BigDecimal(su.discount));
         u.setEmail(su.email);
         u.setPhones(su.phones);
-        u.setGenderId(ugRepository.findByGenderId(su.genderId).get(0));
+        u.setGenderId(ugRepository.findByName(su.gender).get(0));
         u.setCountry(su.country);
         u.setRegion(su.region);
         u.setArea(su.area);

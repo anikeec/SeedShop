@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SeedUser {
     @XmlElement(required=false)
     public Integer userId;
+    @XmlElement(required=false)
+    public String login;
     @XmlElement(required=true)
     public String secName;
     @XmlElement(required=true)
@@ -18,7 +20,7 @@ public class SeedUser {
     @XmlElement(required=true)
     public String thirdName;
     @XmlElement(required=true)
-    public Integer genderId; 
+    public String gender; 
     @XmlElement(required=true)
     public String email;
     @XmlElement(required=true)
