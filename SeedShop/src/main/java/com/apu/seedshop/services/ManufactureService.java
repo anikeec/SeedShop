@@ -36,7 +36,7 @@ public class ManufactureService {
     }
     
     public void delManufacture(Integer manufactId){
-        Manufacture m = manufactureRepository.findByManufactId(manufactId).get(0);
+        Manufacture m = manufactureRepository.findOne(manufactId);
         if(m!=null){
             logger.debug(String.format("Deleting manufacture with id %s", manufactId));
             manufactureRepository.delete(manufactId);

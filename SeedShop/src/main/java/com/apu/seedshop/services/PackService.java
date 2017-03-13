@@ -14,19 +14,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PackService {
-private static final Logger logger =  LoggerFactory.getLogger(PackService.class);   
+    private static final Logger logger =  LoggerFactory.getLogger(PackService.class);   
 
-@Autowired
-PackRepository packRepository;
-
+    @Autowired
+    PackRepository packRepository;
   
     public List<Pack> getAllPacks(){
         return  packRepository.findAll();
     }
 
     public Pack getPackById(Integer packId) {
-        Pack p = packRepository.findByPackId(packId).get(0);
+        Pack p = packRepository.findOne(packId);
         return p;
+    }
+    
+    public Pack addPack(Pack p) {        
+        logger.debug(String.format("Adding pack %s with id %s", 
+                        p.getName(), p.getPackId()));
+        p = packRepository.save(p);
+        return p;
+    }
+    
+    public void delPack(Integer packId){
+        Pack p = packRepository.findOne(packId);
+        if(p!=null){
+            logger.debug(String.format("Deleting pack with id %s", packId));
+            packRepository.delete(packId);
+        }
     }
     
 }

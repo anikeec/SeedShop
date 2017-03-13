@@ -52,9 +52,10 @@ public class ManufactureServiceTest {
 
     /**
      * Test of getAllManufactures method, of class ManufactureService.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllManufactures()  throws Exception {
+    public void testGetAllManufactures() throws Exception {
         logger.debug("Test - getAllManufactures");
         int expResult = 2;
         int result = manufactureService.getAllManufactures().size();
@@ -63,9 +64,10 @@ public class ManufactureServiceTest {
 
     /**
      * Test of getManufactureById method, of class ManufactureService.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testGetManufactureById()  throws Exception {
+    public void testGetManufactureById() throws Exception {
         logger.debug("Test - getManufactureById");
         Integer manufactId = 1;
         Manufacture expResult = null;
@@ -75,15 +77,15 @@ public class ManufactureServiceTest {
 
     /**
      * Test of addManufacture method, of class ManufactureService.
+     * @throws java.lang.Exception
      */
     @Test
-    public void testAddManufacture()  throws Exception {
+    public void testAddManufacture() throws Exception {
         logger.debug("Test - addManufacture");
         Manufacture m = new Manufacture();
         m.setManufactId(testId);
         m.setName("Test name");
         m.setAddress("Test address.");
-        m.setProductCollection(new ArrayList<>());
         Manufacture expResult = m;
         manufactureService.addManufacture(m);
         Manufacture result = manufactureService.getManufactureById(testId);        
