@@ -14,19 +14,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ManufactureService {
-private static final Logger logger =  LoggerFactory.getLogger(ManufactureService.class);   
+    private static final Logger logger =  LoggerFactory.getLogger(ManufactureService.class);   
 
-@Autowired
-ManufactureRepository manufactureRepository;
-
+    @Autowired
+    ManufactureRepository manufactureRepository;
   
     public List<Manufacture> getAllManufactures(){
         return  manufactureRepository.findAll();
     }
 
     public Manufacture getManufactureById(Integer manufactId) {
-        Manufacture m = manufactureRepository.findByManufactId(manufactId).get(0);
+        Manufacture m = manufactureRepository.findOne(manufactId);
         return m;
+    }
+    
+    public Manufacture addManufacture(Manufacture m) {        
+        logger.debug(String.format("Adding manufacture %s, %s with id %s", 
+                        m.getName(), m.getAddress(), m.getManufactId()));
+        m = manufactureRepository.save(m);
+        return m;
+    }
+    
+    public void delManufacture(Integer manufactId){
+        Manufacture m = manufactureRepository.findByManufactId(manufactId).get(0);
+        if(m!=null){
+            logger.debug(String.format("Deleting manufacture with id %s", manufactId));
+            manufactureRepository.delete(manufactId);
+        }
     }
     
 }
