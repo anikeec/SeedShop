@@ -26,7 +26,7 @@ public class UserGenderService {
     }
 
     public UserGender getUserGenderById(Integer id) {
-        UserGender ug = ugRepository.findByGenderId(id).get(0);
+        UserGender ug = ugRepository.findOne(id);
         return ug;
     }
     
@@ -34,7 +34,7 @@ public class UserGenderService {
         List<UserGender> udl = ugRepository.findByName(name);
         List<UserGender> res = new ArrayList<>();
         for(UserGender ug:udl){
-            System.out.println(ug.getGenderId() + ", " + ug.getName());
+            logger.debug(ug.getGenderId() + ", " + ug.getName());
             res.add(ug);
         }        
         return res;
