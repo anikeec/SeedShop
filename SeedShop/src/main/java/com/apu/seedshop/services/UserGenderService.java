@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserGenderService {
-    private static final Logger logger =  LoggerFactory.getLogger(UserService.class);   
+    private static final Logger logger =  LoggerFactory.getLogger(UserGenderService.class);   
 
     @Autowired
     UserGenderRepository ugRepository;

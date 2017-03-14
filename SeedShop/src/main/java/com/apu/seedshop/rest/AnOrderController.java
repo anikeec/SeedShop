@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AnOrderController {
-    private static final Logger logger =  LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger =  LoggerFactory.getLogger(AnOrderController.class);
     @Autowired         
     AnOrderService anOrderService;
     @Autowired
