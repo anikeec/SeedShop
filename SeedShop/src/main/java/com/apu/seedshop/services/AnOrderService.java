@@ -26,18 +26,18 @@ public class AnOrderService {
         return  anOrderRepository.findAll();
     }
 
-    public AnOrder getAnOrderById(Integer id) {
+    public AnOrder getAnOrderById(Long id) {
         AnOrder ao = anOrderRepository.findById(id).get(0);
         return ao;
     }
     
-    public List<AnOrder> getAnOrdersByOrderId(Integer orderId) {
+    public List<AnOrder> getAnOrdersByOrderId(Long orderId) {
         List<AnOrder> ol = (List<AnOrder>) invoiceService.getInvoiceByOrderId(orderId).getAnOrderCollection();
         return ol;        
         //return anOrderRepository.findByOrderId(invoiceService.getInvoiceByOrderId(orderId));
     }
     
-    public void delAnOrder(Integer id){
+    public void delAnOrder(Long id){
         AnOrder ao = anOrderRepository.findById(id).get(0);
         if(ao!=null){
             logger.debug(String.format("Deleting anOrder %s, %s, %s, %s, with orderId %s", 

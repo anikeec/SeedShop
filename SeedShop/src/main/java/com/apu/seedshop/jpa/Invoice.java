@@ -52,18 +52,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Invoice.findByDeclaration", query = "SELECT i FROM Invoice i WHERE i.declaration = :declaration")})
 public class Invoice implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "backorderId")
-    private Collection<Invoice> invoiceCollection;
-    @JoinColumn(name = "backorder_id", referencedColumnName = "order_id")
-    @ManyToOne
-    private Invoice backorderId;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "order_id")
-    private Integer orderId;
+    private Long orderId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "order_date")
@@ -142,15 +136,20 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "current_loc_id", referencedColumnName = "location_id")
     @ManyToOne
     private ProductLocation currentLocId;
+    @OneToMany(mappedBy = "backorderId")
+    private Collection<Invoice> invoiceCollection;
+    @JoinColumn(name = "backorder_id", referencedColumnName = "order_id")
+    @ManyToOne
+    private Invoice backorderId;
 
     public Invoice() {
     }
 
-    public Invoice(Integer orderId) {
+    public Invoice(Long orderId) {
         this.orderId = orderId;
     }
 
-    public Invoice(Integer orderId, Date orderDate, Date paidDate, Date sentDate, BigDecimal pay, String secName, String firstName, String phone, int deliveryOffice) {
+    public Invoice(Long orderId, Date orderDate, Date paidDate, Date sentDate, BigDecimal pay, String secName, String firstName, String phone, int deliveryOffice) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.paidDate = paidDate;
@@ -162,11 +161,11 @@ public class Invoice implements Serializable {
         this.deliveryOffice = deliveryOffice;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -339,6 +338,23 @@ public class Invoice implements Serializable {
         this.currentLocId = currentLocId;
     }
 
+    @XmlTransient
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
+    }
+
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
+    }
+
+    public Invoice getBackorderId() {
+        return backorderId;
+    }
+
+    public void setBackorderId(Invoice backorderId) {
+        this.backorderId = backorderId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -362,23 +378,6 @@ public class Invoice implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Invoice[ orderId=" + orderId + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Invoice> getInvoiceCollection() {
-        return invoiceCollection;
-    }
-
-    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
-        this.invoiceCollection = invoiceCollection;
-    }
-
-    public Invoice getBackorderId() {
-        return backorderId;
-    }
-
-    public void setBackorderId(Invoice backorderId) {
-        this.backorderId = backorderId;
     }
     
 }

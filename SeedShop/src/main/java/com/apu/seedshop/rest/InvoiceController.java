@@ -38,14 +38,14 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/byid/{orderid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply getInvoiceByOrderId(@PathVariable Integer orderid){
+    public InvoiceListReply getInvoiceByOrderId(@PathVariable Long orderid){
         InvoiceListReply reply = new InvoiceListReply();
         reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderid)));        
         return reply;
     }
     
     @RequestMapping(path="/invoices/del/{orderid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delInvoice(@PathVariable Integer orderid){
+    public GenericReply delInvoice(@PathVariable Long orderid){
         GenericReply rep = new GenericReply();
         try{
             invoiceService.delInvoice(orderid);

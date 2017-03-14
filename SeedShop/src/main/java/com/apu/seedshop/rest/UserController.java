@@ -39,7 +39,7 @@ public class UserController {
     }
     
     @RequestMapping(path="/users/byid/{userid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserListReply getUserById(@PathVariable Integer userid ){
+    public UserListReply getUserById(@PathVariable Long userid ){
         UserListReply reply = new UserListReply();
         reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));        
         return reply;
@@ -61,7 +61,7 @@ public class UserController {
     } 
     
     @RequestMapping(path="/users/del/{userid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delUser(@PathVariable Integer userid ){
+    public GenericReply delUser(@PathVariable Long userid ){
             GenericReply rep = new GenericReply();
         try{
             userService.delUser(userid);

@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SeedInvoice {
     @XmlElement(required=true)
-    public Integer orderId;
+    public Long orderId;
     @XmlElement(required=true)
-    public Integer userId;
+    public Long userId;
     @XmlElement(required=true)
     public String orderDate;
     @XmlElement(required=true)
@@ -48,7 +48,7 @@ public class SeedInvoice {
     @XmlElement(required=true)
     public String currL; 
     @XmlElement(required=true)
-    public Integer backorderId;
+    public Long backorderId;
     @XmlElement(required=true)
     public String addInfoU;
     @XmlElement(required=true)

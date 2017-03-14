@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.apu.seedshop.repository.UserRepository;
+import com.apu.seedshop.utils.EntityIdGenerator;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -60,7 +61,6 @@ public class UserMapper {
         }
         return su;
     }
-
     
 /**
  * Maps external REST model to internal Users;

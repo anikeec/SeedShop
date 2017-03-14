@@ -24,12 +24,12 @@ public class InvoiceService {
         return  invoiceRepository.findAll();
     }
 
-    public Invoice getInvoiceByOrderId(Integer orderId) {
+    public Invoice getInvoiceByOrderId(Long orderId) {
         Invoice i = invoiceRepository.findByOrderId(orderId).get(0);
         return i;
     }
     
-    public void delInvoice(Integer orderId){
+    public void delInvoice(Long orderId){
         if(invoiceRepository.findByOrderId(orderId).isEmpty()) {
             logger.debug("Try delete invoice - "
                                 + "orderId = " + orderId

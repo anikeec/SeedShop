@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Appuser.findAll", query = "SELECT a FROM Appuser a")
     , @NamedQuery(name = "Appuser.findByUserId", query = "SELECT a FROM Appuser a WHERE a.userId = :userId")
     , @NamedQuery(name = "Appuser.findBySecName", query = "SELECT a FROM Appuser a WHERE a.secName = :secName")
-    , @NamedQuery(name = "Appuser.findByFirstName", query = "SELECT u FROM Appuser u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%',:firstName,'%'))")
+    , @NamedQuery(name = "Appuser.findByFirstName", query = "SELECT a FROM Appuser a WHERE a.firstName = :firstName")
     , @NamedQuery(name = "Appuser.findByThirdName", query = "SELECT a FROM Appuser a WHERE a.thirdName = :thirdName")
     , @NamedQuery(name = "Appuser.findByEmail", query = "SELECT a FROM Appuser a WHERE a.email = :email")
     , @NamedQuery(name = "Appuser.findByPhones", query = "SELECT a FROM Appuser a WHERE a.phones = :phones")
@@ -48,19 +48,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByCountry", query = "SELECT a FROM Appuser a WHERE a.country = :country")
     , @NamedQuery(name = "Appuser.findByRegion", query = "SELECT a FROM Appuser a WHERE a.region = :region")
     , @NamedQuery(name = "Appuser.findByArea", query = "SELECT a FROM Appuser a WHERE a.area = :area")
-    , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")})
+    , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")
+    , @NamedQuery(name = "Appuser.findBySessId", query = "SELECT a FROM Appuser a WHERE a.sessId = :sessId")})
 public class Appuser implements Serializable {
-
-    @Size(max = 32)
-    @Column(name = "sess_id")
-    private String sessId;
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
@@ -85,6 +82,7 @@ public class Appuser implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "phones")
     private String phones;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "discount")
@@ -104,6 +102,9 @@ public class Appuser implements Serializable {
     @Size(max = 30)
     @Column(name = "city")
     private String city;
+    @Size(max = 32)
+    @Column(name = "sess_id")
+    private String sessId;
     @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
     @ManyToOne
     private UserGender genderId;
@@ -115,11 +116,11 @@ public class Appuser implements Serializable {
     public Appuser() {
     }
 
-    public Appuser(Integer userId) {
+    public Appuser(Long userId) {
         this.userId = userId;
     }
 
-    public Appuser(Integer userId, String secName, String firstName, String email, String phones, BigDecimal discount) {
+    public Appuser(Long userId, String secName, String firstName, String email, String phones, BigDecimal discount) {
         this.userId = userId;
         this.secName = secName;
         this.firstName = firstName;
@@ -128,11 +129,11 @@ public class Appuser implements Serializable {
         this.discount = discount;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -224,6 +225,14 @@ public class Appuser implements Serializable {
         this.city = city;
     }
 
+    public String getSessId() {
+        return sessId;
+    }
+
+    public void setSessId(String sessId) {
+        this.sessId = sessId;
+    }
+
     public UserGender getGenderId() {
         return genderId;
     }
@@ -272,14 +281,6 @@ public class Appuser implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Appuser[ userId=" + userId + " ]";
-    }
-
-    public String getSessId() {
-        return sessId;
-    }
-
-    public void setSessId(String sessId) {
-        this.sessId = sessId;
     }
     
 }

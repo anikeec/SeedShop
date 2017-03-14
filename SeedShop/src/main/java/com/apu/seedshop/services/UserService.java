@@ -26,7 +26,7 @@ UserRepository userRepository;
         return  userRepository.findAll();
     }
 
-    public Appuser getUserById(Integer id) {
+    public Appuser getUserById(Long id) {
         Appuser u = userRepository.findOne(id);
         return u;
     }
@@ -61,7 +61,7 @@ UserRepository userRepository;
         return u;
     }
 
-    public void delUser(Integer id){
+    public void delUser(Long id){
         Appuser u = userRepository.findOne(id);
         if(u!=null){
             logger.debug(String.format("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));

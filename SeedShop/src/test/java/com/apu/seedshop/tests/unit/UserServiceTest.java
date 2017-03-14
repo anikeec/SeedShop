@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UserServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(UserServiceTest.class);
     Integer genderId = 1;
-    Integer userId = 100;
+    Long userId = 100l;
     
     @Autowired
     private UserService usersService;
@@ -81,7 +81,7 @@ public class UserServiceTest {
     @Test
     public void testGetUserById() throws Exception {
         logger.debug("Test - getUserById");
-        Integer id = 2;
+        Long id = 2l;
         Appuser notExpResult = null;
         Appuser result = usersService.getUserById(id);
         assert(result != notExpResult);

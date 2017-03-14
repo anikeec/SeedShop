@@ -38,7 +38,7 @@ public class UserAuthorization implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
@@ -56,21 +56,21 @@ public class UserAuthorization implements Serializable {
     public UserAuthorization() {
     }
 
-    public UserAuthorization(Integer userId) {
+    public UserAuthorization(Long userId) {
         this.userId = userId;
     }
 
-    public UserAuthorization(Integer userId, String login, String passwdHash) {
+    public UserAuthorization(Long userId, String login, String passwdHash) {
         this.userId = userId;
         this.login = login;
         this.passwdHash = passwdHash;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

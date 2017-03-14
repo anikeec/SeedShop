@@ -13,7 +13,7 @@ CREATE TABLE USER_GENDER(
 /* DROP TABLE APPUSER; */
 
 CREATE TABLE APPUSER(
- user_id  INT NOT NULL,
+ user_id  BIGINT NOT NULL,
  sec_name VARCHAR(30) NOT NULL,
  first_name VARCHAR(20) NOT NULL,
  third_name VARCHAR(20),
@@ -35,7 +35,7 @@ CREATE TABLE APPUSER(
 /* DROP TABLE USER_AUTHORIZATION; */
 
 CREATE TABLE USER_AUTHORIZATION(
- user_id  INT NOT NULL,
+ user_id  BIGINT NOT NULL,
  login VARCHAR(25) NOT NULL,
  passwd_hash VARCHAR(25) NOT NULL,
  PRIMARY KEY (user_id),
@@ -76,8 +76,8 @@ CREATE TABLE PRODUCT_LOCATION(
 /* DROP TABLE INVOICE; */
 
 CREATE TABLE INVOICE( 
- order_id INT NOT NULL,
- user_id  INT NOT NULL,  
+ order_id BIGINT NOT NULL,
+ user_id  BIGINT NOT NULL,  
  order_date DATE NOT NULL,
  paid_date DATE NOT NULL,
  sent_date DATE NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE INVOICE(
  delivery_office INT NOT NULL,
  prepayment BOOLEAN,
  declaration VARCHAR(30),
- backorder_id INT,
+ backorder_id BIGINT,
  add_info_u TEXT,
  add_info_m TEXT,
  PRIMARY KEY (order_id),
@@ -170,7 +170,7 @@ CREATE TABLE PRODUCT(
 
 CREATE TABLE AN_ORDER(
  id INT NOT NULL,
- order_id INT NOT NULL,
+ order_id BIGINT NOT NULL,
  barcode VARCHAR(15) NOT NULL,
  price DECIMAL(6,2) NOT NULL,
  amount INT NOT NULL,

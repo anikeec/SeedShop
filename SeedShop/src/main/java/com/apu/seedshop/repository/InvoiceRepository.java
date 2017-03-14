@@ -9,8 +9,8 @@ import com.apu.seedshop.jpa.Invoice;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
-    public List<Invoice> findByOrderId(@Param("orderId") Integer id);
+public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
+    public List<Invoice> findByOrderId(@Param("orderId") Long id);
     @Override
     public List<Invoice> findAll();
 

@@ -12,7 +12,7 @@ public class SeedAnOrder {
     @XmlElement(required=false)
     public Integer id;
     @XmlElement(required=true)
-    public Integer orderId;
+    public Long orderId;
     @XmlElement(required=true)
     public String barcode;
     @XmlElement(required=true)

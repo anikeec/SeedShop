@@ -38,7 +38,7 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/byorderid/{orderid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AnOrderListReply getAnOrdersByOrderId(@PathVariable Integer orderid ){
+    public AnOrderListReply getAnOrdersByOrderId(@PathVariable Long orderid ){
         AnOrderListReply reply = new AnOrderListReply();
         for(AnOrder ao: anOrderService.getAnOrdersByOrderId(orderid)) {
             reply.orders.add(anOrderMapper.fromInternal(ao));  
@@ -47,7 +47,7 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/del/{id}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delAnOrder(@PathVariable Integer id ){
+    public GenericReply delAnOrder(@PathVariable Long id ){
             GenericReply rep = new GenericReply();
         try{
             anOrderService.delAnOrder(id);

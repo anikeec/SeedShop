@@ -9,9 +9,9 @@ import com.apu.seedshop.jpa.UserAuthorization;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface UserAuthorizRepository extends CrudRepository<UserAuthorization, Integer> {
+public interface UserAuthorizRepository extends CrudRepository<UserAuthorization, Long> {
     public List<UserAuthorization> findByLogin(@Param("login") String login);
-    public List<UserAuthorization> findByUserId(@Param("userId") Integer userId);
+    public List<UserAuthorization> findByUserId(@Param("userId") Long userId);
     @Override
     public List<UserAuthorization> findAll();
 
