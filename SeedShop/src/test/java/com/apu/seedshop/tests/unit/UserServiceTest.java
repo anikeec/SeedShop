@@ -12,6 +12,7 @@ import com.apu.seedshop.services.UserGenderService;
 import com.apu.seedshop.services.UserService;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -95,9 +96,9 @@ public class UserServiceTest {
     public void testFindUserByName() throws Exception {
         logger.debug("Test - findUserByName");
         String name = "пет";
-        int expResult = 1;
+        Long expResult = 1l;
         List<Appuser> result = usersService.findUserByName(name);
-        assert(result.get(0).getUserId() == expResult);
+        assertEquals(result.get(0).getUserId(), expResult);
     }
 
     /**
