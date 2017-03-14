@@ -26,6 +26,7 @@ CREATE TABLE APPUSER(
  region VARCHAR(30),
  area VARCHAR(30),
  city VARCHAR(30),
+ sess_id VARCHAR(32),
  PRIMARY KEY (user_id),
  FOREIGN KEY (gender_id) REFERENCES USER_GENDER (gender_id)
 );

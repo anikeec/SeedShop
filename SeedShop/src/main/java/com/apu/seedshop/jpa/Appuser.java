@@ -51,6 +51,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")})
 public class Appuser implements Serializable {
 
+    @Size(max = 32)
+    @Column(name = "sess_id")
+    private String sessId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -268,6 +272,14 @@ public class Appuser implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Appuser[ userId=" + userId + " ]";
+    }
+
+    public String getSessId() {
+        return sessId;
+    }
+
+    public void setSessId(String sessId) {
+        this.sessId = sessId;
     }
     
 }
