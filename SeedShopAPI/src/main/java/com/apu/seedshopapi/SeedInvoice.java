@@ -34,19 +34,19 @@ public class SeedInvoice {
     @XmlElement(required=true)
     public String declaration;        
     @XmlElement(required=true)
-    public String delivery;
+    public Integer delivery;
     @XmlElement(required=true)
     public Integer deliveryOffice;
     @XmlElement(required=true)
     public String prepayment;
     @XmlElement(required=true)
-    public String status;
+    public Integer status;
     @XmlElement(required=true)
-    public String sourceL;
+    public Integer sourceL;
     @XmlElement(required=true)
-    public String destL;
+    public Integer destL;
     @XmlElement(required=true)
-    public String currL; 
+    public Integer currL; 
     @XmlElement(required=true)
     public Long backorderId;
     @XmlElement(required=true)

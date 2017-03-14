@@ -25,47 +25,26 @@ public class InvoiceService {
     }
 
     public Invoice getInvoiceByOrderId(Long orderId) {
-        Invoice i = invoiceRepository.findByOrderId(orderId).get(0);
+        Invoice i = invoiceRepository.findOne(orderId);
         return i;
     }
     
+    public Invoice addInvoice(Invoice inv) {
+        logger.debug("Add invoice - userId = "
+                        + inv.getUserId().getUserId()
+                        + ", orderId = " + inv.getOrderId()); 
+        inv = invoiceRepository.save(inv);
+        return inv;
+    }
+    
     public void delInvoice(Long orderId){
-        if(invoiceRepository.findByOrderId(orderId).isEmpty()) {
+        if(invoiceRepository.findOne(orderId) == null) {
             logger.debug("Try delete invoice - "
                                 + "orderId = " + orderId
                                 + ". This orderId is absent.");
             return;
         }
-        Invoice inv = invoiceRepository.findByOrderId(orderId).get(0);
-        
-        List<AnOrder> orders = (List<AnOrder>)inv.getAnOrderCollection();
-        for(AnOrder ao: orders) {
-            if(ao != null) {                       
-                logger.debug("Deleting anOrder - "
-                        + "id = "+ ao.getId() 
-                        + ", orderId = " + ao.getOrderId().getOrderId()
-                        + ", barcode = " + ao.getBarcode().getBarcode());
-                //anOrderService.delAnOrder(ao.getId());
-            }
-        }
-        List<Invoice> origInvoices = (List<Invoice>)inv.getInvoiceCollection();
-        if(!origInvoices.isEmpty()) {
-            for(Invoice origInv: origInvoices) {
-                orders = (List<AnOrder>)origInv.getAnOrderCollection();
-                for(AnOrder ao: orders) {
-                    if(ao != null) {                       
-                        logger.debug("Deleting anOrder - "
-                                + "id = "+ ao.getId() 
-                                + ", orderId = " + ao.getOrderId().getOrderId()
-                                + ", barcode = " + ao.getBarcode().getBarcode());
-                    }
-                }
-                logger.debug("Deleting origin invoice - orderId = " 
-                                + origInv.getOrderId()
-                                + ", backorderId = " 
-                                + origInv.getBackorderId().getOrderId());
-            }
-        }
+        Invoice inv = invoiceRepository.findOne(orderId);        
         logger.debug("Deleting invoice - userId = "
                         + inv.getUserId().getUserId()
                         + ", orderId = " + inv.getOrderId());                

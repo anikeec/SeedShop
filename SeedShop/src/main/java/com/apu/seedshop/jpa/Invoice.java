@@ -63,46 +63,32 @@ public class Invoice implements Serializable {
     @Column(name = "order_date")
     @Temporal(TemporalType.DATE)
     private Date orderDate;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "paid_date")
     @Temporal(TemporalType.DATE)
     private Date paidDate;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "sent_date")
     @Temporal(TemporalType.DATE)
     private Date sentDate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "discount")
     private BigDecimal discount;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "pay")
     private BigDecimal pay;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "sec_name")
     private String secName;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "first_name")
     private String firstName;
     @Size(max = 20)
     @Column(name = "third_name")
     private String thirdName;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 40)
+    @Size(max = 40)
     @Column(name = "phone")
     private String phone;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "delivery_office")
-    private int deliveryOffice;
+    private Integer deliveryOffice;
     @Column(name = "prepayment")
     private Boolean prepayment;
     @Size(max = 30)
@@ -122,16 +108,16 @@ public class Invoice implements Serializable {
     @ManyToOne(optional = false)
     private Appuser userId;
     @JoinColumn(name = "delivery_id", referencedColumnName = "delivery_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private DeliveryService deliveryId;
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
     @ManyToOne(optional = false)
     private DeliveryStatus statusId;
     @JoinColumn(name = "source_id", referencedColumnName = "location_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ProductLocation sourceId;
     @JoinColumn(name = "destination_id", referencedColumnName = "location_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ProductLocation destinationId;
     @JoinColumn(name = "current_loc_id", referencedColumnName = "location_id")
     @ManyToOne
@@ -149,16 +135,9 @@ public class Invoice implements Serializable {
         this.orderId = orderId;
     }
 
-    public Invoice(Long orderId, Date orderDate, Date paidDate, Date sentDate, BigDecimal pay, String secName, String firstName, String phone, int deliveryOffice) {
+    public Invoice(Long orderId, Date orderDate) {
         this.orderId = orderId;
         this.orderDate = orderDate;
-        this.paidDate = paidDate;
-        this.sentDate = sentDate;
-        this.pay = pay;
-        this.secName = secName;
-        this.firstName = firstName;
-        this.phone = phone;
-        this.deliveryOffice = deliveryOffice;
     }
 
     public Long getOrderId() {
@@ -241,11 +220,11 @@ public class Invoice implements Serializable {
         this.phone = phone;
     }
 
-    public int getDeliveryOffice() {
+    public Integer getDeliveryOffice() {
         return deliveryOffice;
     }
 
-    public void setDeliveryOffice(int deliveryOffice) {
+    public void setDeliveryOffice(Integer deliveryOffice) {
         this.deliveryOffice = deliveryOffice;
     }
 

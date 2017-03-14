@@ -4,6 +4,8 @@ INSERT INTO USER_GENDER(gender_id, name) VALUES (0, 'F');
 INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'M');
 
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
+(0, '', '', '', '', '', '0', NULL, 1, '', '', '', '');
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары');
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси');
@@ -16,6 +18,7 @@ INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (2, 'Делив
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (3, 'Интайм', 0);
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (4, 'Укрпочта', 0);
 
+INSERT INTO DELIVERY_STATUS(status_id, status) VALUES (0, 'Не создан');
 INSERT INTO DELIVERY_STATUS(status_id, status) VALUES (1, 'Новый');
 INSERT INTO DELIVERY_STATUS(status_id, status) VALUES (2, 'Подтвержден');
 INSERT INTO DELIVERY_STATUS(status_id, status) VALUES (3, 'Отклонен');

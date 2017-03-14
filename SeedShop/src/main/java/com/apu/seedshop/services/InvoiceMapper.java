@@ -3,6 +3,14 @@ package com.apu.seedshop.services;
 import com.apu.seedshopapi.SeedInvoice;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.repository.InvoiceRepository;
+import com.apu.seedshop.utils.EntityIdGenerator;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +25,18 @@ public class InvoiceMapper {
     
     @Autowired
     InvoiceRepository invoiceRepository;
+    
+    @Autowired
+    DeliveryServiceService dServService;
+    
+    @Autowired
+    DeliveryStatusService dStatService;
+    
+    @Autowired
+    ProductLocationService plService;
+    
+    @Autowired
+    UserService userService;
     
 /**
  * Maps internal JPA model to external REST model
@@ -40,22 +60,89 @@ public class InvoiceMapper {
             si.phone = inv.getPhone();
             si.declaration = inv.getDeclaration();
             if(inv.getDeliveryId() != null)
-                si.delivery = inv.getDeliveryId().getName();
+                si.delivery = inv.getDeliveryId().getDeliveryId();
             si.deliveryOffice = inv.getDeliveryOffice();
             si.prepayment = "" + inv.getPrepayment();
-            si.status = inv.getStatusId().getStatus();
+            si.status = inv.getStatusId().getStatusId();
             if(inv.getSourceId() != null) 
-                si.sourceL = "" + inv.getSourceId().getName();
+                si.sourceL = inv.getSourceId().getLocationId();
             if(inv.getDestinationId() != null) 
-                si.destL = "" + inv.getDestinationId().getName();
+                si.destL = inv.getDestinationId().getLocationId();
             if(inv.getCurrentLocId() != null) 
-                si.currL = "" + inv.getCurrentLocId().getName();
+                si.currL = inv.getCurrentLocId().getLocationId();
             if(inv.getBackorderId() != null) 
                 si.backorderId = inv.getBackorderId().getOrderId();
             si.addInfoU = inv.getAddInfoU();
             si.addInfoM = inv.getAddInfoM();      
         }
         return si;
+    }
+    
+/**
+ * Creates new Invoice with good orderId
+ * @return newly created Invoice with required fields set
+ */
+    private Invoice newInvoice() {
+        //TODO: add setup userId
+        Invoice inv = new Invoice();
+        boolean idOK = false;
+        Long orderId = 0l;
+        while (!idOK) {
+            orderId = EntityIdGenerator.random();
+            idOK = !invoiceRepository.exists(orderId);
+        }
+        inv.setStatusId(dStatService.getDeliveryStatusById(0));
+        inv.setOrderDate(new Date());
+        return inv;
+    }
+    
+ /**
+ * Maps external REST model to internal Invoice;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param su REST model
+ * @return internal Users with all required fields set
+ */
+    public Invoice toInternal(SeedInvoice si) {
+        Invoice inv = null;
+        //first, check if it exists
+        if (si.orderId != null) {
+            inv = invoiceRepository.findOne(si.orderId);
+        }
+        if (inv == null) { //not found, create new
+            logger.debug("Creating new invoice");
+            inv = newInvoice();
+        }
+        logger.debug("Updating existing invoice");
+        inv.setUserId(userService.getUserById(si.userId));
+        inv.setFirstName(si.firstName);
+        inv.setSecName(si.secName);
+        inv.setThirdName(si.thirdName);
+        DateFormat format = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
+        Date oDate = null;
+        Date pDate = null;
+        Date sDate = null;
+        try { 
+            oDate = format.parse(si.orderDate);
+            pDate = format.parse(si.paidDate);
+            sDate = format.parse(si.sentDate);
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        inv.setOrderDate(oDate);
+        inv.setPaidDate(pDate);
+        inv.setSentDate(sDate);        
+        inv.setDiscount(new BigDecimal(si.discount));
+        inv.setPay(new BigDecimal(si.pay));
+        inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
+        inv.setSourceId(plService.getProductLocationById(si.sourceL));
+        inv.setDestinationId(plService.getProductLocationById(si.destL));
+        inv.setCurrentLocId(plService.getProductLocationById(si.currL));
+        inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
+        inv.setDeliveryOffice(si.deliveryOffice);
+        inv.setPrepayment(si.prepayment.equals("1"));
+        inv.setDeclaration(si.declaration);      
+        return inv;
     }
 
 }

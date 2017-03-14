@@ -7,6 +7,7 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
+import com.apu.seedshopapi.AddInvoiceRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.InvoiceListReply;
 import org.slf4j.Logger;
@@ -42,6 +43,21 @@ public class InvoiceController {
         InvoiceListReply reply = new InvoiceListReply();
         reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderid)));        
         return reply;
+    }
+    
+    @RequestMapping(path="/invoices/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public InvoiceListReply addInvoice( @RequestBody AddInvoiceRequest req){
+        InvoiceListReply rep = new InvoiceListReply();
+        try{
+           Invoice inv;
+           inv = invoiceService.addInvoice(invoiceMapper.toInternal(req.invoice));
+           rep.invoices.add(invoiceMapper.fromInternal(inv));
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding invoice. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
     }
     
     @RequestMapping(path="/invoices/del/{orderid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
