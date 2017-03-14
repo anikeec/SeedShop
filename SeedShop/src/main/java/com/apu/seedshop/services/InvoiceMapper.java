@@ -113,35 +113,53 @@ public class InvoiceMapper {
             logger.debug("Creating new invoice");
             inv = newInvoice();
         }
-        logger.debug("Updating existing invoice");
-        inv.setUserId(userService.getUserById(si.userId));
-        inv.setFirstName(si.firstName);
-        inv.setSecName(si.secName);
-        inv.setThirdName(si.thirdName);
+        logger.debug("Updating existing invoice");                
+        
         DateFormat format = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
         Date oDate = null;
         Date pDate = null;
         Date sDate = null;
         try { 
+            //if(si.orderDate != null)   
             oDate = format.parse(si.orderDate);
+            //if(si.paidDate != null)    
             pDate = format.parse(si.paidDate);
+            //if(si.sentDate != null)    
             sDate = format.parse(si.sentDate);
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        inv.setOrderDate(oDate);
-        inv.setPaidDate(pDate);
-        inv.setSentDate(sDate);        
-        inv.setDiscount(new BigDecimal(si.discount));
-        inv.setPay(new BigDecimal(si.pay));
-        inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
-        inv.setSourceId(plService.getProductLocationById(si.sourceL));
-        inv.setDestinationId(plService.getProductLocationById(si.destL));
+ 
+        //if(si.currL != null)
         inv.setCurrentLocId(plService.getProductLocationById(si.currL));
+        //if(si.declaration != null)
+        inv.setDeclaration(si.declaration);  
+        //if(si.delivery != null)
         inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
+        //if(si.deliveryOffice != null)
         inv.setDeliveryOffice(si.deliveryOffice);
+        //if(si.destL != null)
+        inv.setDestinationId(plService.getProductLocationById(si.destL));
+        //if(si.discount != null)
+        inv.setDiscount(new BigDecimal(si.discount));
+        inv.setFirstName(si.firstName);
+        inv.setOrderDate(oDate);
+        inv.setOrderId(si.orderId);
+        inv.setPaidDate(pDate);
+        //if(si.pay != null)
+        inv.setPay(new BigDecimal(si.pay));
+        //if(si.phone != null)
+        inv.setPhone(si.phone);
+        //if(si.prepayment != null)
         inv.setPrepayment(si.prepayment.equals("1"));
-        inv.setDeclaration(si.declaration);      
+        inv.setSecName(si.secName);
+        inv.setSentDate(sDate);
+        //if(si.status != null)
+        inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
+        //if(si.sourceL != null)
+        inv.setSourceId(plService.getProductLocationById(si.sourceL));
+        inv.setThirdName(si.thirdName);
+        inv.setUserId(userService.getUserById(si.userId));
         return inv;
     }
 

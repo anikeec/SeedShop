@@ -97,8 +97,6 @@ public class InvoiceServiceTest {
         inv.setOrderId(testId);
         inv.setUserId(userService.getUserById(testUserId));
         inv.setStatusId(dStatService.getDeliveryStatusById(0));
-        //inv.setAnOrderCollection(new ArrayList<AnOrder>());
-        //inv.setInvoiceCollection(new ArrayList<Invoice>());
         inv.setOrderDate(new Date());
         Invoice expResult = inv;
         invoiceService.addInvoice(inv);
