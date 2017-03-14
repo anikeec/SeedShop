@@ -62,6 +62,28 @@ public class UserMapper {
         return su;
     }
     
+ /**
+ * Creates new Appuser with good Id
+ * @return newly created Appuser with required fields set
+ */
+    private Appuser newUser() {
+        //TODO: get logged user from security context
+        Appuser au = new Appuser();
+        boolean idOK = false;
+        Long id = 0l;
+        while (!idOK) {
+            id = EntityIdGenerator.random();
+            idOK = !userRepository.exists(id);
+        }
+        au.setSecName("");
+        au.setFirstName("");
+        au.setEmail("");
+        au.setPhones("");
+        au.setDiscount(new BigDecimal(0));
+        au.setUserId(id);
+        return au;
+    }
+    
 /**
  * Maps external REST model to internal Users;
  * If user does not exists in DB then creates new. If user already exists
@@ -77,7 +99,7 @@ public class UserMapper {
         }
         if (u == null) { //not found, create new
             logger.debug("Creating new user");
-            u = new Appuser();
+            u = newUser();
         }
         logger.debug("Updating existing user");
         u.setUserId(su.userId);
