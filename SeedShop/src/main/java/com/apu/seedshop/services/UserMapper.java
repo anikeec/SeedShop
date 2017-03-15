@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.apu.seedshop.repository.UserRepository;
 import com.apu.seedshop.utils.EntityIdGenerator;
+import com.apu.seedshop.utils.HashGenerator;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
+import javax.servlet.http.HttpSession;
 
 @Component
 
@@ -66,7 +68,7 @@ public class UserMapper {
  * Creates new Appuser with good Id
  * @return newly created Appuser with required fields set
  */
-    private Appuser newUser() {
+    public Appuser newUser() {
         //TODO: get logged user from security context
         Appuser au = new Appuser();
         boolean idOK = false;
@@ -75,12 +77,22 @@ public class UserMapper {
             id = EntityIdGenerator.random();
             idOK = !userRepository.exists(id);
         }
-        au.setSecName("");
-        au.setFirstName("");
-        au.setEmail("");
-        au.setPhones("");
+        au.setSecName(" ");
+        au.setFirstName(" ");
+        au.setEmail(" ");
+        au.setPhones(" ");
         au.setDiscount(new BigDecimal(0));
         au.setUserId(id);
+        String sessionId = null;
+        idOK = false;
+        while (!idOK) {
+            id = EntityIdGenerator.random();
+            sessionId = HashGenerator.hashString("" + id);
+            if(userRepository.findBySessId(sessionId).isEmpty()) idOK = true;
+            else idOK = false;
+        }
+        au.setSessId(sessionId);
+        au.setGenderId(ugRepository.findOne(0));
         return au;
     }
     

@@ -43,6 +43,15 @@ UserRepository userRepository;
         return res;
     }
     
+    public List<Appuser> findUserBySessionId(String sessionId){
+        List<Appuser> udl = userRepository.findBySessId(sessionId);
+        List<Appuser> res = new ArrayList<>();
+        for(Appuser u:udl){
+            res.add(u);
+        }        
+        return res;
+    }
+    
     public List<Appuser> findBySecNameAndFirstName(String secName, String firstName){
         List<Appuser> udl = userRepository.findBySecNameAndFirstName(secName, firstName);
         List<Appuser> res = new ArrayList<>();
