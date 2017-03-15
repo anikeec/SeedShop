@@ -68,66 +68,51 @@ public class BasketController {
         
         try {
         
-        if(users.isEmpty()) {
-            //if not exist, then create new appuser & new invoice, extract orderId
-            u = userMapper.newUser();
-            userService.addUser(u);
-            
-        } else {
-            //if exist, then extract userId, then OrderId for this user
-            if(users.size() > 1) {
-                logger.error("Error add to basket. To users with equal sessId");
+            if(users.isEmpty()) {
+                //if not exist, then create new appuser & new invoice, extract orderId
+                u = userMapper.newUser();
+                userService.addUser(u);
+
             } else {
-                u = users.get(0);
-                List<Invoice> invoices = invoiceService.getInvoiceByUserId(u.getUserId());
-                for(Invoice inv:invoices) {
-                    if(inv.getStatusId().getStatusId() == 0) {
-                        invoice = inv;
-                        break;
+                //if exist, then extract userId, then OrderId for this user
+                if(users.size() > 1) {
+                    logger.error("Error add to basket. To users with equal sessId");
+                } else {
+                    u = users.get(0);
+                    List<Invoice> invoices = invoiceService.getInvoiceByUserId(u.getUserId());
+                    for(Invoice inv:invoices) {
+                        if(inv.getStatusId().getStatusId() == 0) {
+                            invoice = inv;
+                            break;
+                        }
                     }
-                }
-            }            
-        } 
-        
-        if(invoice == null) { 
-            invoice = invoiceMapper.newInvoice();
-            invoice.setUserId(u);
-            invoiceService.addInvoice(invoice);
-        }
-        
-        //add products to AnOrder for current OrderId 
-        String barcode;
-        int amount;
-        AnProductItem item;
-        AnOrder order;
-        for(int i=0;i<req.products.size();i++) {
-            order = aoMapper.newAnOrder();
-            barcode = req.products.get(i).barcode;
-            amount = req.products.get(i).amount;
-            order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
-            order.setBarcode(productService.getProductByBarcode(barcode));
-            order.setAmount(amount);
-            aoService.addAnOrder(order);
-            item = new AnProductItem();
-            item.barcode = barcode;
-            item.amount = order.getAmount();
-            rep.products.add(item);
-        }
-        /*
-        //this is not work because collection is not update momental
-        //List<AnOrder> list = aoService.getAnOrdersByOrderId(invoice.getOrderId());
-        Invoice it = invoiceService.getInvoiceByOrderId(invoice.getOrderId());
-        List<AnOrder> list = null;
-        if(it != null) {
-            list = (List<AnOrder>)it.getAnOrderCollection();
-        }
-        AnProductItem item;
-        for(AnOrder order:list){
-            item = new AnProductItem();
-            item.barcode = order.getBarcode().getBarcode();
-            item.amount = order.getAmount();
-            rep.products.add(item);
-        }*/
+                }            
+            } 
+
+            if(invoice == null) { 
+                invoice = invoiceMapper.newInvoice();
+                invoice.setUserId(u);
+                invoiceService.addInvoice(invoice);
+            }
+
+            //add products to AnOrder for current OrderId 
+            String barcode;
+            int amount;
+            AnProductItem item;
+            AnOrder order;
+            for(int i=0;i<req.products.size();i++) {
+                order = aoMapper.newAnOrder();
+                barcode = req.products.get(i).barcode;
+                amount = req.products.get(i).amount;
+                order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
+                order.setBarcode(productService.getProductByBarcode(barcode));
+                order.setAmount(amount);
+                aoService.addAnOrder(order);
+                item = new AnProductItem();
+                item.barcode = barcode;
+                item.amount = order.getAmount();
+                rep.products.add(item);
+            }
         
         }catch(Exception e){
             rep.retcode = -1;
