@@ -97,18 +97,24 @@ public class BasketController {
         
         //add products to AnOrder for current OrderId 
         String barcode;
-        List<AnOrder> orders = new ArrayList();
+        int amount;
+        AnProductItem item;
+        AnOrder order;
         for(int i=0;i<req.products.size();i++) {
-            AnOrder order = aoMapper.newAnOrder();
-            barcode = req.products.get(i).barcode;  
+            order = aoMapper.newAnOrder();
+            barcode = req.products.get(i).barcode;
+            amount = req.products.get(i).amount;
             order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
             order.setBarcode(productService.getProductByBarcode(barcode));
-            order.setAmount(req.products.get(i).amount);
+            order.setAmount(amount);
             aoService.addAnOrder(order);
-            orders.add(order);
+            item = new AnProductItem();
+            item.barcode = barcode;
+            item.amount = order.getAmount();
+            rep.products.add(item);
         }
-        invoice.setAnOrderCollection(orders);
-        
+        /*
+        //this is not work because collection is not update momental
         //List<AnOrder> list = aoService.getAnOrdersByOrderId(invoice.getOrderId());
         Invoice it = invoiceService.getInvoiceByOrderId(invoice.getOrderId());
         List<AnOrder> list = null;
@@ -121,7 +127,7 @@ public class BasketController {
             item.barcode = order.getBarcode().getBarcode();
             item.amount = order.getAmount();
             rep.products.add(item);
-        }
+        }*/
         
         }catch(Exception e){
             rep.retcode = -1;
