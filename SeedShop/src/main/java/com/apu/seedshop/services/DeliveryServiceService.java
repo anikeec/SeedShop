@@ -25,7 +25,7 @@ DeliveryServiceRepository dservRepository;
     }
 
     public DeliveryService getDeliveryServiceById(Integer dservId) {
-        DeliveryService p = dservRepository.findByDeliveryId(dservId).get(0);
+        DeliveryService p = dservRepository.findOne(dservId);
         return p;
     }
     

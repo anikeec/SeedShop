@@ -25,7 +25,7 @@ DeliveryStatusRepository dsRepository;
     }
 
     public DeliveryStatus getDeliveryStatusById(Integer dsId) {
-        DeliveryStatus p = dsRepository.findByStatusId(dsId).get(0);
+        DeliveryStatus p = dsRepository.findOne(dsId);
         return p;
     }
     

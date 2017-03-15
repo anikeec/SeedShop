@@ -25,7 +25,7 @@ PackingRepository packingRepository;
     }
 
     public Packing getPackingById(Integer packingId) {
-        Packing p = packingRepository.findByPackingId(packingId).get(0);
+        Packing p = packingRepository.findOne(packingId);
         return p;
     }
     

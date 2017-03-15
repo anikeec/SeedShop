@@ -25,7 +25,7 @@ ProductLocationRepository plRepository;
     }
 
     public ProductLocation getProductLocationById(Integer plId) {
-        ProductLocation p = plRepository.findByLocationId(plId).get(0);
+        ProductLocation p = plRepository.findOne(plId);
         return p;
     }
     

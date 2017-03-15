@@ -28,7 +28,7 @@ public class AnOrderService {
     }
 
     public AnOrder getAnOrderById(Long id) {
-        AnOrder ao = anOrderRepository.findById(id).get(0);
+        AnOrder ao = anOrderRepository.findOne(id);
         return ao;
     }
     
@@ -50,7 +50,7 @@ public class AnOrderService {
     }
     
     public void delAnOrder(Long id){
-        AnOrder ao = anOrderRepository.findById(id).get(0);
+        AnOrder ao = anOrderRepository.findOne(id);
         if(ao!=null){
             logger.debug(String.format("Deleting anOrder %s, %s, %s, %s, with orderId %s", 
                     ao.getId(), 

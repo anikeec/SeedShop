@@ -25,12 +25,12 @@ ProductRepository productRepository;
     }
 
     public Product getProductByBarcode(String barcode) {
-        Product p = productRepository.findByBarcode(barcode).get(0);
+        Product p = productRepository.findOne(barcode);
         return p;
     }
 
     public void delProduct(String barcode){
-        Product p = productRepository.findByBarcode(barcode).get(0);
+        Product p = productRepository.findOne(barcode);
         if(p!=null){
             logger.debug(String.format("Deleting product %s, %s, %s, %s with id %s",                                         
                                         p.getProductId(), 
