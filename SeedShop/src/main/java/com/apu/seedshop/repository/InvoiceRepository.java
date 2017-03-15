@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface InvoiceRepository extends CrudRepository<Invoice, Long> {
     public List<Invoice> findByOrderId(@Param("orderId") Long id);
+    public List<Invoice> findByUserId(@Param("userId") Long id);
     @Override
     public List<Invoice> findAll();
 

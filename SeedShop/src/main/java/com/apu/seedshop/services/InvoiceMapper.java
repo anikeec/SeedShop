@@ -82,7 +82,7 @@ public class InvoiceMapper {
  * Creates new Invoice with good orderId
  * @return newly created Invoice with required fields set
  */
-    private Invoice newInvoice() {
+    public Invoice newInvoice() {
         //TODO: add setup userId
         Invoice inv = new Invoice();
         boolean idOK = false;
@@ -91,6 +91,7 @@ public class InvoiceMapper {
             orderId = EntityIdGenerator.random();
             idOK = !invoiceRepository.exists(orderId);
         }
+        inv.setOrderId(orderId);
         inv.setStatusId(dStatService.getDeliveryStatusById(0));
         inv.setOrderDate(new Date());
         return inv;
