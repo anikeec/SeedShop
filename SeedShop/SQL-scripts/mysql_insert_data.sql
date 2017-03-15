@@ -7,8 +7,8 @@ INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, di
 (0, '', '', '', '', '', '0', NULL, 1, '', '', '', '');
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары');
-INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
-(2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси');
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, sess_id) VALUES 
+(2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси', 12345678901234567890123456789012);
 
 INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (1, 'Peter', 'asdf5gfG54fh');
 INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (2, 'Oleg', 'g3456f6364fh');
@@ -33,7 +33,7 @@ INSERT INTO PRODUCT_LOCATION(location_id, name) VALUES (3, 'Магазин 1');
 INSERT INTO PRODUCT_LOCATION(location_id, name) VALUES (4, 'Магазин 2');
 
 INSERT INTO INVOICE(user_id, order_id, order_date, paid_date, sent_date, discount, pay, status_id, sec_name, first_name, third_name, phone, add_info_u, source_id, destination_id, delivery_id, delivery_office, prepayment) VALUES 
-(2, 1, '98-12-31', '00-00-00', '00-00-00', 5.0, 125.65, 1, 'Сидоров', 'Олег', 'Петрович', '3806741903706', 'Доставка до дома', 2, 1, 2, 12, 1);
+(2, 1, '98-12-31', '00-00-00', '00-00-00', 5.0, 125.65, 0, 'Сидоров', 'Олег', 'Петрович', '3806741903706', 'Доставка до дома', 2, 1, 2, 12, 1);
 INSERT INTO INVOICE(user_id, order_id, order_date, paid_date, sent_date, discount, pay, status_id, sec_name, first_name, third_name, phone, add_info_u, source_id, destination_id, delivery_id, delivery_office, prepayment) VALUES 
 (1, 3, '98-10-20', '00-00-00', '00-00-00', 5.0, 135.80, 5, 'Сидоров', 'Олег', 'Петрович', '3806741903706', '', 1, 3, 2, 12, 1);
 INSERT INTO INVOICE(user_id, order_id, order_date, paid_date, sent_date, discount, pay, status_id, sec_name, first_name, third_name, phone, add_info_u, source_id, destination_id, delivery_id, delivery_office, prepayment, add_info_m, backorder_id) VALUES 

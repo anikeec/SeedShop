@@ -55,6 +55,51 @@ public class BasketController {
     @Autowired
     ProductService productService;
     
+    @RequestMapping(path="/basket/all/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public BasketListReply getAllProducts(@PathVariable String sessId){
+        BasketListReply rep = new BasketListReply();       
+        try {  
+            Invoice invoice = null;   
+            //check if session exist
+            List<Appuser> users = userService.findUserBySessionId(sessId);
+            if(!users.isEmpty()) {
+                //if exist, then extract invoices for this user
+                if(users.size() > 1) {
+                    String err = "Error add to basket. Two users with equal session_id";
+                    logger.error(err);
+                    throw new Exception(err);
+                } 
+                Appuser u = users.get(0);
+                List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
+                for(Invoice inv:invoices) {
+                    if(inv.getStatusId().getStatusId() == 0) {
+                        invoice = inv;
+                        break;
+                    }
+                }
+                if(invoice == null) {
+                    String err = "There is no invoice with status_id=0.";
+                    logger.error(err);
+                    throw new Exception(err);
+                }
+                //get products from AnOrder for current OrderId 
+                AnProductItem item;                
+                List<AnOrder> orders = (List<AnOrder>)invoice.getAnOrderCollection();
+                for(AnOrder order:orders){
+                    item = new AnProductItem();
+                    item.barcode = order.getBarcode().getBarcode();
+                    item.amount = order.getAmount();
+                    rep.products.add(item);
+                }
+            } 
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding to basket. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
     
     @RequestMapping(path="/basket/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BasketListReply addToBasket( @RequestBody AddBasketRequest req){
@@ -79,7 +124,8 @@ public class BasketController {
                     logger.error("Error add to basket. To users with equal sessId");
                 } else {
                     u = users.get(0);
-                    List<Invoice> invoices = invoiceService.getInvoiceByUserId(u.getUserId());
+                    //List<Invoice> invoices = invoiceService.getInvoiceByUserId(u.getUserId());
+                    List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
                     for(Invoice inv:invoices) {
                         if(inv.getStatusId().getStatusId() == 0) {
                             invoice = inv;
@@ -89,11 +135,15 @@ public class BasketController {
                 }            
             } 
 
+            List<AnOrder> availableOrders = null;
             if(invoice == null) { 
                 invoice = invoiceMapper.newInvoice();
                 invoice.setUserId(u);
                 invoiceService.addInvoice(invoice);
-            }
+            } else {
+                //when I add available positions, then I have to update them
+                availableOrders = (List<AnOrder>)invoice.getAnOrderCollection();
+            }           
 
             //add products to AnOrder for current OrderId 
             String barcode;
@@ -101,16 +151,32 @@ public class BasketController {
             AnProductItem item;
             AnOrder order;
             for(int i=0;i<req.products.size();i++) {
-                order = aoMapper.newAnOrder();
                 barcode = req.products.get(i).barcode;
                 amount = req.products.get(i).amount;
-                order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
-                order.setBarcode(productService.getProductByBarcode(barcode));
-                order.setAmount(amount);
-                aoService.addAnOrder(order);
+                Boolean available = false;
+                if(availableOrders != null) {
+                    for(AnOrder ord: availableOrders) {
+                        if(ord.getBarcode().getBarcode().equals(barcode)) {
+                            amount += ord.getAmount();
+                            ord.setAmount(amount);
+                            available = true;
+                            aoService.addAnOrder(ord);
+                            break;
+                        }
+                    }
+                }
+                if(available == false) {
+                   order = aoMapper.newAnOrder();
+                   //order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
+                    order.setOrderId(invoice);
+                    order.setBarcode(productService.getProductByBarcode(barcode));
+                    order.setAmount(amount);
+                    aoService.addAnOrder(order);
+                }             
+
                 item = new AnProductItem();
                 item.barcode = barcode;
-                item.amount = order.getAmount();
+                item.amount = amount;
                 rep.products.add(item);
             }
         

@@ -33,13 +33,57 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BasketControllerTest {
     @Autowired
     private MockMvc mockMvc;
-        
     
+    private String testSessId = "12345678901234567890123456789012";
+        
+    @Test
+    public void getBasketTest() throws Exception {
+        this.mockMvc.perform(get("/basket/all/" + testSessId))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("\"barcode\":\"1\"")));
+    }
     
     @Test
-    public void addInvoiceTest() throws Exception{
+    public void addNewBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();
         rq.sessionId = "12345";
+        rq.products = new ArrayList<AnProductItem>();
+        AnProductItem item = new AnProductItem();
+        item.barcode = "1";
+        item.amount = 4;
+        rq.products.add(item);
+        item = new AnProductItem();
+        item.barcode = "2";
+        item.amount = 7;
+        rq.products.add(item);
+        
+        ObjectMapper om = new ObjectMapper();
+        String content = om.writeValueAsString(rq);
+
+        MvcResult result = mockMvc.perform(post("/basket/add")
+                 .accept(MediaType.APPLICATION_JSON_UTF8)
+                 .contentType(MediaType.APPLICATION_JSON_UTF8)
+                 .content(content)
+         )
+           .andExpect(status().isOk())
+         .andReturn();
+         
+        String reply = result.getResponse().getContentAsString();
+        BasketListReply ir = om.readValue(reply, BasketListReply.class);
+        assertEquals("Reurn code in not 0",ir.retcode.longValue(), 0L);
+        /*
+        if(ir.retcode==0){
+            mockMvc.perform(delete("/invoices/del/"+ir.products.get(0).)
+                                  .accept(MediaType.APPLICATION_JSON_UTF8)
+                           )
+                    .andExpect(status().isOk());                  
+        }*/
+    }
+    
+    @Test
+    public void addUpdateBasketTest() throws Exception{
+        AddBasketRequest rq = new AddBasketRequest();
+        rq.sessionId = testSessId;
         rq.products = new ArrayList<AnProductItem>();
         AnProductItem item = new AnProductItem();
         item.barcode = "1";
