@@ -38,7 +38,7 @@ public class AnOrder implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -58,21 +58,21 @@ public class AnOrder implements Serializable {
     public AnOrder() {
     }
 
-    public AnOrder(Integer id) {
+    public AnOrder(Long id) {
         this.id = id;
     }
 
-    public AnOrder(Integer id, BigDecimal price, int amount) {
+    public AnOrder(Long id, BigDecimal price, int amount) {
         this.id = id;
         this.price = price;
         this.amount = amount;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

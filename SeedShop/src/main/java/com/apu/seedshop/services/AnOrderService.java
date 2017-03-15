@@ -4,6 +4,7 @@
  */
 package com.apu.seedshop.services;
 import com.apu.seedshop.jpa.AnOrder;
+import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.repository.AnOrderRepository;
 import java.util.List;
 import org.slf4j.Logger;
@@ -31,10 +32,21 @@ public class AnOrderService {
         return ao;
     }
     
-    public List<AnOrder> getAnOrdersByOrderId(Long orderId) {
-        List<AnOrder> ol = (List<AnOrder>) invoiceService.getInvoiceByOrderId(orderId).getAnOrderCollection();
+    public List<AnOrder> getAnOrdersByOrderId(Long orderId) {        
+        Invoice invoice = invoiceService.getInvoiceByOrderId(orderId);
+        List<AnOrder> ol = null;
+        if(invoice != null) {
+            ol = (List<AnOrder>)invoice.getAnOrderCollection();
+        }        
         return ol;        
         //return anOrderRepository.findByOrderId(invoiceService.getInvoiceByOrderId(orderId));
+    }
+    
+    public AnOrder addAnOrder(AnOrder ao) {        
+        logger.debug(String.format("Adding anOrder %s, %s with id %s", 
+                        ao.getBarcode(), ao.getAmount(), ao.getId()));
+        ao = anOrderRepository.save(ao);
+        return ao;
     }
     
     public void delAnOrder(Long id){

@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SeedAnOrder {
     @XmlElement(required=false)
-    public Integer id;
+    public Long id;
     @XmlElement(required=true)
     public Long orderId;
     @XmlElement(required=true)
