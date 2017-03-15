@@ -124,7 +124,6 @@ public class BasketController {
                     logger.error("Error add to basket. To users with equal sessId");
                 } else {
                     u = users.get(0);
-                    //List<Invoice> invoices = invoiceService.getInvoiceByUserId(u.getUserId());
                     List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
                     for(Invoice inv:invoices) {
                         if(inv.getStatusId().getStatusId() == 0) {
@@ -167,7 +166,6 @@ public class BasketController {
                 }
                 if(available == false) {
                    order = aoMapper.newAnOrder();
-                   //order.setOrderId(invoiceService.getInvoiceByOrderId(invoice.getOrderId()));
                     order.setOrderId(invoice);
                     order.setBarcode(productService.getProductByBarcode(barcode));
                     order.setAmount(amount);
