@@ -25,7 +25,7 @@ public class InvoiceService {
     }
 
     public Invoice getInvoiceByOrderId(Long orderId) {
-        Invoice i = invoiceRepository.findByOrderId(orderId).get(0);
+        Invoice i = invoiceRepository.findOne(orderId);
         return i;
     }
     
