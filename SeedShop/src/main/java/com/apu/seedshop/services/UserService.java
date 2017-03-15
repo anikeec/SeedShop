@@ -5,6 +5,7 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
+import com.apu.seedshop.jpa.Invoice;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -79,4 +80,29 @@ UserRepository userRepository;
             userRepository.delete(id);
         }
     }
+    
+//    public List findInvoiceBySessionId(String sessId) throws Exception{
+//        List list = new ArrayList();
+//        
+//        List<Appuser> users = findUserBySessionId(sessId);
+//            if(!users.isEmpty()) {
+//                //if exist, then extract invoices for this user
+//                if(users.size() > 1) {
+//                    String err = "Error delete from basket. Two users with equal session_id";
+//                    logger.error(err);
+//                    throw new Exception(err);
+//                } 
+//                Appuser u = users.get(0);
+//                List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
+//                
+//                for(Invoice inv:invoices) {
+//                    //invoiceService.delInvoice(inv.getOrderId());
+//                    list.add(inv.getOrderId());
+//                }
+//                invoices = null;
+//                u = null;                               
+//            }     
+//        users = null; 
+//        return list;
+//    }
 }

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
+import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
@@ -56,7 +57,7 @@ public class BasketController {
     ProductService productService;
     
     @RequestMapping(path="/basket/all/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BasketListReply getAllProducts(@PathVariable String sessId){
+    public BasketListReply getAllOrders(@PathVariable String sessId){
         BasketListReply rep = new BasketListReply();       
         try {  
             Invoice invoice = null;   
@@ -184,6 +185,23 @@ public class BasketController {
             logger.error("Error adding to basket. Expetion: " + e.getMessage(),e);
         }
         return rep;
+    }
+    
+    @RequestMapping(path="/basket/del/{sessId}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ModelAndView delAllProducts(@PathVariable String sessId){
+        BasketListReply rep = new BasketListReply();       
+        try {    
+            //check if session exist
+//            List<Long> delList = userService.findInvoiceBySessionId(sessId);
+//            if(delList != null) {
+//                invoiceService.delInvoices(delList);                
+//            }
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error deleting from basket. Expetion: " + e.getMessage(),e);
+        }
+        return new ModelAndView ("redirect:/invoices/del/1");//TODO - change to list
     }
     
 }

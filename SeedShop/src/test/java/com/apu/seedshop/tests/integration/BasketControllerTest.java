@@ -43,7 +43,7 @@ public class BasketControllerTest {
                 .andExpect(content().string(containsString("\"barcode\":\"1\"")));
     }
     
-    @Test
+    //@Test
     public void addNewBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();
         rq.sessionId = "12345";
@@ -71,16 +71,16 @@ public class BasketControllerTest {
         String reply = result.getResponse().getContentAsString();
         BasketListReply ir = om.readValue(reply, BasketListReply.class);
         assertEquals("Reurn code in not 0",ir.retcode.longValue(), 0L);
-        /*
+        
         if(ir.retcode==0){
-            mockMvc.perform(delete("/invoices/del/"+ir.products.get(0).)
+            mockMvc.perform(delete("/basket/del/" + testSessId)
                                   .accept(MediaType.APPLICATION_JSON_UTF8)
                            )
                     .andExpect(status().isOk());                  
-        }*/
+        }
     }
     
-    @Test
+    //@Test
     public void addUpdateBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();
         rq.sessionId = testSessId;

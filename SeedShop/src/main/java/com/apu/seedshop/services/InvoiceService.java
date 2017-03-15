@@ -41,7 +41,7 @@ public class InvoiceService {
         inv = invoiceRepository.save(inv);
         return inv;
     }
-    
+
     public void delInvoice(Long orderId){
         if(invoiceRepository.findOne(orderId) == null) {
             logger.debug("Try delete invoice - "
@@ -52,8 +52,24 @@ public class InvoiceService {
         Invoice inv = invoiceRepository.findOne(orderId);        
         logger.debug("Deleting invoice - userId = "
                         + inv.getUserId().getUserId()
-                        + ", orderId = " + inv.getOrderId());                
-        invoiceRepository.delete(inv.getOrderId());
+                        + ", orderId = " + inv.getOrderId());
+        invoiceRepository.delete(orderId);
     }
+    
+//    public void delInvoices(List<Long> ordersId){
+//        for(int i=0;i<ordersId.size();i++){
+//            if(invoiceRepository.findOne(ordersId.get(i)) == null) {
+//                logger.debug("Try delete invoice - "
+//                                    + "orderId = " + ordersId.get(i)
+//                                    + ". This orderId is absent.");
+//                return;
+//            }
+//            Invoice inv = invoiceRepository.findOne(ordersId.get(i));        
+//            logger.debug("Deleting invoice - userId = "
+//                            + inv.getUserId().getUserId()
+//                            + ", orderId = " + inv.getOrderId());
+//            invoiceRepository.delete(ordersId.get(i));
+//        }
+//    }
     
 }
