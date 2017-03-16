@@ -7,9 +7,12 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
+import com.apu.seedshop.services.UserService;
 import com.apu.seedshopapi.AddInvoiceRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.InvoiceListReply;
+import java.util.List;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,9 @@ public class InvoiceController {
     @Autowired         
     InvoiceService invoiceService;
     @Autowired
-    InvoiceMapper invoiceMapper;    
+    InvoiceMapper invoiceMapper;
+    @Autowired    
+    UserService userService;
     
     @RequestMapping(path="/invoices/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public InvoiceListReply getAllInvoices(){
@@ -42,6 +47,23 @@ public class InvoiceController {
     public InvoiceListReply getInvoiceByOrderId(@PathVariable Long orderid){
         InvoiceListReply reply = new InvoiceListReply();
         reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderid)));        
+        return reply;
+    }
+    
+    @RequestMapping(path="/invoices/bysessid/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public InvoiceListReply getInvoiceBySessionId(@PathVariable String sessId){
+        InvoiceListReply reply = new InvoiceListReply();
+        List<Long> list = null;
+        try {
+            list = userService.findInvoiceIdBySessionId(sessId);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(list != null) {
+            for(Long orderId:list) {
+                reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderId)));        
+            }
+        }
         return reply;
     }
     

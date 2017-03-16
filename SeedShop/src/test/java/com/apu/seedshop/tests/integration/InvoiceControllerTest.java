@@ -32,10 +32,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class InvoiceControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    
+    private String testSessId = "12345678901234567890123456789012";
         
     @Test
     public void findInvoiceTest() throws Exception {
+        this.mockMvc.perform(get("/invoices/all"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Петров")));
+    }
+    
+    @Test
+    public void findInvoiceByOrderIdTest() throws Exception {
         this.mockMvc.perform(get("/invoices/byid/1"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Сидоров")));
+    }
+    
+    @Test
+    public void findInvoiceBySessionIdTest() throws Exception {
+        this.mockMvc.perform(get("/invoices/bysessid/" + testSessId))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Сидоров")));
     }
