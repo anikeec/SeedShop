@@ -39,7 +39,8 @@ public class PackService {
         Pack p = packRepository.findOne(packId);
         if(p!=null){
             logger.debug(String.format("Deleting pack with id %s", packId));
-            packRepository.delete(packId);
+            //packRepository.delete(packId);
+            p.setUsed(false);
         }
     }
     
