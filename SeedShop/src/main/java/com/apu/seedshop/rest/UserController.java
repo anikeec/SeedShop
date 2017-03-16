@@ -65,6 +65,9 @@ public class UserController {
             GenericReply rep = new GenericReply();
         try{
             userService.delUser(userid);
+
+            if(userService.getUserById(userid) != null) 
+                throw new Exception("User not deleted.");
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();

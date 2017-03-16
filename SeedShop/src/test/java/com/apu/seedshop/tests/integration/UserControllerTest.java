@@ -1,6 +1,7 @@
 package com.apu.seedshop.tests.integration;
 
 import com.apu.seedshopapi.AddUserRequest;
+import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.SeedUser;
 import com.apu.seedshopapi.UserListReply;
 import static org.junit.Assert.*;
@@ -58,6 +59,8 @@ public class UserControllerTest {
         rq.user.area = "C";
         rq.user.city = "C";
         rq.user.gender = "M";
+        rq.user.temp = "true";
+        rq.user.used = "true";
         
         ObjectMapper om = new ObjectMapper();
         String content = om.writeValueAsString(rq);
@@ -72,12 +75,16 @@ public class UserControllerTest {
          
         String reply = result.getResponse().getContentAsString();
         UserListReply ur = om.readValue(reply, UserListReply.class);
-        assertEquals("Reurn code in not 0",ur.retcode.longValue(), 0L);
+        assertEquals("Return code in not 0",ur.retcode.longValue(), 0L);
         if(ur.retcode==0){
-            mockMvc.perform(delete("/users/del/"+ur.users.get(0).userId)
-                                  .accept(MediaType.APPLICATION_JSON_UTF8)
+            result = mockMvc.perform(delete("/users/del/"+ur.users.get(0).userId)
+                                    .accept(MediaType.APPLICATION_JSON_UTF8)
                            )
-                    .andExpect(status().isOk());                  
+                    .andExpect(status().isOk())
+                    .andReturn(); 
+            reply = result.getResponse().getContentAsString();
+            GenericReply gr = om.readValue(reply, GenericReply.class);
+            assertEquals("Return code in not 0. Delete false.",gr.retcode.longValue(), 0L);
         }
     }
 }

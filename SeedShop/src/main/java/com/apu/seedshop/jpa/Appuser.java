@@ -53,6 +53,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByUsed", query = "SELECT a FROM Appuser a WHERE a.used = :used")})
 public class Appuser implements Serializable {
 
+    @Column(name = "temp")
+    private Boolean temp;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -292,6 +295,14 @@ public class Appuser implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Appuser[ userId=" + userId + " ]";
+    }
+
+    public Boolean getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Boolean temp) {
+        this.temp = temp;
     }
     
 }

@@ -59,7 +59,9 @@ public class UserMapper {
             su.country = u.getCountry();
             su.region = u.getRegion();
             su.area = u.getArea();
-            su.city = u.getCity();         
+            su.city = u.getCity();
+            su.temp = "" + u.getTemp();
+            su.used = "" + u.getUsed();
         }
         return su;
     }
@@ -134,6 +136,8 @@ public class UserMapper {
         u.setRegion(su.region);
         u.setArea(su.area);
         u.setCity(su.city);
+        u.setTemp(su.temp.equals("true"));
+        u.setUsed(su.used.equals("true"));
         return u;
     }
 }

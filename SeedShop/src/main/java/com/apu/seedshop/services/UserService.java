@@ -77,7 +77,10 @@ UserRepository userRepository;
             logger.debug(String.format("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));
             //List<Ugroup> gl = u.getUgroupList();
             //detailsRepository.delete(id);
-            userRepository.delete(id);
+            if(u.getTemp() == true)
+                userRepository.delete(id);
+            else
+                u.setUsed(false);
         }
     }
     

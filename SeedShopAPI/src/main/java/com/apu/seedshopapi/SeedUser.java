@@ -36,5 +36,9 @@ public class SeedUser {
     @XmlElement(required=true)
     public String area;
     @XmlElement(required=true)
-    public String city;      
+    public String city; 
+    @XmlElement(required=true)
+    public String temp;
+    @XmlElement(required=true)
+    public String used; 
 }
