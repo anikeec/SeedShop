@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Packing.findAll", query = "SELECT p FROM Packing p")
     , @NamedQuery(name = "Packing.findByPackingId", query = "SELECT p FROM Packing p WHERE p.packingId = :packingId")
     , @NamedQuery(name = "Packing.findByWeight", query = "SELECT p FROM Packing p WHERE p.weight = :weight")
-    , @NamedQuery(name = "Packing.findByAmount", query = "SELECT p FROM Packing p WHERE p.amount = :amount")})
+    , @NamedQuery(name = "Packing.findByAmount", query = "SELECT p FROM Packing p WHERE p.amount = :amount")
+    , @NamedQuery(name = "Packing.findByUsed", query = "SELECT p FROM Packing p WHERE p.used = :used")})
 public class Packing implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +49,8 @@ public class Packing implements Serializable {
     private BigDecimal weight;
     @Column(name = "amount")
     private Integer amount;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "packingId")
     private Collection<Product> productCollection;
     @JoinColumn(name = "pack_id", referencedColumnName = "pack_id")
@@ -83,6 +86,14 @@ public class Packing implements Serializable {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     @XmlTransient

@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "AProduct.findAll", query = "SELECT a FROM AProduct a")
     , @NamedQuery(name = "AProduct.findByProductId", query = "SELECT a FROM AProduct a WHERE a.productId = :productId")
-    , @NamedQuery(name = "AProduct.findByName", query = "SELECT a FROM AProduct a WHERE a.name = :name")})
+    , @NamedQuery(name = "AProduct.findByName", query = "SELECT a FROM AProduct a WHERE a.name = :name")
+    , @NamedQuery(name = "AProduct.findByUsed", query = "SELECT a FROM AProduct a WHERE a.used = :used")})
 public class AProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,10 +48,10 @@ public class AProduct implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "name")
     private String name;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Product> productCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    private Collection<ProductProvider> productProviderCollection;
     @OneToMany(mappedBy = "parentId")
     private Collection<AProduct> aProductCollection;
     @JoinColumn(name = "parent_id", referencedColumnName = "product_id")
@@ -85,6 +86,14 @@ public class AProduct implements Serializable {
         this.name = name;
     }
 
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
+    }
+
     @XmlTransient
     public Collection<Product> getProductCollection() {
         return productCollection;
@@ -92,15 +101,6 @@ public class AProduct implements Serializable {
 
     public void setProductCollection(Collection<Product> productCollection) {
         this.productCollection = productCollection;
-    }
-
-    @XmlTransient
-    public Collection<ProductProvider> getProductProviderCollection() {
-        return productProviderCollection;
-    }
-
-    public void setProductProviderCollection(Collection<ProductProvider> productProviderCollection) {
-        this.productProviderCollection = productProviderCollection;
     }
 
     @XmlTransient

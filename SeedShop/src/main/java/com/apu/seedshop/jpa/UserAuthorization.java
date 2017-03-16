@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserAuthorization.findAll", query = "SELECT u FROM UserAuthorization u")
     , @NamedQuery(name = "UserAuthorization.findByUserId", query = "SELECT u FROM UserAuthorization u WHERE u.userId = :userId")
     , @NamedQuery(name = "UserAuthorization.findByLogin", query = "SELECT u FROM UserAuthorization u WHERE u.login = :login")
-    , @NamedQuery(name = "UserAuthorization.findByPasswdHash", query = "SELECT u FROM UserAuthorization u WHERE u.passwdHash = :passwdHash")})
+    , @NamedQuery(name = "UserAuthorization.findByPasswdHash", query = "SELECT u FROM UserAuthorization u WHERE u.passwdHash = :passwdHash")
+    , @NamedQuery(name = "UserAuthorization.findByUsed", query = "SELECT u FROM UserAuthorization u WHERE u.used = :used")})
 public class UserAuthorization implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +50,8 @@ public class UserAuthorization implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "passwd_hash")
     private String passwdHash;
+    @Column(name = "used")
+    private Boolean used;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Appuser appuser;
@@ -88,6 +91,14 @@ public class UserAuthorization implements Serializable {
 
     public void setPasswdHash(String passwdHash) {
         this.passwdHash = passwdHash;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     public Appuser getAppuser() {

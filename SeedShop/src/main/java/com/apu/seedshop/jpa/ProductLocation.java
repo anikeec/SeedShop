@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ProductLocation.findAll", query = "SELECT p FROM ProductLocation p")
     , @NamedQuery(name = "ProductLocation.findByLocationId", query = "SELECT p FROM ProductLocation p WHERE p.locationId = :locationId")
-    , @NamedQuery(name = "ProductLocation.findByName", query = "SELECT p FROM ProductLocation p WHERE p.name = :name")})
+    , @NamedQuery(name = "ProductLocation.findByName", query = "SELECT p FROM ProductLocation p WHERE p.name = :name")
+    , @NamedQuery(name = "ProductLocation.findByUsed", query = "SELECT p FROM ProductLocation p WHERE p.used = :used")})
 public class ProductLocation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,8 @@ public class ProductLocation implements Serializable {
     @Size(min = 1, max = 15)
     @Column(name = "name")
     private String name;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationId")
     private Collection<Availability> availabilityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
@@ -80,6 +83,14 @@ public class ProductLocation implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     @XmlTransient

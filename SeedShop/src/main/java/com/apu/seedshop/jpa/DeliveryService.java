@@ -8,7 +8,6 @@ package com.apu.seedshop.jpa;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "DeliveryService.findAll", query = "SELECT d FROM DeliveryService d")
     , @NamedQuery(name = "DeliveryService.findByDeliveryId", query = "SELECT d FROM DeliveryService d WHERE d.deliveryId = :deliveryId")
     , @NamedQuery(name = "DeliveryService.findByName", query = "SELECT d FROM DeliveryService d WHERE d.name = :name")
-    , @NamedQuery(name = "DeliveryService.findByCollectAvail", query = "SELECT d FROM DeliveryService d WHERE d.collectAvail = :collectAvail")})
+    , @NamedQuery(name = "DeliveryService.findByCollectAvail", query = "SELECT d FROM DeliveryService d WHERE d.collectAvail = :collectAvail")
+    , @NamedQuery(name = "DeliveryService.findByUsed", query = "SELECT d FROM DeliveryService d WHERE d.used = :used")})
 public class DeliveryService implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +50,8 @@ public class DeliveryService implements Serializable {
     @NotNull
     @Column(name = "collect_avail")
     private int collectAvail;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "deliveryId")
     private Collection<Invoice> invoiceCollection;
 
@@ -88,6 +90,14 @@ public class DeliveryService implements Serializable {
 
     public void setCollectAvail(int collectAvail) {
         this.collectAvail = collectAvail;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     @XmlTransient

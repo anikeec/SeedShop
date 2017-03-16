@@ -68,15 +68,6 @@ INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (2, 1, 0000000
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (3, 1, 0000000000003, 6.50, 4);
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (4, 2, 0000000000002, 2.25, 3);
 
-INSERT INTO PROVIDER(provider_id, name, address) VALUES (1, 'Местные', 'Чернигов, пр.Победы, 50');
-INSERT INTO PROVIDER(provider_id, name, address) VALUES (2, 'Сортсемовощ', 'Киев, пр.Мира, 25');
-INSERT INTO PROVIDER(provider_id, name, address) VALUES (3, 'Элитнасиння', 'Одесса, ул.Дерибасовская, 10');
-
-INSERT INTO PRODUCT_PROVIDER(id, product_id, provider_id) VALUES (1, 3, 1);
-INSERT INTO PRODUCT_PROVIDER(id, product_id, provider_id) VALUES (2, 3, 2);
-INSERT INTO PRODUCT_PROVIDER(id, product_id, provider_id) VALUES (3, 3, 3);
-INSERT INTO PRODUCT_PROVIDER(id, product_id, provider_id) VALUES (4, 5, 1);
-
 INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (1, 2, 0000000000001, 500);
 INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (2, 3, 0000000000001, 50);
 INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (3, 4, 0000000000001, 37);

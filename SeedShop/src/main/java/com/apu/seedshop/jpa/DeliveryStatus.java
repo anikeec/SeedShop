@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "DeliveryStatus.findAll", query = "SELECT d FROM DeliveryStatus d")
     , @NamedQuery(name = "DeliveryStatus.findByStatusId", query = "SELECT d FROM DeliveryStatus d WHERE d.statusId = :statusId")
-    , @NamedQuery(name = "DeliveryStatus.findByStatus", query = "SELECT d FROM DeliveryStatus d WHERE d.status = :status")})
+    , @NamedQuery(name = "DeliveryStatus.findByStatus", query = "SELECT d FROM DeliveryStatus d WHERE d.status = :status")
+    , @NamedQuery(name = "DeliveryStatus.findByUsed", query = "SELECT d FROM DeliveryStatus d WHERE d.used = :used")})
 public class DeliveryStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,8 @@ public class DeliveryStatus implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "status")
     private String status;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusId")
     private Collection<Invoice> invoiceCollection;
 
@@ -74,6 +77,14 @@ public class DeliveryStatus implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     @XmlTransient

@@ -27,6 +27,7 @@ CREATE TABLE APPUSER(
  area VARCHAR(30),
  city VARCHAR(30),
  sess_id VARCHAR(32),
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id),
  FOREIGN KEY (gender_id) REFERENCES USER_GENDER (gender_id)
 );
@@ -38,11 +39,10 @@ CREATE TABLE USER_AUTHORIZATION(
  user_id  BIGINT NOT NULL,
  login VARCHAR(25) NOT NULL,
  passwd_hash VARCHAR(25) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id),
  FOREIGN KEY (user_id) REFERENCES APPUSER (user_id)
 );
-
-
 
 /* info table of delivery services */
 /* DROP TABLE DELIVERY_SERVICE; */
@@ -51,6 +51,7 @@ CREATE TABLE DELIVERY_SERVICE(
  delivery_id INT NOT NULL,
  name VARCHAR(30) NOT NULL,
  collect_avail INT NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (delivery_id)
 );
 
@@ -59,7 +60,8 @@ CREATE TABLE DELIVERY_SERVICE(
 
 CREATE TABLE DELIVERY_STATUS(
  status_id INT NOT NULL,
- status VARCHAR(30) NOT NULL, 
+ status VARCHAR(30) NOT NULL,
+ used BOOLEAN DEFAULT TRUE, 
  PRIMARY KEY (status_id)
 );
 
@@ -69,6 +71,7 @@ CREATE TABLE DELIVERY_STATUS(
 CREATE TABLE PRODUCT_LOCATION(
  location_id INT NOT NULL,
  name VARCHAR(15) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (location_id)
 );
 
@@ -115,6 +118,7 @@ CREATE TABLE MANUFACTURE(
  manufact_id INT NOT NULL,
  name VARCHAR(50) NOT NULL,
  address VARCHAR(100) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (manufact_id)
 );
 
@@ -125,6 +129,7 @@ CREATE TABLE A_PRODUCT(
  product_id INT NOT NULL,
  parent_id INT,
  name VARCHAR(30) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (product_id),
  FOREIGN KEY (parent_id) REFERENCES A_PRODUCT (product_id)
 );
@@ -135,6 +140,7 @@ CREATE TABLE A_PRODUCT(
 CREATE TABLE PACK(
  pack_id INT NOT NULL,
  name VARCHAR(20) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (pack_id)
 );
 
@@ -146,6 +152,7 @@ CREATE TABLE PACKING(
  weight DECIMAL(6,2),
  amount INT,
  pack_id INT NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (packing_id),
  FOREIGN KEY (pack_id) REFERENCES PACK (pack_id)
 );
@@ -159,6 +166,7 @@ CREATE TABLE PRODUCT(
  product_id INT NOT NULL,
  packing_id INT NOT NULL,
  price DECIMAL(6,2) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (barcode),
  FOREIGN KEY (manufact_id) REFERENCES MANUFACTURE (manufact_id),
  FOREIGN KEY (product_id) REFERENCES A_PRODUCT (product_id),
@@ -177,28 +185,6 @@ CREATE TABLE AN_ORDER(
  PRIMARY KEY (id),
  FOREIGN KEY (barcode) REFERENCES PRODUCT (barcode),
  FOREIGN KEY (order_id) REFERENCES INVOICE (order_id)
-);
-
-/* info table of PROVIDER */
-/* DROP TABLE PROVIDER; */
-
-CREATE TABLE PROVIDER(
- provider_id INT NOT NULL,
- name VARCHAR(50) NOT NULL,
- address VARCHAR(100) NOT NULL,
- PRIMARY KEY (provider_id)
-);
-
-/* link table products-providers */
-/* DROP TABLE PRODUCT_PROVIDER; */
-
-CREATE TABLE PRODUCT_PROVIDER(
- id INT NOT NULL,
- product_id INT NOT NULL,
- provider_id INT NOT NULL,
- PRIMARY KEY (id),
- FOREIGN KEY (product_id) REFERENCES A_PRODUCT (product_id),
- FOREIGN KEY (provider_id) REFERENCES PROVIDER (provider_id)
 );
 
 /* info table of products availability on different locations */

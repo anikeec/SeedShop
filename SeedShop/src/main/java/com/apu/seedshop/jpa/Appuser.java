@@ -49,7 +49,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByRegion", query = "SELECT a FROM Appuser a WHERE a.region = :region")
     , @NamedQuery(name = "Appuser.findByArea", query = "SELECT a FROM Appuser a WHERE a.area = :area")
     , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")
-    , @NamedQuery(name = "Appuser.findBySessId", query = "SELECT a FROM Appuser a WHERE a.sessId = :sessId")})
+    , @NamedQuery(name = "Appuser.findBySessId", query = "SELECT a FROM Appuser a WHERE a.sessId = :sessId")
+    , @NamedQuery(name = "Appuser.findByUsed", query = "SELECT a FROM Appuser a WHERE a.used = :used")})
 public class Appuser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -105,6 +106,8 @@ public class Appuser implements Serializable {
     @Size(max = 32)
     @Column(name = "sess_id")
     private String sessId;
+    @Column(name = "used")
+    private Boolean used;
     @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
     @ManyToOne
     private UserGender genderId;
@@ -231,6 +234,14 @@ public class Appuser implements Serializable {
 
     public void setSessId(String sessId) {
         this.sessId = sessId;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     public UserGender getGenderId() {

@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
     , @NamedQuery(name = "Product.findByBarcode", query = "SELECT p FROM Product p WHERE p.barcode = :barcode")
-    , @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price")})
+    , @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price")
+    , @NamedQuery(name = "Product.findByUsed", query = "SELECT p FROM Product p WHERE p.used = :used")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +50,8 @@ public class Product implements Serializable {
     @NotNull
     @Column(name = "price")
     private BigDecimal price;
+    @Column(name = "used")
+    private Boolean used;
     @JoinColumn(name = "manufact_id", referencedColumnName = "manufact_id")
     @ManyToOne(optional = false)
     private Manufacture manufactId;
@@ -90,6 +92,14 @@ public class Product implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     public Manufacture getManufactId() {
