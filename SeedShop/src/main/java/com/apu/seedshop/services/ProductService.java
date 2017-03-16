@@ -38,7 +38,8 @@ ProductRepository productRepository;
                                         p.getPackingId(),
                                         p.getPrice(),
                                         p.getProductId()));
-            productRepository.delete(p);
+            //productRepository.delete(p);
+            p.setUsed(false);
         }
     }
 }

@@ -22,5 +22,7 @@ public class SeedProduct {
     @XmlElement(required=true)
     public String pack;
     @XmlElement(required=true)
-    public String price;     
+    public String price; 
+    @XmlElement(required=true)
+    public String used;     
 }

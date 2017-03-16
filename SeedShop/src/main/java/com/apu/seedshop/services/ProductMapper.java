@@ -33,7 +33,8 @@ public class ProductMapper {
             sp.amount = "" + p.getPackingId().getAmount();            
             sp.manufact = p.getManufactId().getName();
             sp.pack = p.getPackingId().getPackId().getName();
-            sp.price = "" + p.getPrice();       
+            sp.price = "" + p.getPrice();
+            sp.used = "" + p.getUsed();
         }
         return sp;
     }
