@@ -29,8 +29,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserServiceTest {
-    private static final Logger logger =  LoggerFactory.getLogger(UserServiceTest.class);
+public class AppuserServiceTest {
+    private static final Logger logger =  LoggerFactory.getLogger(AppuserServiceTest.class);
     Integer genderId = 1;
     Long userId = 100l;
     
@@ -40,7 +40,7 @@ public class UserServiceTest {
     @Autowired
     private UserGenderService ugService;
     
-    public UserServiceTest() {
+    public AppuserServiceTest() {
     }
     
     @BeforeClass
