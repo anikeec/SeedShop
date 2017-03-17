@@ -13,4 +13,6 @@ public class AnOrderItem {
     public String barcode; 
     @XmlElement(required=true)
     public Integer amount;
+    @XmlElement(required=true)
+    public String price;
 }
