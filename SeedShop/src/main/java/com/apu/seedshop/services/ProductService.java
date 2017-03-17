@@ -40,6 +40,7 @@ ProductRepository productRepository;
                                         p.getProductId()));
             //productRepository.delete(p);
             p.setUsed(false);
+            productRepository.save(p);
         }
     }
 }

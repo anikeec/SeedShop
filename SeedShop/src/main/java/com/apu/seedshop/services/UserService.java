@@ -81,6 +81,7 @@ UserRepository userRepository;
                 userRepository.delete(id);
             else
                 u.setUsed(false);
+                userRepository.save(u);
         }
     }
     
