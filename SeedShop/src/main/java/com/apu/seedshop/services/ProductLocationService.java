@@ -29,4 +29,28 @@ ProductLocationRepository plRepository;
         return p;
     }
     
+    public ProductLocation addProductLocation(ProductLocation p) {        
+        logger.debug(String.format("Adding ProductLocation %s with id %s", 
+                        p.getName(), p.getLocationId()));
+        p = plRepository.save(p);
+        return p;
+    }
+    
+    public void delProductLocation(Integer packId){
+        ProductLocation p = plRepository.findOne(packId);
+        if(p!=null){
+            logger.debug(String.format("Deleting ProductLocation with id %s", packId));
+            p.setUsed(false);
+            plRepository.save(p);
+        }
+    }
+    
+    public void delTestProductLocation(Integer packId){
+        ProductLocation p = plRepository.findOne(packId);
+        if(p!=null){
+            logger.debug(String.format("Deleting test ProductLocation with id %s", packId));
+            plRepository.delete(packId);
+        }
+    }
+    
 }
