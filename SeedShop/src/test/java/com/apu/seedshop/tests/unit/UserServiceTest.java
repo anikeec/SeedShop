@@ -121,6 +121,8 @@ public class UserServiceTest {
         u.setRegion("");
         u.setArea("");
         u.setCity("");
+        u.setTemp(true);
+        u.setUsed(true);
         u.setGenderId(ugService.getUserGenderById(genderId));        
         Appuser expResult = u;
         userService.addUser(u);

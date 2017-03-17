@@ -90,6 +90,13 @@ public class PackServiceTest {
         assertEquals(expResult, result);
         packService.delPack(testId);
         result = packService.getPackById(testId);
+        if(result.getUsed() == false) {
+            result = null;
+        }
+        expResult = null;
+        assertEquals(expResult, result);
+        packService.delTestPack(testId);
+        result = packService.getPackById(testId);
         expResult = null;
         assertEquals(expResult, result);
     }

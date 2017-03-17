@@ -45,4 +45,12 @@ public class PackService {
         }
     }
     
+    public void delTestPack(Integer packId){
+        Pack p = packRepository.findOne(packId);
+        if(p!=null){
+            logger.debug(String.format("Deleting test pack with id %s", packId));
+            packRepository.delete(packId);
+        }
+    }
+    
 }
