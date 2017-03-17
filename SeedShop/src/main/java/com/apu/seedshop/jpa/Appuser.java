@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,11 +49,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByArea", query = "SELECT a FROM Appuser a WHERE a.area = :area")
     , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")
     , @NamedQuery(name = "Appuser.findBySessId", query = "SELECT a FROM Appuser a WHERE a.sessId = :sessId")
+    , @NamedQuery(name = "Appuser.findByTemp", query = "SELECT a FROM Appuser a WHERE a.temp = :temp")
     , @NamedQuery(name = "Appuser.findByUsed", query = "SELECT a FROM Appuser a WHERE a.used = :used")})
 public class Appuser implements Serializable {
-
-    @Column(name = "temp")
-    private Boolean temp;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -109,13 +106,15 @@ public class Appuser implements Serializable {
     @Size(max = 32)
     @Column(name = "sess_id")
     private String sessId;
+    @Column(name = "temp")
+    private Boolean temp;
     @Column(name = "used")
     private Boolean used;
     @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
     @ManyToOne
     private UserGender genderId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "appuser")
-    private UserAuthorization userAuthorization;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<UserAuthorization> userAuthorizationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Invoice> invoiceCollection;
 
@@ -239,6 +238,14 @@ public class Appuser implements Serializable {
         this.sessId = sessId;
     }
 
+    public Boolean getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Boolean temp) {
+        this.temp = temp;
+    }
+
     public Boolean getUsed() {
         return used;
     }
@@ -255,12 +262,13 @@ public class Appuser implements Serializable {
         this.genderId = genderId;
     }
 
-    public UserAuthorization getUserAuthorization() {
-        return userAuthorization;
+    @XmlTransient
+    public Collection<UserAuthorization> getUserAuthorizationCollection() {
+        return userAuthorizationCollection;
     }
 
-    public void setUserAuthorization(UserAuthorization userAuthorization) {
-        this.userAuthorization = userAuthorization;
+    public void setUserAuthorizationCollection(Collection<UserAuthorization> userAuthorizationCollection) {
+        this.userAuthorizationCollection = userAuthorizationCollection;
     }
 
     @XmlTransient
@@ -295,14 +303,6 @@ public class Appuser implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Appuser[ userId=" + userId + " ]";
-    }
-
-    public Boolean getTemp() {
-        return temp;
-    }
-
-    public void setTemp(Boolean temp) {
-        this.temp = temp;
     }
     
 }

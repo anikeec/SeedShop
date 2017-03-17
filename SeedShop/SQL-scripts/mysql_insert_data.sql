@@ -10,8 +10,8 @@ INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, di
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, sess_id) VALUES 
 (2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси', 12345678901234567890123456789012);
 
-INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (1, 'Peter', 'asdf5gfG54fh');
-INSERT INTO USER_AUTHORIZATION(user_id, login, passwd_hash) VALUES (2, 'Oleg', 'g3456f6364fh');
+INSERT INTO USER_AUTHORIZATION(auth_id, user_id, login, passwd_hash) VALUES (1, 1, 'Peter', 'asdf5gfG54fh');
+INSERT INTO USER_AUTHORIZATION(auth_id, user_id, login, passwd_hash) VALUES (2, 2, 'Oleg', 'g3456f6364fh');
 
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (1, 'Новая почта', 1);
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (2, 'Деливери', 0);

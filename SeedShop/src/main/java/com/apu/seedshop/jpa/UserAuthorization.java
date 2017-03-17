@@ -11,9 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAuthorization.findAll", query = "SELECT u FROM UserAuthorization u")
-    , @NamedQuery(name = "UserAuthorization.findByUserId", query = "SELECT u FROM UserAuthorization u WHERE u.userId = :userId")
+    , @NamedQuery(name = "UserAuthorization.findByAuthId", query = "SELECT u FROM UserAuthorization u WHERE u.authId = :authId")
     , @NamedQuery(name = "UserAuthorization.findByLogin", query = "SELECT u FROM UserAuthorization u WHERE u.login = :login")
     , @NamedQuery(name = "UserAuthorization.findByPasswdHash", query = "SELECT u FROM UserAuthorization u WHERE u.passwdHash = :passwdHash")
     , @NamedQuery(name = "UserAuthorization.findByUsed", query = "SELECT u FROM UserAuthorization u WHERE u.used = :used")})
@@ -38,8 +38,8 @@ public class UserAuthorization implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "auth_id")
+    private Long authId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
@@ -52,29 +52,29 @@ public class UserAuthorization implements Serializable {
     private String passwdHash;
     @Column(name = "used")
     private Boolean used;
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Appuser appuser;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private Appuser userId;
 
     public UserAuthorization() {
     }
 
-    public UserAuthorization(Long userId) {
-        this.userId = userId;
+    public UserAuthorization(Long authId) {
+        this.authId = authId;
     }
 
-    public UserAuthorization(Long userId, String login, String passwdHash) {
-        this.userId = userId;
+    public UserAuthorization(Long authId, String login, String passwdHash) {
+        this.authId = authId;
         this.login = login;
         this.passwdHash = passwdHash;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getAuthId() {
+        return authId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setAuthId(Long authId) {
+        this.authId = authId;
     }
 
     public String getLogin() {
@@ -101,18 +101,18 @@ public class UserAuthorization implements Serializable {
         this.used = used;
     }
 
-    public Appuser getAppuser() {
-        return appuser;
+    public Appuser getUserId() {
+        return userId;
     }
 
-    public void setAppuser(Appuser appuser) {
-        this.appuser = appuser;
+    public void setUserId(Appuser userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
+        hash += (authId != null ? authId.hashCode() : 0);
         return hash;
     }
 
@@ -123,7 +123,7 @@ public class UserAuthorization implements Serializable {
             return false;
         }
         UserAuthorization other = (UserAuthorization) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+        if ((this.authId == null && other.authId != null) || (this.authId != null && !this.authId.equals(other.authId))) {
             return false;
         }
         return true;
@@ -131,7 +131,7 @@ public class UserAuthorization implements Serializable {
 
     @Override
     public String toString() {
-        return "com.apu.seedshop.jpa.UserAuthorization[ userId=" + userId + " ]";
+        return "com.apu.seedshop.jpa.UserAuthorization[ authId=" + authId + " ]";
     }
     
 }

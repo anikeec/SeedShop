@@ -1,6 +1,7 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
+import com.apu.seedshop.jpa.UserAuthorization;
 import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
@@ -16,9 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
-import javax.servlet.http.HttpSession;
-import com.apu.seedshop.repository.UserAuthorizationRepository;
 import com.apu.seedshop.repository.AppuserRepository;
+import java.util.List;
 
 @Component
 
@@ -32,9 +32,6 @@ public class UserMapper {
     @Autowired
     UserGenderRepository ugRepository;
     
-    @Autowired
-    UserAuthorizationRepository uaRepository;
-    
 /**
  * Maps internal JPA model to external REST model
  * @param u internal user model
@@ -44,9 +41,11 @@ public class UserMapper {
         SeedUser su = null;
         if (u != null) {
             su = new SeedUser();          
-            su.userId = u.getUserId();            
-            if(uaRepository.findByUserId(u.getUserId()).size() > 0) {
-                su.login = uaRepository.findByUserId(u.getUserId()).get(0).getLogin();
+            su.userId = u.getUserId(); 
+            if(u.getUserAuthorizationCollection() != null) {
+                List<UserAuthorization> list = 
+                        (List<UserAuthorization>)u.getUserAuthorizationCollection();
+                su.login = list.get(0).getLogin();
             }
             su.firstName = u.getFirstName();
             su.secName = u.getSecName();
