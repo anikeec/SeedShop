@@ -81,16 +81,26 @@ public class ManufactureServiceTest {
      */
     @Test
     public void testAddManufacture() throws Exception {
+        Manufacture result;
         logger.debug("Test - addManufacture");
         Manufacture m = new Manufacture();
         m.setManufactId(testId);
         m.setName("Test name");
         m.setAddress("Test address.");
+        m.setUsed(true);
         Manufacture expResult = m;
         manufactureService.addManufacture(m);
-        Manufacture result = manufactureService.getManufactureById(testId);        
+        result = manufactureService.getManufactureById(testId);        
         assertEquals(expResult, result);
         manufactureService.delManufacture(testId);
+        result = manufactureService.getManufactureById(testId);
+        if(result.getUsed() == false) {
+            result = null;
+        }
+        expResult = null;
+        assertEquals(expResult, result); 
+        //real delete test manufacture
+        manufactureService.delTestManufacture(testId);
         result = manufactureService.getManufactureById(testId);
         expResult = null;
         assertEquals(expResult, result);
