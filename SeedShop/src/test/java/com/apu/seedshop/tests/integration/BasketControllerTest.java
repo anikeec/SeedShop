@@ -1,7 +1,7 @@
 package com.apu.seedshop.tests.integration;
 
 import com.apu.seedshopapi.AddBasketRequest;
-import com.apu.seedshopapi.AnProductItem;
+import com.apu.seedshopapi.AnOrderItem;
 import com.apu.seedshopapi.BasketListReply;
 
 import org.junit.Test;
@@ -47,12 +47,12 @@ public class BasketControllerTest {
     public void addNewBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();
         rq.sessionId = "12345";
-        rq.products = new ArrayList<AnProductItem>();
-        AnProductItem item = new AnProductItem();
+        rq.products = new ArrayList<AnOrderItem>();
+        AnOrderItem item = new AnOrderItem();
         item.barcode = "1";
         item.amount = 4;
         rq.products.add(item);
-        item = new AnProductItem();
+        item = new AnOrderItem();
         item.barcode = "2";
         item.amount = 7;
         rq.products.add(item);
@@ -84,12 +84,12 @@ public class BasketControllerTest {
     public void addUpdateBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();
         rq.sessionId = testSessId;
-        rq.products = new ArrayList<AnProductItem>();
-        AnProductItem item = new AnProductItem();
+        rq.products = new ArrayList<AnOrderItem>();
+        AnOrderItem item = new AnOrderItem();
         item.barcode = "1";
         item.amount = 4;
         rq.products.add(item);
-        item = new AnProductItem();
+        item = new AnOrderItem();
         item.barcode = "2";
         item.amount = 7;
         rq.products.add(item);

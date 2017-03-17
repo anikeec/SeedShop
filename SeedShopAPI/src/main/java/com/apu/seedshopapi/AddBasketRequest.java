@@ -14,5 +14,5 @@ public class AddBasketRequest {
     @XmlElement(required=true)
     public String sessionId;
     @XmlElement(required=true)
-    public List<AnProductItem> products = new ArrayList<>();
+    public List<AnOrderItem> products = new ArrayList<>();
 }

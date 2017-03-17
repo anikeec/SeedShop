@@ -15,7 +15,7 @@ import com.apu.seedshop.services.ProductService;
 import com.apu.seedshop.services.AppuserMapper;
 import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddBasketRequest;
-import com.apu.seedshopapi.AnProductItem;
+import com.apu.seedshopapi.AnOrderItem;
 import com.apu.seedshopapi.BasketListReply;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,13 +84,13 @@ public class BasketController {
                     throw new Exception(err);
                 }
                 //get products from AnOrder for current OrderId 
-                AnProductItem item;                
+                AnOrderItem item;                
                 List<AnOrder> orders = (List<AnOrder>)invoice.getAnOrderCollection();
                 for(AnOrder order:orders){
-                    item = new AnProductItem();
+                    item = new AnOrderItem();
                     item.barcode = order.getBarcode().getBarcode();
                     item.amount = order.getAmount();
-                    rep.products.add(item);
+                    rep.orderItems.add(item);
                 }
             } 
         }catch(Exception e){
@@ -148,7 +148,7 @@ public class BasketController {
             //add products to AnOrder for current OrderId 
             String barcode;
             int amount;
-            AnProductItem item;
+            AnOrderItem item;
             AnOrder order;
             for(int i=0;i<req.products.size();i++) {
                 barcode = req.products.get(i).barcode;
@@ -173,10 +173,10 @@ public class BasketController {
                     aoService.addAnOrder(order);
                 }             
 
-                item = new AnProductItem();
+                item = new AnOrderItem();
                 item.barcode = barcode;
                 item.amount = amount;
-                rep.products.add(item);
+                rep.orderItems.add(item);
             }
         
         }catch(Exception e){

@@ -8,5 +8,5 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class BasketListReply extends GenericReply{
     @XmlElement(required=true)
-    public List<AnProductItem> products = new ArrayList<>();
+    public List<AnOrderItem> orderItems = new ArrayList<>();
 }

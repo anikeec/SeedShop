@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AnProductItem {
+public class AnOrderItem {
     @XmlElement(required=true)
     public String barcode; 
     @XmlElement(required=true)
