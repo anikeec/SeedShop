@@ -1,14 +1,12 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
-import com.apu.seedshop.repository.UserAuthorizRepository;
 import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.apu.seedshop.repository.UserRepository;
 import com.apu.seedshop.utils.EntityIdGenerator;
 import com.apu.seedshop.utils.HashGenerator;
 import java.math.BigDecimal;
@@ -19,6 +17,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import javax.servlet.http.HttpSession;
+import com.apu.seedshop.repository.UserAuthorizationRepository;
+import com.apu.seedshop.repository.AppuserRepository;
 
 @Component
 
@@ -27,13 +27,13 @@ public class UserMapper {
 
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     @Autowired
-    UserRepository userRepository;
+    AppuserRepository userRepository;
     
     @Autowired
     UserGenderRepository ugRepository;
     
     @Autowired
-    UserAuthorizRepository uaRepository;
+    UserAuthorizationRepository uaRepository;
     
 /**
  * Maps internal JPA model to external REST model
