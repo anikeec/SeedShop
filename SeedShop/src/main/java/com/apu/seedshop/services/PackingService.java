@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PackingService {
-private static final Logger logger =  LoggerFactory.getLogger(PackingService.class);   
+    private static final Logger logger =  LoggerFactory.getLogger(PackingService.class);   
 
-@Autowired
-PackingRepository packingRepository;
+    @Autowired
+    PackingRepository packingRepository;
 
   
     public List<Packing> getAllPackings(){
