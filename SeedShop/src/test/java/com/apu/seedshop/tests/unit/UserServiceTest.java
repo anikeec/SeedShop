@@ -35,7 +35,7 @@ public class UserServiceTest {
     Long userId = 100l;
     
     @Autowired
-    private UserService usersService;
+    private UserService userService;
     
     @Autowired
     private UserGenderService ugService;
@@ -69,7 +69,7 @@ public class UserServiceTest {
     @Test
     public void testGetAllUsers() throws Exception {
         logger.debug("Test - getAllUsers");
-        List<Appuser> result = usersService.getAllUsers();
+        List<Appuser> result = userService.getAllUsers();
         int count = result.size();
         int expCount = 2;
         assert(expCount <= count);
@@ -84,7 +84,7 @@ public class UserServiceTest {
         logger.debug("Test - getUserById");
         Long id = 2l;
         Appuser notExpResult = null;
-        Appuser result = usersService.getUserById(id);
+        Appuser result = userService.getUserById(id);
         assert(result != notExpResult);
     }
 
@@ -97,7 +97,7 @@ public class UserServiceTest {
         logger.debug("Test - findUserByName");
         String name = "пет";
         Long expResult = 1l;
-        List<Appuser> result = usersService.findUserByName(name);
+        List<Appuser> result = userService.findUserByName(name);
         assertEquals(result.get(0).getUserId(), expResult);
     }
 
@@ -121,14 +121,13 @@ public class UserServiceTest {
         u.setRegion("");
         u.setArea("");
         u.setCity("");
-        u.setGenderId(ugService.getUserGenderById(genderId));
-        
+        u.setGenderId(ugService.getUserGenderById(genderId));        
         Appuser expResult = u;
-        usersService.addUser(u);
-        Appuser result = usersService.getUserById(userId);
+        userService.addUser(u);
+        Appuser result = userService.getUserById(userId);
         assertEquals(expResult, result);
-        usersService.delUser(userId);
-        result = usersService.getUserById(userId);
+        userService.delUser(userId);
+        result = userService.getUserById(userId);
         expResult = null;
         assertEquals(expResult, result);
     }
