@@ -18,7 +18,6 @@ public class PackingService {
 
     @Autowired
     PackingRepository packingRepository;
-
   
     public List<Packing> getAllPackings(){
         return  packingRepository.findAll();
@@ -27,6 +26,30 @@ public class PackingService {
     public Packing getPackingById(Integer packingId) {
         Packing p = packingRepository.findOne(packingId);
         return p;
+    }
+    
+    public Packing addPacking(Packing p) { 
+        logger.debug(String.format("Adding packing w=%s, a=%s, p=%s with id %s", 
+               p.getWeight(), p.getAmount(), p.getPackId().getPackId(), p.getPackId()));
+        p = packingRepository.save(p);
+        return p;
+    }
+    
+    public void delPacking(Integer packingId){
+        Packing p = packingRepository.findOne(packingId);
+        if(p!=null){
+            logger.debug(String.format("Deleting packing with id %s", packingId));
+            p.setUsed(false);
+            packingRepository.save(p);
+        }
+    }
+    
+    public void delTestPacking(Integer packingId){
+        Packing p = packingRepository.findOne(packingId);
+        if(p!=null){
+            logger.debug(String.format("Deleting test packing with id %s", packingId));
+            packingRepository.delete(packingId);
+        }
     }
     
 }
