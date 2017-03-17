@@ -36,7 +36,7 @@ public class InvoiceMapper {
     ProductLocationService plService;
     
     @Autowired
-    UserService userService;
+    AppuserService userService;
     
 /**
  * Maps internal JPA model to external REST model

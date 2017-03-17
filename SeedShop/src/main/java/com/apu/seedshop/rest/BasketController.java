@@ -12,8 +12,8 @@ import com.apu.seedshop.services.AnOrderService;
 import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
 import com.apu.seedshop.services.ProductService;
-import com.apu.seedshop.services.UserMapper;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserMapper;
+import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddBasketRequest;
 import com.apu.seedshopapi.AnProductItem;
 import com.apu.seedshopapi.BasketListReply;
@@ -42,10 +42,10 @@ public class BasketController {
     InvoiceMapper invoiceMapper;
     
     @Autowired
-    UserService userService;
+    AppuserService userService;
     
     @Autowired
-    UserMapper userMapper;
+    AppuserMapper userMapper;
     
     @Autowired
     AnOrderService aoService;

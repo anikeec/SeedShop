@@ -9,7 +9,7 @@ import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshop.jpa.UserGender;
 import com.apu.seedshop.repository.InvoiceRepository;
 import com.apu.seedshop.services.UserGenderService;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +35,7 @@ public class UserServiceTest {
     Long userId = 100l;
     
     @Autowired
-    private UserService userService;
+    private AppuserService userService;
     
     @Autowired
     private UserGenderService ugService;

@@ -9,7 +9,7 @@ import com.apu.seedshop.jpa.AnOrder;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.services.DeliveryStatusService;
 import com.apu.seedshop.services.InvoiceService;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +40,7 @@ public class InvoiceServiceTest {
     DeliveryStatusService dStatService;
     
     @Autowired
-    UserService userService; 
+    AppuserService userService; 
     
     public InvoiceServiceTest() {
     }

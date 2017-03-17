@@ -22,8 +22,8 @@ import java.util.List;
 
 @Component
 
-public class UserMapper {
-    private static final Logger logger =  LoggerFactory.getLogger(UserMapper.class);
+public class AppuserMapper {
+    private static final Logger logger =  LoggerFactory.getLogger(AppuserMapper.class);
 
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     @Autowired
@@ -124,7 +124,7 @@ public class UserMapper {
         try { 
             date = format.parse(su.birthday);//"15.03.1980"
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppuserMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         u.setBirthday(date);
         u.setDiscount(new BigDecimal(su.discount));

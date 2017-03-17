@@ -16,8 +16,8 @@ import com.apu.seedshop.repository.AppuserRepository;
 
 
 @Service
-public class UserService {
-private static final Logger logger =  LoggerFactory.getLogger(UserService.class);   
+public class AppuserService {
+private static final Logger logger =  LoggerFactory.getLogger(AppuserService.class);   
 
 @Autowired
 AppuserRepository userRepository;

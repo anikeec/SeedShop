@@ -10,7 +10,7 @@ import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshop.jpa.UserAuthorization;
 import com.apu.seedshop.repository.AppuserRepository;
 import com.apu.seedshop.services.UserAuthorizationService;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserService;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -37,7 +37,7 @@ public class UserAuthorizationServiceTest {
     UserAuthorizationService uaService;
     
     @Autowired
-    UserService userService;
+    AppuserService userService;
     
     public UserAuthorizationServiceTest() {
     }

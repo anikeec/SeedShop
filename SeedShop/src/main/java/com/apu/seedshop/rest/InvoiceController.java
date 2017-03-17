@@ -7,7 +7,7 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddInvoiceRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.InvoiceListReply;
@@ -32,7 +32,7 @@ public class InvoiceController {
     @Autowired
     InvoiceMapper invoiceMapper;
     @Autowired    
-    UserService userService;
+    AppuserService userService;
     
     @RequestMapping(path="/invoices/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public InvoiceListReply getAllInvoices(){

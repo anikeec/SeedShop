@@ -5,8 +5,8 @@
 package com.apu.seedshop.rest;
 
 import com.apu.seedshop.jpa.Appuser;
-import com.apu.seedshop.services.UserMapper;
-import com.apu.seedshop.services.UserService;
+import com.apu.seedshop.services.AppuserMapper;
+import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddUserRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.UserListReply;
@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private static final Logger logger =  LoggerFactory.getLogger(UserController.class);
     @Autowired         
-    UserService userService;
+    AppuserService userService;
     @Autowired
-    UserMapper userMapper;    
+    AppuserMapper userMapper;    
     
     @RequestMapping(path="/users/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserListReply getAllUsers(){
