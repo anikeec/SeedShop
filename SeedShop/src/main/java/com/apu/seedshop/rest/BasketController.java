@@ -170,8 +170,8 @@ public class BasketController {
                 if(availableOrders != null) {
                     for(AnOrder ord: availableOrders) {
                         if(ord.getBarcode().getBarcode().equals(barcode)) {
-                            //amount += ord.getAmount();
-                            ord.setAmount(ord.getAmount());//amount
+                            amount += ord.getAmount();
+                            ord.setAmount(amount);////ord.getAmount()
                             available = true;
                             anOrderId = aoService.addAnOrder(ord).getId();
                             break;
