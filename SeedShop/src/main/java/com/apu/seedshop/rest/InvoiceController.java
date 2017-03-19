@@ -9,6 +9,7 @@ import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
 import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddInvoiceRequest;
+import com.apu.seedshopapi.DeleteInvoiceListRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.InvoiceListReply;
 import java.util.List;
@@ -87,6 +88,24 @@ public class InvoiceController {
         GenericReply rep = new GenericReply();
         try{
             invoiceService.delInvoice(orderid);
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error delete invoice. Expetion: " + e.getMessage(),e);
+        }
+        return rep;       
+    }
+    
+    @RequestMapping(path="/invoices/del/list",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public GenericReply delListInvoices(@RequestBody DeleteInvoiceListRequest req){
+        GenericReply rep = new GenericReply();
+        try{
+            Invoice inv;
+            for(Long id:req.invoicesId) {
+                inv = invoiceService.getInvoiceByOrderId(id);
+                inv.getUserId().getInvoiceCollection().remove(inv); //maybe its hack???
+                invoiceService.delInvoice(id);
+            }
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();

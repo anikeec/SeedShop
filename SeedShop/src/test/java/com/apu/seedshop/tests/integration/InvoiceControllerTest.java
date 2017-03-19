@@ -33,7 +33,7 @@ public class InvoiceControllerTest {
     @Autowired
     private MockMvc mockMvc;
     
-    private String testSessId = "12345678901234567890123456789012";
+    private String testSessId = "12345678901234567890123456789015";
         
     @Test
     public void findInvoiceTest() throws Exception {

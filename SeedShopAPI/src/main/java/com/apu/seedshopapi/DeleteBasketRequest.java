@@ -4,17 +4,17 @@
  */
 package com.apu.seedshopapi;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AnOrderItem {
+public class DeleteBasketRequest {
     @XmlElement(required=true)
-    public Long id;
+    public String sessionId;
     @XmlElement(required=true)
-    public String barcode; 
+    public List<Long> invoicesId = new ArrayList<>();
     @XmlElement(required=true)
-    public Integer amount;
-    @XmlElement(required=true)
-    public String price;
+    public List<Long> ordersId = new ArrayList<>();
 }

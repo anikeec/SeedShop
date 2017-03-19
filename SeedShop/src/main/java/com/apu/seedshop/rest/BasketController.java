@@ -17,6 +17,10 @@ import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddBasketRequest;
 import com.apu.seedshopapi.AnOrderItem;
 import com.apu.seedshopapi.BasketListReply;
+import com.apu.seedshopapi.DeleteBasketRequest;
+import com.apu.seedshopapi.DeleteInvoiceListRequest;
+import com.apu.seedshopapi.DeleteOrderListRequest;
+import com.apu.seedshopapi.GenericReply;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -42,6 +46,9 @@ public class BasketController {
     InvoiceMapper invoiceMapper;
     
     @Autowired
+    InvoiceController invoiceController;
+    
+    @Autowired
     AppuserService userService;
     
     @Autowired
@@ -49,6 +56,9 @@ public class BasketController {
     
     @Autowired
     AnOrderService aoService;
+    
+    @Autowired
+    AnOrderController aoController;
     
     @Autowired
     AnOrderMapper aoMapper;
@@ -88,6 +98,7 @@ public class BasketController {
                 List<AnOrder> orders = (List<AnOrder>)invoice.getAnOrderCollection();
                 for(AnOrder order:orders){
                     item = new AnOrderItem();
+                    item.id = order.getId();
                     item.barcode = order.getBarcode().getBarcode();
                     item.amount = order.getAmount();
                     rep.orderItems.add(item);
@@ -117,6 +128,7 @@ public class BasketController {
             if(users.isEmpty()) {
                 //if not exist, then create new appuser & new invoice, extract orderId
                 u = userMapper.newUser();
+                u.setSessId(sessionId);
                 userService.addUser(u);
 
             } else {
@@ -146,6 +158,7 @@ public class BasketController {
             }           
 
             //add products to AnOrder for current OrderId 
+            Long anOrderId = null;
             String barcode;
             int amount;
             AnOrderItem item;
@@ -157,16 +170,17 @@ public class BasketController {
                 if(availableOrders != null) {
                     for(AnOrder ord: availableOrders) {
                         if(ord.getBarcode().getBarcode().equals(barcode)) {
-                            amount += ord.getAmount();
-                            ord.setAmount(amount);
+                            //amount += ord.getAmount();
+                            ord.setAmount(ord.getAmount());//amount
                             available = true;
-                            aoService.addAnOrder(ord);
+                            anOrderId = aoService.addAnOrder(ord).getId();
                             break;
                         }
                     }
                 }
                 if(available == false) {
                    order = aoMapper.newAnOrder();
+                   anOrderId = order.getId();
                     order.setOrderId(invoice);
                     order.setBarcode(productService.getProductByBarcode(barcode));
                     order.setAmount(amount);
@@ -174,6 +188,7 @@ public class BasketController {
                 }             
 
                 item = new AnOrderItem();
+                item.id = anOrderId;
                 item.barcode = barcode;
                 item.amount = amount;
                 rep.orderItems.add(item);
@@ -187,21 +202,77 @@ public class BasketController {
         return rep;
     }
     
-    @RequestMapping(path="/basket/del/{sessId}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ModelAndView delAllProducts(@PathVariable String sessId){
-        BasketListReply rep = new BasketListReply();       
-        try {    
+    @RequestMapping(path="/basket/del/invoice",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public GenericReply delAllProducts(@RequestBody DeleteBasketRequest req){             
+        GenericReply rep = new GenericReply();
+        try {  
+            DeleteInvoiceListRequest dilr = new DeleteInvoiceListRequest();
             //check if session exist
-//            List<Long> delList = userService.findInvoiceBySessionId(sessId);
-//            if(delList != null) {
-//                invoiceService.delInvoices(delList);                
-//            }
+            List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
+            if((req.invoicesId != null)&&(req.invoicesId.isEmpty())) {
+                //delete all invoices for current sessionId                
+                for(Long id:delList) {
+                    if(invoiceService.getInvoiceByOrderId(id).getStatusId().getStatusId() == 0) {
+                        //I can groupdelete only for temp invoices
+                        dilr.invoicesId.add(id);
+                    }
+                }
+            } 
+            if((req.invoicesId != null)&&(!req.invoicesId.isEmpty())) {
+                //delete only invoices in the list of invoices
+                for(Long id:req.invoicesId) {
+                    if(delList.contains(id)) {
+                        dilr.invoicesId.add(id);
+                    }
+                }
+            }
+            return invoiceController.delListInvoices(dilr);
+        }catch(Exception e){            
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error deleting basket. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
+    @RequestMapping(path="/basket/del/order",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public GenericReply delAllProductsBySessId(@RequestBody DeleteBasketRequest req){//ModelAndView
+        GenericReply rep = new GenericReply();       
+        try {    
+            DeleteOrderListRequest dolr = new DeleteOrderListRequest();
+            //check if user with current sessionId exist
+            Appuser user = null;
+            if(userService.findUserBySessionId(req.sessionId) != null) {
+                user = userService.findUserBySessionId(req.sessionId).get(0);
+            }
+            //check can this user delete AnOrder with current ID
+            if((req.ordersId != null)&&(!req.ordersId.isEmpty())) {                
+                //find invoice with statusId = 0
+                Invoice currentInvoice = null;
+                List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
+                for(Long id:delList) {
+                    if(invoiceService.getInvoiceByOrderId(id).getStatusId().getStatusId() == 0) {
+                        currentInvoice = invoiceService.getInvoiceByOrderId(id);
+                        break;
+                    }
+                }
+                //delete only orders in the currentInvoice
+                if(currentInvoice != null) {
+                    for(Long id:req.ordersId) {
+                        if(currentInvoice.getAnOrderCollection().contains(aoService.getAnOrderById(id))) {
+                            dolr.ordersId.add(id);
+                        }
+                    }
+                }
+            }     
+            return aoController.delListOrders(dolr);
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
             logger.error("Error deleting from basket. Expetion: " + e.getMessage(),e);
         }
-        return new ModelAndView ("redirect:/invoices/del/1");//TODO - change to list
+        //return new ModelAndView ("redirect:/invoices/del/1");//TODO - change to list
+        return rep;
     }
     
 }
