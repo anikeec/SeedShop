@@ -7,6 +7,7 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.AnOrder;
 import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshop.jpa.Invoice;
+import com.apu.seedshop.jpa.Product;
 import com.apu.seedshop.services.AnOrderMapper;
 import com.apu.seedshop.services.AnOrderService;
 import com.apu.seedshop.services.InvoiceMapper;
@@ -16,11 +17,13 @@ import com.apu.seedshop.services.AppuserMapper;
 import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshopapi.AddBasketRequest;
 import com.apu.seedshopapi.AnOrderItem;
+import com.apu.seedshopapi.BasketItem;
 import com.apu.seedshopapi.BasketListReply;
 import com.apu.seedshopapi.DeleteBasketRequest;
 import com.apu.seedshopapi.DeleteInvoiceListRequest;
 import com.apu.seedshopapi.DeleteOrderListRequest;
 import com.apu.seedshopapi.GenericReply;
+import com.apu.seedshopapi.SeedProduct;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -94,14 +97,23 @@ public class BasketController {
                     throw new Exception(err);
                 }
                 //get products from AnOrder for current OrderId 
-                AnOrderItem item;                
+                BasketItem item; 
+                Product product;
                 List<AnOrder> orders = (List<AnOrder>)invoice.getAnOrderCollection();
                 for(AnOrder order:orders){
-                    item = new AnOrderItem();
-                    item.id = order.getId();
-                    item.barcode = order.getBarcode().getBarcode();
-                    item.amount = order.getAmount();
-                    rep.orderItems.add(item);
+                    item = new BasketItem();                   
+                    item.product = new SeedProduct();
+                    item.product.barcode = order.getBarcode().getBarcode();                    
+                    item.orderId = order.getId();                    
+                    item.count = order.getAmount();
+                    product = productService.getProductByBarcode(item.product.barcode);
+                    item.product.name = product.getProductId().getName();
+                    item.product.manufact = product.getManufactId().getName();
+                    item.product.pack = product.getPackingId().getPackId().getName();
+                    item.product.weight = "" + product.getPackingId().getWeight();
+                    item.product.amount = "" + product.getPackingId().getAmount();
+                    item.product.price = "" + product.getPrice();                            
+                    rep.basketItems.add(item);
                 }
             } 
         }catch(Exception e){
@@ -161,7 +173,7 @@ public class BasketController {
             Long anOrderId = null;
             String barcode;
             int amount;
-            AnOrderItem item;
+            BasketItem item;
             AnOrder order;
             for(int i=0;i<req.products.size();i++) {
                 barcode = req.products.get(i).barcode;
@@ -187,11 +199,12 @@ public class BasketController {
                     aoService.addAnOrder(order);
                 }             
 
-                item = new AnOrderItem();
-                item.id = anOrderId;
-                item.barcode = barcode;
-                item.amount = amount;
-                rep.orderItems.add(item);
+                item = new BasketItem();
+                item.product = new SeedProduct();
+                item.orderId = anOrderId;
+                item.product.barcode = barcode;
+                item.count = amount;
+                rep.basketItems.add(item);
             }
         
         }catch(Exception e){

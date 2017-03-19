@@ -90,7 +90,7 @@ public class BasketControllerTest {
                     .andExpect(status().isOk());                  
         }
     }
-    
+    /*
     @Test
     public void deleteOrdersFromBasketTest() throws Exception{        
         AddBasketRequest rq = new AddBasketRequest();
@@ -146,7 +146,7 @@ public class BasketControllerTest {
         
         //TODO - delete new created user with invoice        
     }
-    
+    */
     //@Test
     public void addUpdateBasketTest() throws Exception{
         AddBasketRequest rq = new AddBasketRequest();

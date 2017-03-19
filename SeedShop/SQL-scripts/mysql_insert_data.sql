@@ -45,9 +45,11 @@ INSERT INTO MANUFACTURE(manufact_id, name, address) VALUES (2, 'Семена Украины',
 
 INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (1, NULL, 'овощи');
 INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (2, 1, 'огурец');
-INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (3, 2, 'зозуля');
+INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (3, 2, 'Огурец зозуля');
 INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (4, 1, 'помидор');
-INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (5, 4, 'сливка');
+INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (5, 4, 'Помидор сливка');
+INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (6, 4, 'Помидор розовый');
+INSERT INTO A_PRODUCT(product_id, parent_id, name) VALUES (7, 2, 'Огурец засолочный');
 
 INSERT INTO PACK(pack_id, name) VALUES (1, 'Маленькая');
 INSERT INTO PACK(pack_id, name) VALUES (2, 'Средняя');
@@ -62,6 +64,8 @@ INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES 
 INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES (0000000000002, 1, 3, 2, 5.00);
 INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES (0000000000003, 1, 3, 3, 6.80);
 INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES (0000000000004, 2, 5, 4, 4.55);
+INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES (0000000000005, 1, 6, 2, 3.65);
+INSERT INTO PRODUCT(barcode, manufact_id, product_id, packing_id, price) VALUES (0000000000006, 2, 7, 2, 5.20);
 
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (1, 1, 0000000000001, 2.25, 5);
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (2, 1, 0000000000002, 4.75, 8);
