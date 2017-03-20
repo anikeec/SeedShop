@@ -6,7 +6,14 @@ package com.apu.seedshop.services;
 import com.apu.seedshop.jpa.AnOrder;
 import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.repository.InvoiceRepository;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +47,55 @@ public class InvoiceService {
                         + ", orderId = " + inv.getOrderId()); 
         inv = invoiceRepository.save(inv);
         return inv;
+    }
+    
+    public Invoice updateInvoice(Invoice inv) {
+        logger.debug("Update invoice - userId = "
+                        + inv.getUserId().getUserId()
+                        + ", orderId = " + inv.getOrderId()); 
+        Invoice oldInv = getInvoiceByOrderId(inv.getOrderId());
+        
+        if(inv.getCurrentLocId() != null)
+            oldInv.setCurrentLocId(inv.getCurrentLocId());
+        if(inv.getDeclaration() != null)
+            oldInv.setDeclaration(inv.getDeclaration()); 
+        if(inv.getDeliveryId() != null)
+            oldInv.setDeliveryId(inv.getDeliveryId());
+        if(inv.getDeliveryOffice() != null)
+            oldInv.setDeliveryOffice(inv.getDeliveryOffice());
+        if(inv.getDestinationId() != null)
+            oldInv.setDestinationId(inv.getDestinationId());
+        if(inv.getDiscount() != null)
+            oldInv.setDiscount(inv.getDiscount());
+        if(inv.getFirstName() != null)
+            oldInv.setFirstName(inv.getFirstName());
+        if(inv.getOrderDate() != null)
+            oldInv.setOrderDate(inv.getOrderDate());
+        if(inv.getOrderId() != null)
+            oldInv.setOrderId(inv.getOrderId());
+        if(inv.getPaidDate() != null)
+            oldInv.setPaidDate(inv.getPaidDate());
+        if(inv.getPay() != null)
+            oldInv.setPay(inv.getPay());
+        if(inv.getPhone() != null)
+            oldInv.setPhone(inv.getPhone());
+        if(inv.getPrepayment() != null)
+            oldInv.setPrepayment(inv.getPrepayment());
+        if(inv.getSecName() != null)
+            oldInv.setSecName(inv.getSecName());
+        if(inv.getSentDate() != null)
+            oldInv.setSentDate(inv.getSentDate());
+        if(inv.getStatusId() != null)
+            oldInv.setStatusId(inv.getStatusId());
+        if(inv.getSourceId() != null)
+            oldInv.setSourceId(inv.getSourceId());
+        if(inv.getThirdName() != null)
+            oldInv.setThirdName(inv.getThirdName());
+        if(inv.getUserId() != null)
+            oldInv.setUserId(inv.getUserId());     
+        
+        oldInv = invoiceRepository.save(oldInv);
+        return oldInv;
     }
 
     public void delInvoice(Long orderId){

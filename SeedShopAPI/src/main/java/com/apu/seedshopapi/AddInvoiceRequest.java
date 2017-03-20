@@ -10,5 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AddInvoiceRequest {
     @XmlElement(required=true)
+    public String sessionId;
+    @XmlElement(required=true)
     public SeedInvoice invoice;      
 }

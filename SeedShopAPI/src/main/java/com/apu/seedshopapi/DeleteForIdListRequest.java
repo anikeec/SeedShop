@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class DeleteInvoiceListRequest {
+public class DeleteForIdListRequest {
     @XmlElement(required=true)
-    public List<Long> invoicesId = new ArrayList<>();
+    public List<Long> itemsId = new ArrayList<>();
 }

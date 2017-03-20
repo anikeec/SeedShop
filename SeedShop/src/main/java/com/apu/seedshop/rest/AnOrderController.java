@@ -9,7 +9,7 @@ import com.apu.seedshop.services.AnOrderMapper;
 import com.apu.seedshop.services.AnOrderService;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.AnOrderListReply;
-import com.apu.seedshopapi.DeleteOrderListRequest;
+import com.apu.seedshopapi.DeleteForIdListRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +61,11 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/del/list",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delListOrders(@RequestBody DeleteOrderListRequest req){
+    public GenericReply delListOrders(@RequestBody DeleteForIdListRequest req){
         GenericReply rep = new GenericReply();
         try{
             AnOrder order;
-            for(Long id:req.ordersId) {
+            for(Long id:req.itemsId) {
                 order = anOrderService.getAnOrderById(id);
                 order.getOrderId().getAnOrderCollection().remove(order); //maybe its hack???
                 anOrderService.delAnOrder(id);

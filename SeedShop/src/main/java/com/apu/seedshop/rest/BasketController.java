@@ -15,13 +15,13 @@ import com.apu.seedshop.services.InvoiceService;
 import com.apu.seedshop.services.ProductService;
 import com.apu.seedshop.services.AppuserMapper;
 import com.apu.seedshop.services.AppuserService;
+import com.apu.seedshop.services.BasketMapper;
 import com.apu.seedshopapi.AddBasketRequest;
 import com.apu.seedshopapi.AnOrderItem;
 import com.apu.seedshopapi.BasketItem;
 import com.apu.seedshopapi.BasketListReply;
 import com.apu.seedshopapi.DeleteBasketRequest;
-import com.apu.seedshopapi.DeleteInvoiceListRequest;
-import com.apu.seedshopapi.DeleteOrderListRequest;
+import com.apu.seedshopapi.DeleteForIdListRequest;
 import com.apu.seedshopapi.GenericReply;
 import com.apu.seedshopapi.SeedProduct;
 import java.util.ArrayList;
@@ -69,6 +69,9 @@ public class BasketController {
     @Autowired
     ProductService productService;
     
+    @Autowired
+    BasketMapper basketMapper;
+    
     @RequestMapping(path="/basket/all/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BasketListReply getAllOrders(@PathVariable String sessId){
         BasketListReply rep = new BasketListReply();       
@@ -96,25 +99,9 @@ public class BasketController {
                     logger.error(err);
                     throw new Exception(err);
                 }
-                //get products from AnOrder for current OrderId 
-                BasketItem item; 
-                Product product;
+                //get products from AnOrder for current Invoice                
                 List<AnOrder> orders = (List<AnOrder>)invoice.getAnOrderCollection();
-                for(AnOrder order:orders){
-                    item = new BasketItem();                   
-                    item.product = new SeedProduct();
-                    item.product.barcode = order.getBarcode().getBarcode();                    
-                    item.orderId = order.getId();                    
-                    item.count = order.getAmount();
-                    product = productService.getProductByBarcode(item.product.barcode);
-                    item.product.name = product.getProductId().getName();
-                    item.product.manufact = product.getManufactId().getName();
-                    item.product.pack = product.getPackingId().getPackId().getName();
-                    item.product.weight = "" + product.getPackingId().getWeight();
-                    item.product.amount = "" + product.getPackingId().getAmount();
-                    item.product.price = "" + product.getPrice();                            
-                    rep.basketItems.add(item);
-                }
+                rep = basketMapper.fromInternal(orders);
             } 
         }catch(Exception e){
             rep.retcode = -1;
@@ -219,23 +206,22 @@ public class BasketController {
     public GenericReply delAllProducts(@RequestBody DeleteBasketRequest req){             
         GenericReply rep = new GenericReply();
         try {  
-            DeleteInvoiceListRequest dilr = new DeleteInvoiceListRequest();
+            DeleteForIdListRequest dilr = new DeleteForIdListRequest();
             //check if session exist
             List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
-            if((req.invoicesId != null)&&(req.invoicesId.isEmpty())) {
+            if((req.itemsId != null)&&(req.itemsId.isEmpty())) {
                 //delete all invoices for current sessionId                
                 for(Long id:delList) {
-                    if(invoiceService.getInvoiceByOrderId(id).getStatusId().getStatusId() == 0) {
-                        //I can groupdelete only for temp invoices
-                        dilr.invoicesId.add(id);
+                    if(invoiceService.getInvoiceByOrderId(id).getStatusId().getStatusId() == 0) {                        
+                        dilr.itemsId.add(id);//I can groupdelete only for temp invoices
                     }
                 }
             } 
-            if((req.invoicesId != null)&&(!req.invoicesId.isEmpty())) {
+            if((req.itemsId != null)&&(!req.itemsId.isEmpty())) {
                 //delete only invoices in the list of invoices
-                for(Long id:req.invoicesId) {
+                for(Long id:req.itemsId) {
                     if(delList.contains(id)) {
-                        dilr.invoicesId.add(id);
+                        dilr.itemsId.add(id);
                     }
                 }
             }
@@ -252,14 +238,14 @@ public class BasketController {
     public GenericReply delAllProductsBySessId(@RequestBody DeleteBasketRequest req){//ModelAndView
         GenericReply rep = new GenericReply();       
         try {    
-            DeleteOrderListRequest dolr = new DeleteOrderListRequest();
+            DeleteForIdListRequest dolr = new DeleteForIdListRequest();
             //check if user with current sessionId exist
             Appuser user = null;
             if(userService.findUserBySessionId(req.sessionId) != null) {
                 user = userService.findUserBySessionId(req.sessionId).get(0);
             }
             //check can this user delete AnOrder with current ID
-            if((req.ordersId != null)&&(!req.ordersId.isEmpty())) {                
+            if((req.itemsId != null)&&(!req.itemsId.isEmpty())) {                
                 //find invoice with statusId = 0
                 Invoice currentInvoice = null;
                 List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
@@ -271,9 +257,9 @@ public class BasketController {
                 }
                 //delete only orders in the currentInvoice
                 if(currentInvoice != null) {
-                    for(Long id:req.ordersId) {
+                    for(Long id:req.itemsId) {
                         if(currentInvoice.getAnOrderCollection().contains(aoService.getAnOrderById(id))) {
-                            dolr.ordersId.add(id);
+                            dolr.itemsId.add(id);
                         }
                     }
                 }

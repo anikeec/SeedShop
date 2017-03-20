@@ -14,7 +14,5 @@ public class DeleteBasketRequest {
     @XmlElement(required=true)
     public String sessionId;
     @XmlElement(required=true)
-    public List<Long> invoicesId = new ArrayList<>();
-    @XmlElement(required=true)
-    public List<Long> ordersId = new ArrayList<>();
+    public List<Long> itemsId = new ArrayList<>();
 }
