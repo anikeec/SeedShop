@@ -187,7 +187,7 @@ public class InvoiceMapper {
         if(si.discount != null)
             inv.setDiscount(new BigDecimal(si.discount));
         else
-            
+            inv.setDiscount(null);
                 
         if(si.pay != null)
             inv.setPay(new BigDecimal(si.pay));
