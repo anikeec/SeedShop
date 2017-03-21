@@ -117,33 +117,30 @@ public class BasketController {
         BasketListReply rep = new BasketListReply();
         //open request
         //check if session exist
-        String sessionId = req.sessionId;
-        List<Appuser> users = userService.findUserBySessionId(sessionId);
+        String sessionId = req.sessionId;        
         Appuser u = null;
         Invoice invoice = null;
+        List<Appuser> users = userService.findUserBySessionId(sessionId);        
         
         try {
         
-            if(users.isEmpty()) {
-                //if not exist, then create new appuser & new invoice, extract orderId
+            if(users.isEmpty()) {   //if not exist, then create new appuser & new invoice, extract orderId                
                 u = userMapper.newUser();
                 u.setSessId(sessionId);
                 userService.addUser(u);
-
-            } else {
-                //if exist, then extract userId, then OrderId for this user
+            } else {                //if exist, then extract userId, then OrderId for this user                
                 if(users.size() > 1) {
-                    logger.error("Error add to basket. To users with equal sessId");
-                } else {
-                    u = users.get(0);
-                    List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
-                    for(Invoice inv:invoices) {
-                        if(inv.getStatusId().getStatusId() == 0) {
-                            invoice = inv;
-                            break;
-                        }
+                    logger.error("Error add to basket. Many users with equal sessId");
+                    throw new Exception("Error add to basket. Many users with equal sessId");
+                }
+                u = users.get(0);
+                List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
+                for(Invoice inv:invoices) {
+                    if(inv.getStatusId().getStatusId() == 0) {
+                        invoice = inv;
+                        break;
                     }
-                }            
+                }           
             } 
 
             List<AnOrder> availableOrders = null;
@@ -151,12 +148,11 @@ public class BasketController {
                 invoice = invoiceMapper.newInvoice();
                 invoice.setUserId(u);
                 invoiceService.addInvoice(invoice);
-            } else {
-                //when I add available positions, then I have to update them
+            } else {                //when I add available positions, then I have to update them                
                 availableOrders = (List<AnOrder>)invoice.getAnOrderCollection();
             }           
 
-            //add products to AnOrder for current OrderId 
+                                    //add products to AnOrder for current OrderId 
             Long anOrderId = null;
             String barcode;
             int amount;
@@ -178,8 +174,8 @@ public class BasketController {
                     }
                 }
                 if(available == false) {
-                   order = aoMapper.newAnOrder();
-                   anOrderId = order.getId();
+                    order = aoMapper.newAnOrder();
+                    anOrderId = order.getId();
                     order.setOrderId(invoice);
                     order.setBarcode(productService.getProductByBarcode(barcode));
                     order.setAmount(amount);
@@ -207,18 +203,16 @@ public class BasketController {
         GenericReply rep = new GenericReply();
         try {  
             DeleteForIdListRequest dilr = new DeleteForIdListRequest();
-            //check if session exist
+                                            //check if session exist
             List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
-            if((req.itemsId != null)&&(req.itemsId.isEmpty())) {
-                //delete all invoices for current sessionId                
+            if((req.itemsId != null)&&(req.itemsId.isEmpty())) {    //delete all invoices for current sessionId        
                 for(Long id:delList) {
                     if(invoiceService.getInvoiceByOrderId(id).getStatusId().getStatusId() == 0) {                        
                         dilr.itemsId.add(id);//I can groupdelete only for temp invoices
                     }
                 }
             } 
-            if((req.itemsId != null)&&(!req.itemsId.isEmpty())) {
-                //delete only invoices in the list of invoices
+            if((req.itemsId != null)&&(!req.itemsId.isEmpty())) {   //delete only invoices in the list of invoices                
                 for(Long id:req.itemsId) {
                     if(delList.contains(id)) {
                         dilr.itemsId.add(id);
