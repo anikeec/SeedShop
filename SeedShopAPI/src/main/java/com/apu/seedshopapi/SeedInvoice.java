@@ -32,7 +32,15 @@ public class SeedInvoice {
     @XmlElement(required=true)
     public String phone;
     @XmlElement(required=true)
-    public String declaration;        
+    public String declaration; 
+    @XmlElement(required=true)
+    public String country;
+    @XmlElement(required=true)
+    public String region;
+    @XmlElement(required=true)
+    public String area;
+    @XmlElement(required=true)
+    public String city;
     @XmlElement(required=true)
     public Integer delivery;
     @XmlElement(required=true)

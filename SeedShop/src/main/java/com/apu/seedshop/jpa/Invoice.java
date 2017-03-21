@@ -53,6 +53,19 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Invoice.findByDeclaration", query = "SELECT i FROM Invoice i WHERE i.declaration = :declaration")})
 public class Invoice implements Serializable {
 
+    @Size(max = 20)
+    @Column(name = "country")
+    private String country;
+    @Size(max = 30)
+    @Column(name = "region")
+    private String region;
+    @Size(max = 30)
+    @Column(name = "area")
+    private String area;
+    @Size(max = 30)
+    @Column(name = "city")
+    private String city;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -358,6 +371,38 @@ public class Invoice implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Invoice[ orderId=" + orderId + " ]";
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
     
 }

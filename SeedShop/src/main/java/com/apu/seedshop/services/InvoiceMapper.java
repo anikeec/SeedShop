@@ -59,6 +59,10 @@ public class InvoiceMapper {
             si.thirdName = inv.getThirdName();
             si.phone = inv.getPhone();
             si.declaration = inv.getDeclaration();
+            si.country = inv.getCountry();
+            si.region = inv.getRegion();
+            si.area = inv.getArea();
+            si.city = inv.getCity();
             if(inv.getDeliveryId() != null)
                 si.delivery = inv.getDeliveryId().getDeliveryId();
             si.deliveryOffice = inv.getDeliveryOffice();
@@ -139,7 +143,27 @@ public class InvoiceMapper {
         if(si.sourceL != null)
             inv.setSourceId(plService.getProductLocationById(si.sourceL));
         else
-            inv.setSourceId(null);
+            inv.setSourceId(null);        
+        
+        if(si.country != null)
+            inv.setCountry(si.country);
+        else
+            inv.setCountry(null);
+        
+        if(si.region != null)
+            inv.setRegion(si.region);
+        else
+            inv.setRegion(null);
+        
+        if(si.area != null)
+            inv.setArea(si.area);
+        else
+            inv.setArea(null);
+        
+        if(si.city != null)
+            inv.setCity(si.city);
+        else
+            inv.setCity(null);
         
         if(si.delivery != null)
             inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
@@ -230,6 +254,18 @@ public class InvoiceMapper {
         
         if(si.phone != null)
             inv.setPhone(si.phone);
+        
+        if(si.country != null)
+            inv.setCountry(si.country);
+        
+        if(si.region != null)
+            inv.setRegion(si.region);
+        
+        if(si.area != null)
+            inv.setArea(si.area);
+        
+        if(si.city != null)
+            inv.setCity(si.city);
         
         if(si.userId != null)
             inv.setUserId(userService.getUserById(si.userId));
