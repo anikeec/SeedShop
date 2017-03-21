@@ -6,6 +6,7 @@ use seedsdb;
 CREATE TABLE USER_GENDER(
  gender_id  INT NOT NULL,
  name VARCHAR(1) NOT NULL,
+ used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (gender_id)
 );
 

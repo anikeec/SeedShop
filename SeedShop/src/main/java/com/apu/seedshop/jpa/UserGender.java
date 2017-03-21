@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "UserGender.findAll", query = "SELECT u FROM UserGender u")
     , @NamedQuery(name = "UserGender.findByGenderId", query = "SELECT u FROM UserGender u WHERE u.genderId = :genderId")
-    , @NamedQuery(name = "UserGender.findByName", query = "SELECT u FROM UserGender u WHERE u.name = :name")})
+    , @NamedQuery(name = "UserGender.findByName", query = "SELECT u FROM UserGender u WHERE u.name = :name")
+    , @NamedQuery(name = "UserGender.findByUsed", query = "SELECT u FROM UserGender u WHERE u.used = :used")})
 public class UserGender implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +45,8 @@ public class UserGender implements Serializable {
     @Size(min = 1, max = 1)
     @Column(name = "name")
     private String name;
+    @Column(name = "used")
+    private Boolean used;
     @OneToMany(mappedBy = "genderId")
     private Collection<Appuser> appuserCollection;
 
@@ -73,6 +76,14 @@ public class UserGender implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     @XmlTransient
