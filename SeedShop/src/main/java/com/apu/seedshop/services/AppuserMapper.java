@@ -45,7 +45,8 @@ public class AppuserMapper {
             if(u.getUserAuthorizationCollection() != null) {
                 List<UserAuthorization> list = 
                         (List<UserAuthorization>)u.getUserAuthorizationCollection();
-                su.login = list.get(0).getLogin();
+                if(list.size()>0)
+                    su.login = list.get(0).getLogin();
             }
             su.firstName = u.getFirstName();
             su.secName = u.getSecName();
