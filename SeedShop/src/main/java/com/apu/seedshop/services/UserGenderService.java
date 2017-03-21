@@ -25,12 +25,14 @@ public class UserGenderService {
         return  ugRepository.findAll();
     }
 
-    public UserGender getUserGenderById(Integer id) {
+    public UserGender getUserGenderById(Integer id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         UserGender ug = ugRepository.findOne(id);
         return ug;
     }
     
-    public List<UserGender> findUserGenderByName(String name){
+    public List<UserGender> findUserGenderByName(String name) throws IllegalArgumentException {
+        if(name == null)    throw new IllegalArgumentException("name = null");
         List<UserGender> udl = ugRepository.findByName(name);
         List<UserGender> res = new ArrayList<>();
         for(UserGender ug:udl){
@@ -40,13 +42,15 @@ public class UserGenderService {
         return res;
     }
 
-    public UserGender addUserGender(UserGender ug) {
+    public UserGender addUserGender(UserGender ug) throws IllegalArgumentException {
+        if(ug == null)    throw new IllegalArgumentException("ug = null");
         logger.debug(String.format("Adding user gender %s with id %s", ug.getName(), ug.getGenderId()));
         ug = ugRepository.save(ug);
         return ug;
     }
 
-    public void delUserGender(Integer id){
+    public void delUserGender(Integer id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         UserGender ug = ugRepository.findOne(id);
         if(ug!=null){
             logger.debug(String.format("Deleting user gender %s with id %s", ug.getName(), ug.getGenderId()));

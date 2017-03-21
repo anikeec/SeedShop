@@ -24,7 +24,8 @@ DeliveryStatusRepository dsRepository;
         return  dsRepository.findAll();
     }
 
-    public DeliveryStatus getDeliveryStatusById(Integer dsId) {
+    public DeliveryStatus getDeliveryStatusById(Integer dsId) throws IllegalArgumentException {
+        if(dsId == null)    throw new IllegalArgumentException("dsId = null");
         DeliveryStatus p = dsRepository.findOne(dsId);
         return p;
     }

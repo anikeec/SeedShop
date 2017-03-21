@@ -23,19 +23,22 @@ public class UserAuthorizationService {
         return  uaRepository.findAll();
     }
 
-    public UserAuthorization getUserAuthorizationById(Long userId) {
+    public UserAuthorization getUserAuthorizationById(Long userId) throws IllegalArgumentException {
+        if(userId == null)    throw new IllegalArgumentException("userId = null");
         UserAuthorization ua = uaRepository.findOne(userId);
         return ua;
     }
     
-    public UserAuthorization addUserAuthorization(UserAuthorization ua) {        
+    public UserAuthorization addUserAuthorization(UserAuthorization ua) throws IllegalArgumentException { 
+        if(ua == null)    throw new IllegalArgumentException("ua = null");
         logger.debug(String.format("Adding userAuthorization %s, %s with id %s", 
                         ua.getLogin(), ua.getPasswdHash(), ua.getUserId()));
         ua = uaRepository.save(ua);
         return ua;
     }
     
-    public void delUserAuthorization(Long userId){
+    public void delUserAuthorization(Long userId) throws IllegalArgumentException {
+        if(userId == null)    throw new IllegalArgumentException("userId = null");
         UserAuthorization ua = uaRepository.findOne(userId);
         if(ua!=null){
             logger.debug(String.format("Deleting userAuthorization with id %s", userId));

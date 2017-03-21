@@ -23,19 +23,22 @@ public class PackingService {
         return  packingRepository.findAll();
     }
 
-    public Packing getPackingById(Integer packingId) {
+    public Packing getPackingById(Integer packingId) throws IllegalArgumentException {
+        if(packingId == null)    throw new IllegalArgumentException("packingId = null");
         Packing p = packingRepository.findOne(packingId);
         return p;
     }
     
-    public Packing addPacking(Packing p) { 
+    public Packing addPacking(Packing p) throws IllegalArgumentException { 
+        if(p == null)    throw new IllegalArgumentException("p = null");
         logger.debug(String.format("Adding packing w=%s, a=%s, p=%s with id %s", 
                p.getWeight(), p.getAmount(), p.getPackId().getPackId(), p.getPackId()));
         p = packingRepository.save(p);
         return p;
     }
     
-    public void delPacking(Integer packingId){
+    public void delPacking(Integer packingId) throws IllegalArgumentException {
+        if(packingId == null)    throw new IllegalArgumentException("packingId = null");
         Packing p = packingRepository.findOne(packingId);
         if(p!=null){
             logger.debug(String.format("Deleting packing with id %s", packingId));

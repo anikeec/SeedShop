@@ -24,7 +24,8 @@ DeliveryServiceRepository dservRepository;
         return  dservRepository.findAll();
     }
 
-    public DeliveryService getDeliveryServiceById(Integer dservId) {
+    public DeliveryService getDeliveryServiceById(Integer dservId) throws IllegalArgumentException {
+        if(dservId == null)    throw new IllegalArgumentException("dservId = null");
         DeliveryService p = dservRepository.findOne(dservId);
         return p;
     }

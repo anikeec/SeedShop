@@ -100,7 +100,7 @@ public class InvoiceService {
         return inv;
     }
 
-    public void delInvoice(Long orderId)  throws IllegalArgumentException {
+    public void delInvoice(Long orderId) throws IllegalArgumentException {
         if(orderId == null)    throw new IllegalArgumentException("orderId = null");
         if(invoiceRepository.findOne(orderId) == null) {
             logger.debug("Try delete invoice - "

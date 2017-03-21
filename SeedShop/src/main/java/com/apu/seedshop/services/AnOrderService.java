@@ -27,29 +27,32 @@ public class AnOrderService {
         return  anOrderRepository.findAll();
     }
 
-    public AnOrder getAnOrderById(Long id) {
+    public AnOrder getAnOrderById(Long id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         AnOrder ao = anOrderRepository.findOne(id);
         return ao;
     }
     
-    public List<AnOrder> getAnOrdersByOrderId(Long orderId) {        
+    public List<AnOrder> getAnOrdersByOrderId(Long orderId) throws IllegalArgumentException { 
+        if(orderId == null)    throw new IllegalArgumentException("orderId = null");
         Invoice invoice = invoiceService.getInvoiceByOrderId(orderId);
         List<AnOrder> ol = null;
         if(invoice != null) {
             ol = (List<AnOrder>)invoice.getAnOrderCollection();
         }        
         return ol;        
-        //return anOrderRepository.findByOrderId(invoiceService.getInvoiceByOrderId(orderId));
     }
     
-    public AnOrder addAnOrder(AnOrder ao) {        
+    public AnOrder addAnOrder(AnOrder ao) throws IllegalArgumentException {    
+        if(ao == null)    throw new IllegalArgumentException("ao = null");
         logger.debug(String.format("Adding anOrder %s, %s with id %s", 
                         ao.getBarcode(), ao.getAmount(), ao.getId()));
         ao = anOrderRepository.save(ao);
         return ao;
     }
     
-    public void delAnOrder(Long id){
+    public void delAnOrder(Long id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         AnOrder ao = anOrderRepository.findOne(id);
         if(ao!=null){
             logger.debug(String.format("Deleting anOrder %s, %s, %s, %s, with orderId %s", 

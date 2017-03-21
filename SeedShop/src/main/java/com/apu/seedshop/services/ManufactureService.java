@@ -23,19 +23,22 @@ public class ManufactureService {
         return  manufactureRepository.findAll();
     }
 
-    public Manufacture getManufactureById(Integer manufactId) {
+    public Manufacture getManufactureById(Integer manufactId) throws IllegalArgumentException {
+        if(manufactId == null)    throw new IllegalArgumentException("manufactId = null");
         Manufacture m = manufactureRepository.findOne(manufactId);
         return m;
     }
     
-    public Manufacture addManufacture(Manufacture m) {        
+    public Manufacture addManufacture(Manufacture m) throws IllegalArgumentException {  
+        if(m == null)    throw new IllegalArgumentException("m = null");
         logger.debug(String.format("Adding manufacture %s, %s with id %s", 
                         m.getName(), m.getAddress(), m.getManufactId()));
         m = manufactureRepository.save(m);
         return m;
     }
     
-    public void delManufacture(Integer manufactId){
+    public void delManufacture(Integer manufactId) throws IllegalArgumentException {
+        if(manufactId == null)    throw new IllegalArgumentException("manufactId = null");
         Manufacture m = manufactureRepository.findOne(manufactId);
         if(m!=null){
             logger.debug(String.format("Deleting manufacture with id %s", manufactId));

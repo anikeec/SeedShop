@@ -23,19 +23,22 @@ public class PackService {
         return  packRepository.findAll();
     }
 
-    public Pack getPackById(Integer packId) {
+    public Pack getPackById(Integer packId) throws IllegalArgumentException {
+        if(packId == null)    throw new IllegalArgumentException("packId = null");
         Pack p = packRepository.findOne(packId);
         return p;
     }
     
-    public Pack addPack(Pack p) {        
+    public Pack addPack(Pack p) throws IllegalArgumentException {      
+        if(p == null)    throw new IllegalArgumentException("p = null");
         logger.debug(String.format("Adding pack %s with id %s", 
                         p.getName(), p.getPackId()));
         p = packRepository.save(p);
         return p;
     }
     
-    public void delPack(Integer packId){
+    public void delPack(Integer packId) throws IllegalArgumentException {
+        if(packId == null)    throw new IllegalArgumentException("packId = null");
         Pack p = packRepository.findOne(packId);
         if(p!=null){
             logger.debug(String.format("Deleting pack with id %s", packId));

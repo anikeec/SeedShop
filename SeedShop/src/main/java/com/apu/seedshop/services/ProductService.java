@@ -24,12 +24,14 @@ ProductRepository productRepository;
         return  productRepository.findAll();
     }
 
-    public Product getProductByBarcode(String barcode) {
+    public Product getProductByBarcode(String barcode) throws IllegalArgumentException {
+        if(barcode == null)    throw new IllegalArgumentException("barcode = null");
         Product p = productRepository.findOne(barcode);
         return p;
     }
 
-    public void delProduct(String barcode){
+    public void delProduct(String barcode) throws IllegalArgumentException {
+        if(barcode == null)    throw new IllegalArgumentException("barcode = null");
         Product p = productRepository.findOne(barcode);
         if(p!=null){
             logger.debug(String.format("Deleting product %s, %s, %s, %s with id %s",                                         

@@ -24,19 +24,22 @@ ProductLocationRepository plRepository;
         return  plRepository.findAll();
     }
 
-    public ProductLocation getProductLocationById(Integer plId) {
+    public ProductLocation getProductLocationById(Integer plId) throws IllegalArgumentException {
+        if(plId == null)    throw new IllegalArgumentException("plId = null");
         ProductLocation p = plRepository.findOne(plId);
         return p;
     }
     
-    public ProductLocation addProductLocation(ProductLocation p) {        
+    public ProductLocation addProductLocation(ProductLocation p) throws IllegalArgumentException { 
+        if(p == null)    throw new IllegalArgumentException("p = null");
         logger.debug(String.format("Adding ProductLocation %s with id %s", 
                         p.getName(), p.getLocationId()));
         p = plRepository.save(p);
         return p;
     }
     
-    public void delProductLocation(Integer packId){
+    public void delProductLocation(Integer packId) throws IllegalArgumentException {
+        if(packId == null)    throw new IllegalArgumentException("packId = null");
         ProductLocation p = plRepository.findOne(packId);
         if(p!=null){
             logger.debug(String.format("Deleting ProductLocation with id %s", packId));

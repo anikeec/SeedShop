@@ -27,12 +27,14 @@ AppuserRepository userRepository;
         return  userRepository.findAll();
     }
 
-    public Appuser getUserById(Long id) {
+    public Appuser getUserById(Long id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         Appuser u = userRepository.findOne(id);
         return u;
     }
     
-    public List<Appuser> findUserByName(String name){
+    public List<Appuser> findUserByName(String name) throws IllegalArgumentException {
+        if(name == null)    throw new IllegalArgumentException("name = null");
         List<Appuser> udl = userRepository.findByFirstName(name);
         List<Appuser> res = new ArrayList<>();
         for(Appuser u:udl){
@@ -44,7 +46,8 @@ AppuserRepository userRepository;
         return res;
     }
     
-    public List<Appuser> findUserBySessionId(String sessionId){
+    public List<Appuser> findUserBySessionId(String sessionId) throws IllegalArgumentException {
+        if(sessionId == null)    throw new IllegalArgumentException("sessionId = null");
         List<Appuser> udl = userRepository.findBySessId(sessionId);
         List<Appuser> res = new ArrayList<>();
         for(Appuser u:udl){
@@ -53,7 +56,9 @@ AppuserRepository userRepository;
         return res;
     }
     
-    public List<Appuser> findBySecNameAndFirstName(String secName, String firstName){
+    public List<Appuser> findBySecNameAndFirstName(String secName, String firstName) throws IllegalArgumentException {
+        if(secName == null)    throw new IllegalArgumentException("secName = null");
+        if(firstName == null)  throw new IllegalArgumentException("firstName = null");
         List<Appuser> udl = userRepository.findBySecNameAndFirstName(secName, firstName);
         List<Appuser> res = new ArrayList<>();
         for(Appuser u:udl){
@@ -65,13 +70,15 @@ AppuserRepository userRepository;
         return res;
     }
 
-    public Appuser addUser(Appuser u) {
+    public Appuser addUser(Appuser u) throws IllegalArgumentException {
+        if(u == null)    throw new IllegalArgumentException("u = null");
         logger.debug(String.format("Adding users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));
         u = userRepository.save(u);
         return u;
     }
 
-    public void delUser(Long id){
+    public void delUser(Long id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
         Appuser u = userRepository.findOne(id);
         if(u!=null){
             logger.debug(String.format("Deleting users %s %s %s with id %s", u.getFirstName(), u.getSecName(), u.getThirdName(), u.getUserId()));
@@ -86,7 +93,8 @@ AppuserRepository userRepository;
         }
     }
     
-    public List findInvoiceIdBySessionId(String sessId) throws Exception{
+    public List findInvoiceIdBySessionId(String sessId) throws Exception {
+        if(sessId == null)    throw new IllegalArgumentException("sessId = null");
         List list = new ArrayList();
         
         List<Appuser> users = findUserBySessionId(sessId);
