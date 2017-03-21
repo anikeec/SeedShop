@@ -54,6 +54,17 @@ public class UserGenderService {
         UserGender ug = ugRepository.findOne(id);
         if(ug!=null){
             logger.debug(String.format("Deleting user gender %s with id %s", ug.getName(), ug.getGenderId()));
+            //ugRepository.delete(id);
+            ug.setUsed(false);
+            ugRepository.save(ug);
+        }
+    }
+    
+    public void delTestUserGender(Integer id){
+        if(id == null)    throw new IllegalArgumentException("id = null");
+        UserGender ug = ugRepository.findOne(id);
+        if(ug!=null){
+            logger.debug(String.format("Deleting test user gender %s with id %s", ug.getName(), ug.getGenderId()));
             ugRepository.delete(id);
         }
     }

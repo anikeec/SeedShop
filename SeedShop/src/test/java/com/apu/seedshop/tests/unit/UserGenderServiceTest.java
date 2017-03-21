@@ -103,6 +103,13 @@ public class UserGenderServiceTest {
         assertEquals(expResult, result);        
         ugService.delUserGender(testId);
         result = ugService.getUserGenderById(testId);
+        if(result.getUsed() == false) {
+            result = null;
+        }
+        expResult = null;
+        assertEquals(expResult, result);
+        ugService.delTestUserGender(testId);
+        result = ugService.getUserGenderById(testId);
         expResult = null;
         assertEquals(expResult, result);
     }
