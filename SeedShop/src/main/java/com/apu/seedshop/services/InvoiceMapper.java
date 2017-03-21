@@ -94,6 +94,7 @@ public class InvoiceMapper {
         inv.setOrderId(orderId);
         inv.setStatusId(dStatService.getDeliveryStatusById(0));
         inv.setOrderDate(new Date());
+        inv.setDiscount(new BigDecimal(0));
         return inv;
     }
     
@@ -106,61 +107,188 @@ public class InvoiceMapper {
  */
     public Invoice toInternal(SeedInvoice si) {
         Invoice inv = null;
-        //first, check if it exists
-        if (si.orderId != null) {
+        
+        if (si.orderId != null) {   //first, check if it exists
             inv = invoiceRepository.findOne(si.orderId);
+            
         }
-        if (inv == null) { //not found, create new
+        if(inv == null){            //not found, create new
             logger.debug("Creating new invoice");
             inv = newInvoice();
         }
-        logger.debug("Updating existing invoice");                
+        logger.debug("Updating existing invoice");
+        
+        //inv.setOrderId(si.orderId);
+        inv.setFirstName(si.firstName);
+        inv.setSecName(si.secName);
+        inv.setThirdName(si.thirdName);
+        inv.setDeclaration(si.declaration);  
+        inv.setDeliveryOffice(si.deliveryOffice);
+        inv.setPhone(si.phone);
+        
+        if(si.currL != null)
+            inv.setCurrentLocId(plService.getProductLocationById(si.currL));
+        else
+            inv.setCurrentLocId(null);
+        
+        if(si.destL != null)
+            inv.setDestinationId(plService.getProductLocationById(si.destL));
+        else
+            inv.setDestinationId(null);
+        
+        if(si.sourceL != null)
+            inv.setSourceId(plService.getProductLocationById(si.sourceL));
+        else
+            inv.setSourceId(null);
+        
+        if(si.delivery != null)
+            inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
+        else
+            inv.setDeliveryId(null);
+        
+        if(si.status != null)
+            inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
+        else
+            inv.setStatusId(dStatService.getDeliveryStatusById(0));
+        
+        if(si.userId != null)
+            inv.setUserId(userService.getUserById(si.userId));
+        else
+            inv.setUserId(null);
         
         DateFormat format = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
+        
         Date oDate = null;
-        Date pDate = null;
-        Date sDate = null;
         try { 
-            if(si.orderDate != null)   
+            if(si.orderDate != null) {
                 oDate = format.parse(si.orderDate);
-            if(si.paidDate != null)    
-                pDate = format.parse(si.paidDate);
-            if(si.sentDate != null)    
-                sDate = format.parse(si.sentDate);
+                inv.setOrderDate(oDate);
+            }
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        
+        Date pDate = null;
+        try {
+            if(si.paidDate != null)     pDate = format.parse(si.paidDate);
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        inv.setPaidDate(pDate);
+        
+        Date sDate = null;
+        try {
+            if(si.sentDate != null)     sDate = format.parse(si.sentDate);
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
-        if(si.currL != null)
-            inv.setCurrentLocId(plService.getProductLocationById(si.currL));
-        //if(si.declaration != null)
-        inv.setDeclaration(si.declaration);  
-        if(si.delivery != null)
-            inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
-        //if(si.deliveryOffice != null)
-        inv.setDeliveryOffice(si.deliveryOffice);
-        if(si.destL != null)
-            inv.setDestinationId(plService.getProductLocationById(si.destL));
+        inv.setSentDate(sDate);
+        
         if(si.discount != null)
             inv.setDiscount(new BigDecimal(si.discount));
-        inv.setFirstName(si.firstName);
-        inv.setOrderDate(oDate);
-        inv.setOrderId(si.orderId);
-        inv.setPaidDate(pDate);
+        else
+            
+                
         if(si.pay != null)
             inv.setPay(new BigDecimal(si.pay));
-        //if(si.phone != null)
-        inv.setPhone(si.phone);
+        else
+            inv.setPay(new BigDecimal(0));
+        
         if(si.prepayment != null)
-            inv.setPrepayment(si.prepayment.equals("1"));
-        inv.setSecName(si.secName);
-        inv.setSentDate(sDate);
-        if(si.status != null)
-            inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
+            inv.setPrepayment(si.prepayment.equals("true"));
+        else
+            inv.setPrepayment(false);
+
+        return inv;
+    }
+    
+    /**
+ * Maps external REST model to internal Invoice;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param inv REST model
+ * @param si REST model
+ * @return internal Users with all required fields set
+ */
+    public Invoice checkoutInvoice(Invoice inv, SeedInvoice si) { 
+        logger.debug("Checkout invoice with orderId = " + inv.getOrderId());
+        
+        if(si.firstName != null)
+            inv.setFirstName(si.firstName);
+        
+        if(si.secName != null)
+            inv.setSecName(si.secName);
+        
+        if(si.thirdName != null)
+            inv.setThirdName(si.thirdName);
+        
+        if(si.declaration != null)
+            inv.setDeclaration(si.declaration); 
+        
+        if(si.deliveryOffice != null)
+            inv.setDeliveryOffice(si.deliveryOffice);
+        
+        if(si.phone != null)
+            inv.setPhone(si.phone);
+        
+        if(si.userId != null)
+            inv.setUserId(userService.getUserById(si.userId));
+        
+        if(si.currL != null)
+            inv.setCurrentLocId(plService.getProductLocationById(si.currL));
+        
+        if(si.destL != null)
+            inv.setDestinationId(plService.getProductLocationById(si.destL));
+        
         if(si.sourceL != null)
             inv.setSourceId(plService.getProductLocationById(si.sourceL));
-        inv.setThirdName(si.thirdName);
-        inv.setUserId(userService.getUserById(si.userId));
+        
+        if(si.delivery != null)
+            inv.setDeliveryId(dServService.getDeliveryServiceById(si.delivery));
+        
+        if(si.discount != null)
+            inv.setDiscount(new BigDecimal(si.discount));
+                
+        if(si.pay != null)
+            inv.setPay(new BigDecimal(si.pay));
+        
+        if(si.prepayment != null)
+            inv.setPrepayment(si.prepayment.equals("true"));
+        
+        if(si.status != null)
+            inv.setStatusId(dStatService.getDeliveryStatusById(si.status));
+        else
+            inv.setStatusId(dStatService.getDeliveryStatusById(1));
+        
+        DateFormat format = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
+        
+        try { 
+            if(si.orderDate != null){
+                Date oDate = format.parse(si.orderDate);
+                inv.setOrderDate(oDate);
+            }                
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        try {
+            if(si.paidDate != null) {
+                Date pDate = format.parse(si.paidDate);
+                inv.setPaidDate(pDate);
+            }
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }         
+        
+        try {
+            if(si.sentDate != null) {
+                Date sDate = format.parse(si.sentDate);
+                inv.setSentDate(sDate);
+            }
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(InvoiceMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+
         return inv;
     }
 

@@ -9,6 +9,7 @@ import com.apu.seedshop.jpa.Invoice;
 import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
 import com.apu.seedshop.services.AppuserService;
+import com.apu.seedshop.services.DeliveryStatusService;
 import com.apu.seedshopapi.AddInvoiceRequest;
 import com.apu.seedshopapi.DeleteForIdListRequest;
 import com.apu.seedshopapi.GenericReply;
@@ -35,6 +36,8 @@ public class InvoiceController {
     InvoiceMapper invoiceMapper;
     @Autowired    
     AppuserService userService;
+    @Autowired
+    DeliveryStatusService dStatService;
     
     @RequestMapping(path="/invoices/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public InvoiceListReply getAllInvoices(){
@@ -84,32 +87,30 @@ public class InvoiceController {
         return rep;
     }
     
-    @RequestMapping(path="/invoices/update",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply updateInvoice( @RequestBody AddInvoiceRequest req){
+    @RequestMapping(path="/invoices/checkout",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public InvoiceListReply checkoutInvoice( @RequestBody AddInvoiceRequest req){
         InvoiceListReply rep = new InvoiceListReply();
         try{           
-            //find invoice in database
-            List<Appuser> users = userService.findUserBySessionId(req.sessionId);
-            Invoice invoice = null;
+                                //find invoice in database
+            List<Appuser> users = userService.findUserBySessionId(req.sessionId);            
             if(users.isEmpty()) //if not exist, then we have not any orders 
                 throw new Exception("This session id is undefined.");            
             if(users.size() > 1) //if exist, then extract userId, then OrderId for this user
-                throw new Exception("Error add to basket. To users with equal sessId");
+                throw new Exception("Error add to basket. To users with equal sessId");            
             Appuser u = users.get(0);
+            
+            Invoice invoice = null;
             List<Invoice> invoices = (List<Invoice>)u.getInvoiceCollection();
-            for(Invoice invs:invoices) {
-                if(invs.getStatusId().getStatusId() == 0) {
-                    invoice = invs;
+            for(Invoice inv:invoices) {
+                if(inv.getStatusId().getStatusId() == 0) {
+                    invoice = inv;
                     break;
                 }
             } 
-            req.invoice.userId = u.getUserId();
-            req.invoice.orderId = invoice.getOrderId();
-            Invoice inv = invoiceMapper.toInternal(req.invoice);
-            //load right invoice id
             if(invoice == null) //if not exist, then we have not any orders
-                throw new Exception("Invoices with statusId=0 did not find.");            
-            inv.setOrderId(invoice.getOrderId());           
+                throw new Exception("Invoices with statusId=0 did not find."); 
+            
+            Invoice inv = invoiceMapper.checkoutInvoice(invoice, req.invoice);
             inv = invoiceService.updateInvoice(inv);
             rep.invoices.add(invoiceMapper.fromInternal(inv));
         }catch(Exception e){
