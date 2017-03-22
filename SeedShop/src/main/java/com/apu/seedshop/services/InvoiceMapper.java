@@ -234,14 +234,25 @@ public class InvoiceMapper {
  * @param si REST model
  * @return internal Users with all required fields set
  */
-    public Invoice checkoutInvoice(Invoice inv, SeedInvoice si) { 
+    public Invoice checkoutInvoice(Invoice inv, SeedInvoice si) throws IllegalArgumentException { 
         logger.debug("Checkout invoice with orderId = " + inv.getOrderId());
         
-        if(si.firstName != null)
-            inv.setFirstName(si.firstName);
         
-        if(si.secName != null)
+        if(si.firstName != null) {
+            if(si.firstName.length() < 2)
+                throw new IllegalArgumentException("firstName has too less symbols !!!");
+            if(si.firstName.length() > 20)
+                si.firstName = si.firstName.substring(0, 20);
+            inv.setFirstName(si.firstName);
+        }
+        
+        if(si.secName != null) {
+            if(si.secName.length() < 2)
+                throw new IllegalArgumentException("secName has too less symbols !!!");
+            if(si.secName.length() > 30)
+                si.secName = si.secName.substring(0, 30);
             inv.setSecName(si.secName);
+        }
         
         if(si.thirdName != null)
             inv.setThirdName(si.thirdName);
