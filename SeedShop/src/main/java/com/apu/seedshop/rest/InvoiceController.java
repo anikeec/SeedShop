@@ -10,10 +10,10 @@ import com.apu.seedshop.services.InvoiceMapper;
 import com.apu.seedshop.services.InvoiceService;
 import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshop.services.DeliveryStatusService;
-import com.apu.seedshopapi.AddInvoiceRequest;
-import com.apu.seedshopapi.DeleteForIdListRequest;
-import com.apu.seedshopapi.GenericReply;
-import com.apu.seedshopapi.InvoiceListReply;
+import com.apu.seedshopapi.SeedInvoiceAddRequest;
+import com.apu.seedshopapi.SeedDeleteForIdListRequest;
+import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedInvoiceListReply;
 import java.util.List;
 import java.util.logging.Level;
 import org.slf4j.Logger;
@@ -40,8 +40,8 @@ public class InvoiceController {
     DeliveryStatusService dStatService;
     
     @RequestMapping(path="/invoices/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply getAllInvoices(){
-        InvoiceListReply reply = new InvoiceListReply();
+    public SeedInvoiceListReply getAllInvoices(){
+        SeedInvoiceListReply reply = new SeedInvoiceListReply();
         for(Invoice u: invoiceService.getAllInvoices()){
            reply.invoices.add(invoiceMapper.fromInternal(u));    
         }
@@ -49,15 +49,15 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/byid/{orderid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply getInvoiceByOrderId(@PathVariable Long orderid){
-        InvoiceListReply reply = new InvoiceListReply();
+    public SeedInvoiceListReply getInvoiceByOrderId(@PathVariable Long orderid){
+        SeedInvoiceListReply reply = new SeedInvoiceListReply();
         reply.invoices.add(invoiceMapper.fromInternal(invoiceService.getInvoiceByOrderId(orderid)));        
         return reply;
     }
     
     @RequestMapping(path="/invoices/bysessid/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply getInvoiceBySessionId(@PathVariable String sessId){
-        InvoiceListReply reply = new InvoiceListReply();
+    public SeedInvoiceListReply getInvoiceBySessionId(@PathVariable String sessId){
+        SeedInvoiceListReply reply = new SeedInvoiceListReply();
         List<Long> list = null;
         try {
             list = userService.findInvoiceIdBySessionId(sessId);
@@ -73,8 +73,8 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply addInvoice( @RequestBody AddInvoiceRequest req){
-        InvoiceListReply rep = new InvoiceListReply();
+    public SeedInvoiceListReply addInvoice( @RequestBody SeedInvoiceAddRequest req){
+        SeedInvoiceListReply rep = new SeedInvoiceListReply();
         try{
            Invoice inv;
            inv = invoiceService.addInvoice(invoiceMapper.toInternal(req.invoice));
@@ -88,8 +88,8 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/checkout",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public InvoiceListReply checkoutInvoice( @RequestBody AddInvoiceRequest req){
-        InvoiceListReply rep = new InvoiceListReply();
+    public SeedInvoiceListReply checkoutInvoice( @RequestBody SeedInvoiceAddRequest req){
+        SeedInvoiceListReply rep = new SeedInvoiceListReply();
         try{           
                                 //find invoice in database
             List<Appuser> users = userService.findUserBySessionId(req.sessionId);            
@@ -122,8 +122,8 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/del/{orderid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delInvoice(@PathVariable Long orderid){
-        GenericReply rep = new GenericReply();
+    public SeedGenericReply delInvoice(@PathVariable Long orderid){
+        SeedGenericReply rep = new SeedGenericReply();
         try{
             invoiceService.delInvoice(orderid);
         }catch(Exception e){
@@ -135,8 +135,8 @@ public class InvoiceController {
     }
     
     @RequestMapping(path="/invoices/del/list",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delListInvoices(@RequestBody DeleteForIdListRequest req){
-        GenericReply rep = new GenericReply();
+    public SeedGenericReply delListInvoices(@RequestBody SeedDeleteForIdListRequest req){
+        SeedGenericReply rep = new SeedGenericReply();
         try{
             Invoice inv;
             for(Long id:req.itemsId) {

@@ -1,20 +1,15 @@
-/*
- * 
- * 
- */
+
 package com.apu.seedshopapi;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AnOrderItem {
+public class SeedGenericReply {
     @XmlElement(required=true)
-    public Long id;
+    public Integer retcode = 0;
     @XmlElement(required=true)
-    public String barcode; 
-    @XmlElement(required=true)
-    public Integer amount;
-    @XmlElement(required=true)
-    public String price;
+    public String apiVer = "0.0.1";
+    @XmlElement(required=false)
+    public String error_message;
 }

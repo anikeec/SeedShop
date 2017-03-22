@@ -4,17 +4,15 @@
  */
 package com.apu.seedshopapi;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class BasketItem {
+public class SeedBasketAddRequest {
     @XmlElement(required=true)
-    public Long orderId;     
+    public String sessionId;
     @XmlElement(required=true)
-    public Integer count;
-    @XmlElement(required=true)
-    public String price;
-    @XmlElement(required=true)
-    public SeedProduct product;
+    public List<SeedAnOrderItem> products = new ArrayList<>();
 }

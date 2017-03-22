@@ -1,8 +1,8 @@
 package com.apu.seedshop.tests.integration;
 
-import com.apu.seedshopapi.AddInvoiceRequest;
+import com.apu.seedshopapi.SeedInvoiceAddRequest;
 import com.apu.seedshopapi.SeedInvoice;
-import com.apu.seedshopapi.InvoiceListReply;
+import com.apu.seedshopapi.SeedInvoiceListReply;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +58,7 @@ public class InvoiceControllerTest {
     
     @Test
     public void addInvoiceTest() throws Exception{
-        AddInvoiceRequest rq = new AddInvoiceRequest();
+        SeedInvoiceAddRequest rq = new SeedInvoiceAddRequest();
         rq.invoice = new SeedInvoice();
         rq.invoice.orderId = 100l;
         rq.invoice.userId = 1l;
@@ -94,7 +94,7 @@ public class InvoiceControllerTest {
          .andReturn();
          
         String reply = result.getResponse().getContentAsString();
-        InvoiceListReply ir = om.readValue(reply, InvoiceListReply.class);
+        SeedInvoiceListReply ir = om.readValue(reply, SeedInvoiceListReply.class);
         assertEquals("Reurn code in not 0",ir.retcode.longValue(), 0L);
         if(ir.retcode==0){
             mockMvc.perform(delete("/invoices/del/"+ir.invoices.get(0).orderId)

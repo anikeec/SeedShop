@@ -16,13 +16,13 @@ import com.apu.seedshop.services.ProductService;
 import com.apu.seedshop.services.AppuserMapper;
 import com.apu.seedshop.services.AppuserService;
 import com.apu.seedshop.services.BasketMapper;
-import com.apu.seedshopapi.AddBasketRequest;
-import com.apu.seedshopapi.AnOrderItem;
-import com.apu.seedshopapi.BasketItem;
-import com.apu.seedshopapi.BasketListReply;
-import com.apu.seedshopapi.DeleteBasketRequest;
-import com.apu.seedshopapi.DeleteForIdListRequest;
-import com.apu.seedshopapi.GenericReply;
+import com.apu.seedshopapi.SeedBasketAddRequest;
+import com.apu.seedshopapi.SeedAnOrderItem;
+import com.apu.seedshopapi.SeedBasketItem;
+import com.apu.seedshopapi.SeedBasketListReply;
+import com.apu.seedshopapi.SeedBasketDeleteRequest;
+import com.apu.seedshopapi.SeedDeleteForIdListRequest;
+import com.apu.seedshopapi.SeedGenericReply;
 import com.apu.seedshopapi.SeedProduct;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +73,8 @@ public class BasketController {
     BasketMapper basketMapper;
     
     @RequestMapping(path="/basket/all/{sessId}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BasketListReply getAllOrders(@PathVariable String sessId){
-        BasketListReply rep = new BasketListReply();       
+    public SeedBasketListReply getAllOrders(@PathVariable String sessId){
+        SeedBasketListReply rep = new SeedBasketListReply();       
         try {  
             Invoice invoice = null;   
             //check if session exist
@@ -113,8 +113,8 @@ public class BasketController {
     
     
     @RequestMapping(path="/basket/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BasketListReply addToBasket( @RequestBody AddBasketRequest req){
-        BasketListReply rep = new BasketListReply();
+    public SeedBasketListReply addToBasket( @RequestBody SeedBasketAddRequest req){
+        SeedBasketListReply rep = new SeedBasketListReply();
         //open request
         //check if session exist
         String sessionId = req.sessionId;        
@@ -156,7 +156,7 @@ public class BasketController {
             Long anOrderId = null;
             String barcode;
             int amount;
-            BasketItem item;
+            SeedBasketItem item;
             AnOrder order;
             for(int i=0;i<req.products.size();i++) {
                 barcode = req.products.get(i).barcode;
@@ -182,7 +182,7 @@ public class BasketController {
                     aoService.addAnOrder(order);
                 }             
 
-                item = new BasketItem();
+                item = new SeedBasketItem();
                 item.product = new SeedProduct();
                 item.orderId = anOrderId;
                 item.product.barcode = barcode;
@@ -199,10 +199,10 @@ public class BasketController {
     }
     
     @RequestMapping(path="/basket/del/invoice",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delAllProducts(@RequestBody DeleteBasketRequest req){             
-        GenericReply rep = new GenericReply();
+    public SeedGenericReply delAllProducts(@RequestBody SeedBasketDeleteRequest req){             
+        SeedGenericReply rep = new SeedGenericReply();
         try {  
-            DeleteForIdListRequest dilr = new DeleteForIdListRequest();
+            SeedDeleteForIdListRequest dilr = new SeedDeleteForIdListRequest();
                                             //check if session exist
             List<Long> delList = userService.findInvoiceIdBySessionId(req.sessionId);
             if((req.itemsId != null)&&(req.itemsId.isEmpty())) {    //delete all invoices for current sessionId        
@@ -229,10 +229,10 @@ public class BasketController {
     }
     
     @RequestMapping(path="/basket/del/order",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delAllProductsBySessId(@RequestBody DeleteBasketRequest req){//ModelAndView
-        GenericReply rep = new GenericReply();       
+    public SeedGenericReply delAllProductsBySessId(@RequestBody SeedBasketDeleteRequest req){//ModelAndView
+        SeedGenericReply rep = new SeedGenericReply();       
         try {    
-            DeleteForIdListRequest dolr = new DeleteForIdListRequest();
+            SeedDeleteForIdListRequest dolr = new SeedDeleteForIdListRequest();
             //check if user with current sessionId exist
             Appuser user = null;
             if(userService.findUserBySessionId(req.sessionId) != null) {

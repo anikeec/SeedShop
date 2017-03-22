@@ -7,9 +7,9 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.AnOrder;
 import com.apu.seedshop.services.AnOrderMapper;
 import com.apu.seedshop.services.AnOrderService;
-import com.apu.seedshopapi.GenericReply;
-import com.apu.seedshopapi.AnOrderListReply;
-import com.apu.seedshopapi.DeleteForIdListRequest;
+import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedAnOrderListReply;
+import com.apu.seedshopapi.SeedDeleteForIdListRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class AnOrderController {
     AnOrderMapper anOrderMapper;    
     
     @RequestMapping(path="/orders/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AnOrderListReply getAllProducts(){
-        AnOrderListReply reply = new AnOrderListReply();
+    public SeedAnOrderListReply getAllProducts(){
+        SeedAnOrderListReply reply = new SeedAnOrderListReply();
         for(AnOrder ao: anOrderService.getAllAnOrders()){
            reply.orders.add(anOrderMapper.fromInternal(ao));    
         }
@@ -39,8 +39,8 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/byorderid/{orderid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AnOrderListReply getAnOrdersByOrderId(@PathVariable Long orderid ){
-        AnOrderListReply reply = new AnOrderListReply();
+    public SeedAnOrderListReply getAnOrdersByOrderId(@PathVariable Long orderid ){
+        SeedAnOrderListReply reply = new SeedAnOrderListReply();
         for(AnOrder ao: anOrderService.getAnOrdersByOrderId(orderid)) {
             reply.orders.add(anOrderMapper.fromInternal(ao));  
         }
@@ -48,8 +48,8 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/del/{id}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delAnOrder(@PathVariable Long id ){
-            GenericReply rep = new GenericReply();
+    public SeedGenericReply delAnOrder(@PathVariable Long id ){
+            SeedGenericReply rep = new SeedGenericReply();
         try{
             anOrderService.delAnOrder(id);
         }catch(Exception e){
@@ -61,8 +61,8 @@ public class AnOrderController {
     }
     
     @RequestMapping(path="/orders/del/list",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delListOrders(@RequestBody DeleteForIdListRequest req){
-        GenericReply rep = new GenericReply();
+    public SeedGenericReply delListOrders(@RequestBody SeedDeleteForIdListRequest req){
+        SeedGenericReply rep = new SeedGenericReply();
         try{
             AnOrder order;
             for(Long id:req.itemsId) {

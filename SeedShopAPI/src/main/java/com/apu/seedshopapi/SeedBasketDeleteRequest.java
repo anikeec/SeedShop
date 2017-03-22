@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package com.apu.seedshopapi;
 
 import java.util.ArrayList;
@@ -6,7 +10,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class ProductListReply extends GenericReply{
+public class SeedBasketDeleteRequest {
     @XmlElement(required=true)
-    public List<SeedProduct> products = new ArrayList<>();
+    public String sessionId;
+    @XmlElement(required=true)
+    public List<Long> itemsId = new ArrayList<>();
 }

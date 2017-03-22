@@ -8,9 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AddInvoiceRequest {
+public class SeedBasketItem {
     @XmlElement(required=true)
-    public String sessionId;
+    public Long orderId;     
     @XmlElement(required=true)
-    public SeedInvoice invoice;      
+    public Integer count;
+    @XmlElement(required=true)
+    public String price;
+    @XmlElement(required=true)
+    public SeedProduct product;
 }

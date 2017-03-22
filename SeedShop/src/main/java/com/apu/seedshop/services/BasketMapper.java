@@ -17,8 +17,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 import com.apu.seedshop.repository.AppuserRepository;
-import com.apu.seedshopapi.BasketItem;
-import com.apu.seedshopapi.BasketListReply;
+import com.apu.seedshopapi.SeedBasketItem;
+import com.apu.seedshopapi.SeedBasketListReply;
 import com.apu.seedshopapi.SeedProduct;
 import java.util.List;
 
@@ -42,12 +42,12 @@ public class BasketMapper {
  * @param orders internal AnOrder model
  * @return external REST BasketListReply model
  */
-    public BasketListReply fromInternal(List<AnOrder> orders) {
-        BasketListReply rep = new BasketListReply();
-        BasketItem item; 
+    public SeedBasketListReply fromInternal(List<AnOrder> orders) {
+        SeedBasketListReply rep = new SeedBasketListReply();
+        SeedBasketItem item; 
         Product product;
         for(AnOrder order:orders){
-            item = new BasketItem();                   
+            item = new SeedBasketItem();                   
             item.product = new SeedProduct();
             item.product.barcode = order.getBarcode().getBarcode();                    
             item.orderId = order.getId();                    

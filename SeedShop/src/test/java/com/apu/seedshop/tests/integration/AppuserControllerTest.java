@@ -1,9 +1,9 @@
 package com.apu.seedshop.tests.integration;
 
-import com.apu.seedshopapi.AddUserRequest;
-import com.apu.seedshopapi.GenericReply;
+import com.apu.seedshopapi.SeedUserAddRequest;
+import com.apu.seedshopapi.SeedGenericReply;
 import com.apu.seedshopapi.SeedUser;
-import com.apu.seedshopapi.UserListReply;
+import com.apu.seedshopapi.SeedUserListReply;
 import static org.junit.Assert.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +43,7 @@ public class AppuserControllerTest {
     
     @Test
     public void addUserTest() throws Exception{
-        AddUserRequest rq = new AddUserRequest();
+        SeedUserAddRequest rq = new SeedUserAddRequest();
         rq.user = new SeedUser();
         rq.user.userId = 100l;
         rq.user.login = "";
@@ -74,7 +74,7 @@ public class AppuserControllerTest {
          .andReturn();
          
         String reply = result.getResponse().getContentAsString();
-        UserListReply ur = om.readValue(reply, UserListReply.class);
+        SeedUserListReply ur = om.readValue(reply, SeedUserListReply.class);
         assertEquals("Return code in not 0",ur.retcode.longValue(), 0L);
         if(ur.retcode==0){
             result= mockMvc.perform(delete("/users/del/"+ur.users.get(0).userId)
@@ -83,7 +83,7 @@ public class AppuserControllerTest {
                     .andExpect(status().isOk())
                     .andReturn(); 
             reply = result.getResponse().getContentAsString();
-            GenericReply gr = om.readValue(reply, GenericReply.class);
+            SeedGenericReply gr = om.readValue(reply, SeedGenericReply.class);
             assertEquals("Return code in not 0. Delete false.",gr.retcode.longValue(), 0L);
         }
     }

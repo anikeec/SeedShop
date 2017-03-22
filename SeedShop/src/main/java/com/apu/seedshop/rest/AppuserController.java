@@ -7,9 +7,9 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.Appuser;
 import com.apu.seedshop.services.AppuserMapper;
 import com.apu.seedshop.services.AppuserService;
-import com.apu.seedshopapi.AddUserRequest;
-import com.apu.seedshopapi.GenericReply;
-import com.apu.seedshopapi.UserListReply;
+import com.apu.seedshopapi.SeedUserAddRequest;
+import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedUserListReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class AppuserController {
     AppuserMapper userMapper;    
     
     @RequestMapping(path="/users/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserListReply getAllUsers(){
-        UserListReply reply = new UserListReply();
+    public SeedUserListReply getAllUsers(){
+        SeedUserListReply reply = new SeedUserListReply();
         for(Appuser u: userService.getAllUsers()){
            reply.users.add(userMapper.fromInternal(u));    
         }
@@ -39,15 +39,15 @@ public class AppuserController {
     }
     
     @RequestMapping(path="/users/byid/{userid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserListReply getUserById(@PathVariable Long userid ){
-        UserListReply reply = new UserListReply();
+    public SeedUserListReply getUserById(@PathVariable Long userid ){
+        SeedUserListReply reply = new SeedUserListReply();
         reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));        
         return reply;
     }
     
     @RequestMapping(path="/users/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserListReply addUser( @RequestBody AddUserRequest req){
-        UserListReply rep = new UserListReply();
+    public SeedUserListReply addUser( @RequestBody SeedUserAddRequest req){
+        SeedUserListReply rep = new SeedUserListReply();
         try{
            Appuser au;
            au = userService.addUser(userMapper.toInternal(req.user));
@@ -61,8 +61,8 @@ public class AppuserController {
     } 
     
     @RequestMapping(path="/users/del/{userid}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GenericReply delUser(@PathVariable Long userid ){
-            GenericReply rep = new GenericReply();
+    public SeedGenericReply delUser(@PathVariable Long userid ){
+            SeedGenericReply rep = new SeedGenericReply();
         try{
             userService.delUser(userid);
 

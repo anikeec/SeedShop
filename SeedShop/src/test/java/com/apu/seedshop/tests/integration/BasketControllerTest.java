@@ -1,9 +1,9 @@
 package com.apu.seedshop.tests.integration;
 
-import com.apu.seedshopapi.AddBasketRequest;
-import com.apu.seedshopapi.AnOrderItem;
-import com.apu.seedshopapi.BasketListReply;
-import com.apu.seedshopapi.DeleteBasketRequest;
+import com.apu.seedshopapi.SeedBasketAddRequest;
+import com.apu.seedshopapi.SeedAnOrderItem;
+import com.apu.seedshopapi.SeedBasketListReply;
+import com.apu.seedshopapi.SeedBasketDeleteRequest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,14 +48,14 @@ public class BasketControllerTest {
     
     @Test
     public void addNewBasketTest() throws Exception{
-        AddBasketRequest rq = new AddBasketRequest();
+        SeedBasketAddRequest rq = new SeedBasketAddRequest();
         rq.sessionId = testSessId;
-        rq.products = new ArrayList<AnOrderItem>();
-        AnOrderItem item = new AnOrderItem();
+        rq.products = new ArrayList<SeedAnOrderItem>();
+        SeedAnOrderItem item = new SeedAnOrderItem();
         item.barcode = "1";
         item.amount = 4;
         rq.products.add(item);
-        item = new AnOrderItem();
+        item = new SeedAnOrderItem();
         item.barcode = "2";
         item.amount = 7;
         rq.products.add(item);
@@ -72,10 +72,10 @@ public class BasketControllerTest {
          .andReturn();
          
         String reply = result.getResponse().getContentAsString();
-        BasketListReply ir = om.readValue(reply, BasketListReply.class);
+        SeedBasketListReply ir = om.readValue(reply, SeedBasketListReply.class);
         assertEquals("Reurn code in not 0",ir.retcode.longValue(), 0L);
         
-        DeleteBasketRequest delrq = new DeleteBasketRequest();
+        SeedBasketDeleteRequest delrq = new SeedBasketDeleteRequest();
         delrq.sessionId = testSessId;  
         //delete all invoices with statusId=0 for current sessionID      
         om = new ObjectMapper();
@@ -149,14 +149,14 @@ public class BasketControllerTest {
     */
     //@Test
     public void addUpdateBasketTest() throws Exception{
-        AddBasketRequest rq = new AddBasketRequest();
+        SeedBasketAddRequest rq = new SeedBasketAddRequest();
         rq.sessionId = testSessId;
-        rq.products = new ArrayList<AnOrderItem>();
-        AnOrderItem item = new AnOrderItem();
+        rq.products = new ArrayList<SeedAnOrderItem>();
+        SeedAnOrderItem item = new SeedAnOrderItem();
         item.barcode = "1";
         item.amount = 4;
         rq.products.add(item);
-        item = new AnOrderItem();
+        item = new SeedAnOrderItem();
         item.barcode = "2";
         item.amount = 7;
         rq.products.add(item);
@@ -173,7 +173,7 @@ public class BasketControllerTest {
          .andReturn();
          
         String reply = result.getResponse().getContentAsString();
-        BasketListReply ir = om.readValue(reply, BasketListReply.class);
+        SeedBasketListReply ir = om.readValue(reply, SeedBasketListReply.class);
         assertEquals("Reurn code in not 0",ir.retcode.longValue(), 0L);
         /*
         if(ir.retcode==0){

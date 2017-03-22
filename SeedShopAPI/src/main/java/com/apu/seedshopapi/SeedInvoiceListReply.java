@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AnOrderListReply extends GenericReply{
+public class SeedInvoiceListReply extends SeedGenericReply{
     @XmlElement(required=true)
-    public List<SeedAnOrder> orders = new ArrayList<>();
+    public List<SeedInvoice> invoices = new ArrayList<>();
 }

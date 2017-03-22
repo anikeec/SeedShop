@@ -1,7 +1,3 @@
-/*
- * 
- * 
- */
 package com.apu.seedshopapi;
 
 import java.util.ArrayList;
@@ -10,9 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AddBasketRequest {
+public class SeedUserGenderListReply extends SeedGenericReply{
     @XmlElement(required=true)
-    public String sessionId;
-    @XmlElement(required=true)
-    public List<AnOrderItem> products = new ArrayList<>();
+    public List<SeedUserGender> userGenders = new ArrayList<>();
 }
