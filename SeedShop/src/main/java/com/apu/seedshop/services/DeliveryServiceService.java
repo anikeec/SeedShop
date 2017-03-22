@@ -25,9 +25,20 @@ DeliveryServiceRepository dservRepository;
     }
 
     public DeliveryService getDeliveryServiceById(Integer dservId) throws IllegalArgumentException {
-        if(dservId == null)    throw new IllegalArgumentException("dservId = null");
+        if(dservId == null)    throw new IllegalArgumentException("getDeliveryServiceById. dservId = null");
         DeliveryService p = dservRepository.findOne(dservId);
         return p;
+    }
+    
+    public void delDeliveryService(Integer id) throws IllegalArgumentException {
+        if(id == null) throw new IllegalArgumentException("delDeliveryService. id = null");
+        DeliveryService temp = dservRepository.findOne(id);
+        if(temp!=null){
+            logger.debug(String.format("Deleting deliveryService with id %s",                    
+                    temp.getDeliveryId()));
+            temp.setUsed(false);
+            dservRepository.save(temp);
+        }
     }
     
 }

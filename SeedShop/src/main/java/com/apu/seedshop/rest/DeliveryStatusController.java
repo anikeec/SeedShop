@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DeliveryStatusController {
-    private static final Logger logger =  LoggerFactory.getLogger(AnOrderController.class);
+    private static final Logger logger =  LoggerFactory.getLogger(DeliveryStatusController.class);
     @Autowired         
     DeliveryStatusService   dsService;
     @Autowired         
@@ -39,7 +39,7 @@ public class DeliveryStatusController {
     }
     
     @RequestMapping(path="/dstatus/byid/{id}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedDeliveryStatusReply getDeliveryStatusByOrderId(@PathVariable Integer id ){
+    public SeedDeliveryStatusReply getDeliveryStatusById(@PathVariable Integer id){
         SeedDeliveryStatusReply rep = new SeedDeliveryStatusReply();
         try {            
             DeliveryStatus temp = dsService.getDeliveryStatusById(id);
@@ -60,7 +60,7 @@ public class DeliveryStatusController {
         }catch(IllegalArgumentException e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
-            logger.error("Error delete order. Expetion: " + e.getMessage(),e);
+            logger.error("Error delete deliveryStatus. Expetion: " + e.getMessage(),e);
         }
         return rep;       
     }
