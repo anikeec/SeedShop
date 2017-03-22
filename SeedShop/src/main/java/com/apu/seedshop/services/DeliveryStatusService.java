@@ -25,9 +25,20 @@ DeliveryStatusRepository dsRepository;
     }
 
     public DeliveryStatus getDeliveryStatusById(Integer dsId) throws IllegalArgumentException {
-        if(dsId == null)    throw new IllegalArgumentException("dsId = null");
+        if(dsId == null) throw new IllegalArgumentException("getDeliveryStatusById. dsId = null");
         DeliveryStatus p = dsRepository.findOne(dsId);
         return p;
+    }
+    
+    public void delDeliveryStatus(Integer id) throws IllegalArgumentException {
+        if(id == null) throw new IllegalArgumentException("delDeliveryStatus. id = null");
+        DeliveryStatus temp = dsRepository.findOne(id);
+        if(temp!=null){
+            logger.debug(String.format("Deleting deliveryStatus with id %s",                    
+                    temp.getStatusId()));
+            temp.setUsed(false);
+            dsRepository.save(temp);
+        }
     }
     
 }
