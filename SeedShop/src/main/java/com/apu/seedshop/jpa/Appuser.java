@@ -48,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Appuser.findByRegion", query = "SELECT a FROM Appuser a WHERE a.region = :region")
     , @NamedQuery(name = "Appuser.findByArea", query = "SELECT a FROM Appuser a WHERE a.area = :area")
     , @NamedQuery(name = "Appuser.findByCity", query = "SELECT a FROM Appuser a WHERE a.city = :city")
+    , @NamedQuery(name = "Appuser.findByLogin", query = "SELECT a FROM Appuser a WHERE a.login = :login")
+    , @NamedQuery(name = "Appuser.findByPasswdHash", query = "SELECT a FROM Appuser a WHERE a.passwdHash = :passwdHash")
+    , @NamedQuery(name = "Appuser.findByRole", query = "SELECT a FROM Appuser a WHERE a.role = :role")
     , @NamedQuery(name = "Appuser.findBySessId", query = "SELECT a FROM Appuser a WHERE a.sessId = :sessId")
     , @NamedQuery(name = "Appuser.findByTemp", query = "SELECT a FROM Appuser a WHERE a.temp = :temp")
     , @NamedQuery(name = "Appuser.findByUsed", query = "SELECT a FROM Appuser a WHERE a.used = :used")})
@@ -103,6 +106,15 @@ public class Appuser implements Serializable {
     @Size(max = 30)
     @Column(name = "city")
     private String city;
+    @Size(max = 25)
+    @Column(name = "login")
+    private String login;
+    @Size(max = 25)
+    @Column(name = "passwd_hash")
+    private String passwdHash;
+    @Size(max = 20)
+    @Column(name = "role")
+    private String role;
     @Size(max = 32)
     @Column(name = "sess_id")
     private String sessId;
@@ -113,8 +125,6 @@ public class Appuser implements Serializable {
     @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
     @ManyToOne
     private UserGender genderId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<UserAuthorization> userAuthorizationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Invoice> invoiceCollection;
 
@@ -230,6 +240,30 @@ public class Appuser implements Serializable {
         this.city = city;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPasswdHash() {
+        return passwdHash;
+    }
+
+    public void setPasswdHash(String passwdHash) {
+        this.passwdHash = passwdHash;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getSessId() {
         return sessId;
     }
@@ -260,15 +294,6 @@ public class Appuser implements Serializable {
 
     public void setGenderId(UserGender genderId) {
         this.genderId = genderId;
-    }
-
-    @XmlTransient
-    public Collection<UserAuthorization> getUserAuthorizationCollection() {
-        return userAuthorizationCollection;
-    }
-
-    public void setUserAuthorizationCollection(Collection<UserAuthorization> userAuthorizationCollection) {
-        this.userAuthorizationCollection = userAuthorizationCollection;
     }
 
     @XmlTransient

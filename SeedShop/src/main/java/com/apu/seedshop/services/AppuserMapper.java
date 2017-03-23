@@ -1,7 +1,6 @@
 package com.apu.seedshop.services;
 
 import com.apu.seedshop.jpa.Appuser;
-import com.apu.seedshop.jpa.UserAuthorization;
 import com.apu.seedshop.repository.UserGenderRepository;
 import com.apu.seedshopapi.SeedUser;
 import org.slf4j.Logger;
@@ -42,12 +41,7 @@ public class AppuserMapper {
         if (u != null) {
             su = new SeedUser();          
             su.userId = u.getUserId(); 
-            if(u.getUserAuthorizationCollection() != null) {
-                List<UserAuthorization> list = 
-                        (List<UserAuthorization>)u.getUserAuthorizationCollection();
-                if(list.size()>0)
-                    su.login = list.get(0).getLogin();
-            }
+            su.login = u.getLogin();
             su.firstName = u.getFirstName();
             su.secName = u.getSecName();
             su.thirdName = u.getThirdName();

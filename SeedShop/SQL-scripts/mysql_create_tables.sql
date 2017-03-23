@@ -27,24 +27,14 @@ CREATE TABLE APPUSER(
  region VARCHAR(30),
  area VARCHAR(30),
  city VARCHAR(30),
+ login VARCHAR(25),
+ passwd_hash VARCHAR(25),
+ role VARCHAR(20),
  sess_id VARCHAR(32),
  temp BOOLEAN DEFAULT FALSE,
  used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id),
  FOREIGN KEY (gender_id) REFERENCES USER_GENDER (gender_id)
-);
-
-/* table of users authorization */
-/* DROP TABLE USER_AUTHORIZATION; */
-
-CREATE TABLE USER_AUTHORIZATION(
- auth_id  BIGINT NOT NULL,
- user_id  BIGINT NOT NULL,
- login VARCHAR(25) NOT NULL,
- passwd_hash VARCHAR(25) NOT NULL,
- used BOOLEAN DEFAULT TRUE,
- PRIMARY KEY (auth_id),
- FOREIGN KEY (user_id) REFERENCES APPUSER (user_id)
 );
 
 /* info table of delivery services */
