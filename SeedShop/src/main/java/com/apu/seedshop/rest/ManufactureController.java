@@ -60,7 +60,7 @@ public class ManufactureController {
         }catch(IllegalArgumentException e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
-            logger.error("Error delete deliveryService. Expetion: " + e.getMessage(),e);
+            logger.error("Error delete Manufacture. Expetion: " + e.getMessage(),e);
         }
         return rep;       
     }
