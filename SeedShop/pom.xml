@@ -98,7 +98,14 @@
                     <version>2.5.2</version>
                     <scope>provided</scope>
                 </dependency>
-        -->        
+        -->  
+<!-- Hazelcast -->        
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>3.7.6</version>
+        </dependency> 
+      
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>SeedShopAPI</artifactId>

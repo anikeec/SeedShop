@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.apu.seedshop.repository.AppuserRepository;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import org.springframework.security.crypto.codec.Hex;
 
 
 @Service
@@ -117,5 +120,34 @@ AppuserRepository userRepository;
             }     
         users = null; 
         return list;
+    }
+    
+    public Appuser authUser(String login, String password) {
+        Appuser appuser = null;
+        if(userRepository.findByLogin(login) != null)
+            appuser = userRepository.findByLogin(login).get(0);
+        if (appuser != null) {
+            if( ! appuser.getPasswdHash().equalsIgnoreCase(digest(password))){
+                appuser = null;
+                logger.debug("Invalid password");
+            }
+            logger.debug("Login ok");
+        }else{
+            logger.debug("User not found");            
+        }
+        return appuser;
+    }
+
+    public static String digest(String original) {
+        String res = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(original.getBytes());
+            byte[] digest = md.digest();
+            res = new String(Hex.encode(digest));
+        } catch (NoSuchAlgorithmException ex) {
+           logger.error("Can not create SHA-256 digester");
+        }
+        return res;
     }
 }

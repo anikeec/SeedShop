@@ -1,5 +1,7 @@
 package com.apu.seedshop.tests.integration;
 
+import com.apu.seedshopapi.LoginReply;
+import com.apu.seedshopapi.LoginRequest;
 import com.apu.seedshopapi.SeedUserAddRequest;
 import com.apu.seedshopapi.SeedGenericReply;
 import com.apu.seedshopapi.SeedUser;
@@ -8,6 +10,7 @@ import static org.junit.Assert.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.hamcrest.CoreMatchers.containsString;
+import org.junit.Before;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -31,8 +34,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class AppuserControllerTest {
+    public final static String AUTH_HTTP_HEADER ="X-Authorization";
+    private static String token = null;
     @Autowired
     private MockMvc mockMvc;
+    
+    @Before
+    public void login() throws Exception {
+        if(token!=null){
+            return;
+        }
+        LoginRequest rq = new LoginRequest();
+        rq.login = "librarian1";
+        rq.password = "qwerty";
+        ObjectMapper om = new ObjectMapper();
+        String content = om.writeValueAsString(rq);
+        MvcResult result = mockMvc.perform(post("/auth")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(content)
+        )
+                .andExpect(status().isOk())
+                .andReturn();
+        String reply = result.getResponse().getContentAsString();
+        LoginReply lr = om.readValue(reply, LoginReply.class);
+        token = lr.token;
+    }
         
     @Test
     public void findUserTest() throws Exception {
