@@ -70,7 +70,8 @@ public class BasketControllerTest {
         
     @Test
     public void getBasketTest() throws Exception {
-        this.mockMvc.perform(get("/basket/all/" + testSessIdRead))
+        this.mockMvc.perform(get("/basket/all/" + testSessIdRead)
+                                .header(AUTH_HTTP_HEADER, token))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"barcode\":\"1\"")));
     }
@@ -95,6 +96,7 @@ public class BasketControllerTest {
         MvcResult result = mockMvc.perform(post("/basket/add")
                  .accept(MediaType.APPLICATION_JSON_UTF8)
                  .contentType(MediaType.APPLICATION_JSON_UTF8)
+                 .header(AUTH_HTTP_HEADER, token)
                  .content(content)
          )
            .andExpect(status().isOk())
@@ -114,6 +116,7 @@ public class BasketControllerTest {
             mockMvc.perform(delete("/basket/del/invoice")
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
+                            .header(AUTH_HTTP_HEADER, token)
                             .content(content)
                            )
                     .andExpect(status().isOk());                  
@@ -196,6 +199,7 @@ public class BasketControllerTest {
         MvcResult result = mockMvc.perform(post("/basket/add")
                  .accept(MediaType.APPLICATION_JSON_UTF8)
                  .contentType(MediaType.APPLICATION_JSON_UTF8)
+                 .header(AUTH_HTTP_HEADER, token)
                  .content(content)
          )
            .andExpect(status().isOk())

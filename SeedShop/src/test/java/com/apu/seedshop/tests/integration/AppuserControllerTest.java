@@ -63,7 +63,8 @@ public class AppuserControllerTest {
         
     @Test
     public void findUserTest() throws Exception {
-        this.mockMvc.perform(get("/users/byid/1"))
+        this.mockMvc.perform(get("/users/byid/1")
+                                .header(AUTH_HTTP_HEADER, token))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Петров")));
     }
@@ -95,6 +96,7 @@ public class AppuserControllerTest {
         MvcResult result = mockMvc.perform(post("/users/add")
                  .accept(MediaType.APPLICATION_JSON_UTF8)
                  .contentType(MediaType.APPLICATION_JSON_UTF8)
+                 .header(AUTH_HTTP_HEADER, token)
                  .content(content)
          )
            .andExpect(status().isOk())
@@ -106,6 +108,7 @@ public class AppuserControllerTest {
         if(ur.retcode==0){
             result= mockMvc.perform(delete("/users/del/"+ur.users.get(0).userId)
                                     .accept(MediaType.APPLICATION_JSON_UTF8)
+                                    .header(AUTH_HTTP_HEADER, token)
                            )
                     .andExpect(status().isOk())
                     .andReturn(); 
