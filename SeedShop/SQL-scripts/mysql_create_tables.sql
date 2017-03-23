@@ -28,7 +28,7 @@ CREATE TABLE APPUSER(
  area VARCHAR(30),
  city VARCHAR(30),
  login VARCHAR(25),
- passwd_hash VARCHAR(25),
+ passwd_hash VARCHAR(35),
  role VARCHAR(20),
  sess_id VARCHAR(32),
  temp BOOLEAN DEFAULT TRUE,

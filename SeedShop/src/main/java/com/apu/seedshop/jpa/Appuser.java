@@ -99,7 +99,7 @@ public class Appuser implements Serializable {
     @Size(max = 25)
     @Column(name = "login")
     private String login;
-    @Size(max = 25)
+    @Size(max = 35)
     @Column(name = "passwd_hash")
     private String passwdHash;
     @Size(max = 20)

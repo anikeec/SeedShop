@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface AppuserRepository extends CrudRepository<Appuser, Long> {
     public List<Appuser> findByFirstName(@Param("firstName") String firstName);
+    public List<Appuser> findByLogin(@Param("login") String login);
     public List<Appuser> findBySecNameAndFirstName(String secName, String firstName);
     public List<Appuser> findBySessId(@Param("sessId") String sessId);
     @Override

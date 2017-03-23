@@ -5,8 +5,8 @@ INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'M');
 
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
 (0, '', '', '', '', '', '0', NULL, 1, '', '', '', '');
-INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, login, passwd_hash, sess_id) VALUES 
-(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары', 'Peter', 'asdf5gfG54fh', 12345678901234567890123456789014);
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, login, passwd_hash, role, sess_id) VALUES 
+(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары', 'librarian1', 'd8578edf8458ce06fbc5bb76a58c5ca4', 'ROLE_ADMIN', 12345678901234567890123456789012);
 INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, login, passwd_hash, sess_id) VALUES 
 (2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси', 'Oleg', 'g3456f6364fh', 12345678901234567890123456789015);
 
