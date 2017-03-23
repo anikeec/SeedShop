@@ -73,10 +73,10 @@ public class AppuserMapper {
             id = EntityIdGenerator.random();
             idOK = !userRepository.exists(id);
         }
-        au.setSecName(" ");
-        au.setFirstName(" ");
-        au.setEmail(" ");
-        au.setPhones(" ");
+        au.setSecName("");
+        au.setFirstName("");
+        au.setEmail("");
+        au.setPhones("");
         au.setDiscount(new BigDecimal(0));
         au.setUserId(id);
         String sessionId = null;

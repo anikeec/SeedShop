@@ -15,12 +15,12 @@ CREATE TABLE USER_GENDER(
 
 CREATE TABLE APPUSER(
  user_id  BIGINT NOT NULL,
- sec_name VARCHAR(30) NOT NULL,
- first_name VARCHAR(20) NOT NULL,
+ sec_name VARCHAR(30),
+ first_name VARCHAR(20),
  third_name VARCHAR(20),
- email VARCHAR(30) NOT NULL,
- phones VARCHAR(40) NOT NULL,
- discount DECIMAL(6,2) NOT NULL,
+ email VARCHAR(30),
+ phones VARCHAR(40),
+ discount DECIMAL(6,2),
  birthday DATE,
  gender_id INT,
  country VARCHAR(20),
@@ -31,7 +31,7 @@ CREATE TABLE APPUSER(
  passwd_hash VARCHAR(25),
  role VARCHAR(20),
  sess_id VARCHAR(32),
- temp BOOLEAN DEFAULT FALSE,
+ temp BOOLEAN DEFAULT TRUE,
  used BOOLEAN DEFAULT TRUE,
  PRIMARY KEY (user_id),
  FOREIGN KEY (gender_id) REFERENCES USER_GENDER (gender_id)

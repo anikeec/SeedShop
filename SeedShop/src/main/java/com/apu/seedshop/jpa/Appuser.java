@@ -62,33 +62,23 @@ public class Appuser implements Serializable {
     @NotNull
     @Column(name = "user_id")
     private Long userId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "sec_name")
     private String secName;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "first_name")
     private String firstName;
     @Size(max = 20)
     @Column(name = "third_name")
     private String thirdName;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 40)
+    @Size(max = 40)
     @Column(name = "phones")
     private String phones;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "discount")
     private BigDecimal discount;
     @Column(name = "birthday")
@@ -133,15 +123,6 @@ public class Appuser implements Serializable {
 
     public Appuser(Long userId) {
         this.userId = userId;
-    }
-
-    public Appuser(Long userId, String secName, String firstName, String email, String phones, BigDecimal discount) {
-        this.userId = userId;
-        this.secName = secName;
-        this.firstName = firstName;
-        this.email = email;
-        this.phones = phones;
-        this.discount = discount;
     }
 
     public Long getUserId() {
