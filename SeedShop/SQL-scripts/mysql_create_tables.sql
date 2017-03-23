@@ -191,7 +191,8 @@ CREATE TABLE AVAILABILITY(
  id INT NOT NULL,
  location_id INT NOT NULL,
  barcode VARCHAR(15) NOT NULL,
- amount INT NOT NULL,
+ available INT DEFAULT 0,
+ reserv INT DEFAULT 0,
  PRIMARY KEY (id),
  FOREIGN KEY (location_id) REFERENCES PRODUCT_LOCATION (location_id),
  FOREIGN KEY (barcode) REFERENCES PRODUCT (barcode)

@@ -70,12 +70,12 @@ INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (2, 1, 0000000
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (3, 1, 0000000000003, 6.50, 4);
 INSERT INTO AN_ORDER(id, order_id, barcode, price, amount) VALUES (4, 2, 0000000000002, 2.25, 3);
 
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (1, 2, 0000000000001, 500);
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (2, 3, 0000000000001, 50);
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (3, 4, 0000000000001, 37);
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (4, 2, 0000000000002, 450);
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (5, 3, 0000000000002, 75);
-INSERT INTO AVAILABILITY(id, location_id, barcode, amount) VALUES (6, 4, 0000000000002, 28);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available, reserv) VALUES (1, 2, 0000000000001, 500, 20);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available, reserv) VALUES (2, 3, 0000000000001, 50, 10);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available, reserv) VALUES (3, 4, 0000000000001, 37, 15);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available, reserv) VALUES (4, 2, 0000000000002, 450, 50);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available) VALUES (5, 3, 0000000000002, 75);
+INSERT INTO AVAILABILITY(id, location_id, barcode, available) VALUES (6, 4, 0000000000002, 28);
 
 
 

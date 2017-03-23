@@ -28,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Availability.findAll", query = "SELECT a FROM Availability a")
     , @NamedQuery(name = "Availability.findById", query = "SELECT a FROM Availability a WHERE a.id = :id")
-    , @NamedQuery(name = "Availability.findByAmount", query = "SELECT a FROM Availability a WHERE a.amount = :amount")})
+    , @NamedQuery(name = "Availability.findByLocationId", query = "SELECT a FROM Availability a WHERE a.locationId = :locationId")
+    , @NamedQuery(name = "Availability.findByAvailable", query = "SELECT a FROM Availability a WHERE a.available = :available")
+    , @NamedQuery(name = "Availability.findByReserv", query = "SELECT a FROM Availability a WHERE a.reserv = :reserv")})
 public class Availability implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,10 +39,10 @@ public class Availability implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "amount")
-    private int amount;
+    @Column(name = "available")
+    private Integer available;
+    @Column(name = "reserv")
+    private Integer reserv;
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
     @ManyToOne(optional = false)
     private ProductLocation locationId;
@@ -55,11 +57,6 @@ public class Availability implements Serializable {
         this.id = id;
     }
 
-    public Availability(Integer id, int amount) {
-        this.id = id;
-        this.amount = amount;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -68,12 +65,20 @@ public class Availability implements Serializable {
         this.id = id;
     }
 
-    public int getAmount() {
-        return amount;
+    public Integer getAvailable() {
+        return available;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setAvailable(Integer available) {
+        this.available = available;
+    }
+
+    public Integer getReserv() {
+        return reserv;
+    }
+
+    public void setReserv(Integer reserv) {
+        this.reserv = reserv;
     }
 
     public ProductLocation getLocationId() {
