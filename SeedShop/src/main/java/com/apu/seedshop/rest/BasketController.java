@@ -184,7 +184,7 @@ public class BasketController {
 
                 item = new SeedBasketItem();
                 item.product = new SeedProduct();
-                item.orderId = anOrderId;
+                item.orderId = "" + anOrderId;
                 item.product.barcode = barcode;
                 item.count = amount;
                 rep.basketItems.add(item);

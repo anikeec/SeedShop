@@ -96,8 +96,8 @@ public class InvoiceControllerTest {
     public void addInvoiceTest() throws Exception{
         SeedInvoiceAddRequest rq = new SeedInvoiceAddRequest();
         rq.invoice = new SeedInvoice();
-        rq.invoice.orderId = 100l;
-        rq.invoice.userId = 1l;
+        rq.invoice.orderId = "100";
+        rq.invoice.userId = "1";
         rq.invoice.orderDate = "01.02.2017";
         rq.invoice.paidDate = "02.02.2017";
         rq.invoice.sentDate = "03.02.2017";

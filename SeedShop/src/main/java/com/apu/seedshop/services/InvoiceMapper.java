@@ -47,8 +47,8 @@ public class InvoiceMapper {
         SeedInvoice si = null;
         if (inv != null) {
             si = new SeedInvoice();          
-            si.orderId = inv.getOrderId();
-            si.userId = inv.getUserId().getUserId();
+            si.orderId = "" + inv.getOrderId();
+            si.userId = "" + inv.getUserId().getUserId();
             si.orderDate = "" + inv.getOrderDate();
             si.paidDate = "" + inv.getPaidDate();
             si.sentDate = "" + inv.getSentDate();
@@ -75,7 +75,7 @@ public class InvoiceMapper {
             if(inv.getCurrentLocId() != null) 
                 si.currL = inv.getCurrentLocId().getLocationId();
             if(inv.getBackorderId() != null) 
-                si.backorderId = inv.getBackorderId().getOrderId();
+                si.backorderId = "" + inv.getBackorderId().getOrderId();
             si.addInfoU = inv.getAddInfoU();
             si.addInfoM = inv.getAddInfoM();      
         }
@@ -113,7 +113,7 @@ public class InvoiceMapper {
         Invoice inv = null;
         
         if (si.orderId != null) {   //first, check if it exists
-            inv = invoiceRepository.findOne(si.orderId);
+            inv = invoiceRepository.findOne(Long.parseLong(si.orderId));
             
         }
         if(inv == null){            //not found, create new
@@ -176,7 +176,7 @@ public class InvoiceMapper {
             inv.setStatusId(dStatService.getDeliveryStatusById(0));
         
         if(si.userId != null)
-            inv.setUserId(userService.getUserById(si.userId));
+            inv.setUserId(userService.getUserById(Long.parseLong(si.userId)));
         else
             inv.setUserId(null);
         
@@ -279,7 +279,7 @@ public class InvoiceMapper {
             inv.setCity(si.city);
         
         if(si.userId != null)
-            inv.setUserId(userService.getUserById(si.userId));
+            inv.setUserId(userService.getUserById(Long.parseLong(si.userId)));
         
         if(si.currL != null)
             inv.setCurrentLocId(plService.getProductLocationById(si.currL));

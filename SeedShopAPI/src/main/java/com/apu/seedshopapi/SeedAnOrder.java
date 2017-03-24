@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SeedAnOrder {
     @XmlElement(required=false)
-    public Long id;
+    public String id;
     @XmlElement(required=true)
-    public Long orderId;
+    public String orderId;
     @XmlElement(required=true)
     public String barcode;
     @XmlElement(required=true)

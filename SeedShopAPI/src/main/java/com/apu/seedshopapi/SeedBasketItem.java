@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SeedBasketItem {
     @XmlElement(required=true)
-    public Long orderId;     
+    public String orderId;     
     @XmlElement(required=true)
     public Integer count;
     @XmlElement(required=true)

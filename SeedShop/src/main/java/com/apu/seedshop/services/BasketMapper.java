@@ -50,7 +50,7 @@ public class BasketMapper {
             item = new SeedBasketItem();                   
             item.product = new SeedProduct();
             item.product.barcode = order.getBarcode().getBarcode();                    
-            item.orderId = order.getId();                    
+            item.orderId = "" + order.getId();                    
             item.count = order.getAmount();
             product = productService.getProductByBarcode(item.product.barcode);
             item.product.name = product.getProductId().getName();

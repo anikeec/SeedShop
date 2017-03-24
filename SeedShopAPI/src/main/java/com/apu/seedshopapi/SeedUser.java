@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class SeedUser {
     @XmlElement(required=false)
-    public Long userId;
+    public String userId;
     @XmlElement(required=false)
     public String login;
     @XmlElement(required=false)

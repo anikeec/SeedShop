@@ -29,8 +29,8 @@ public class AnOrderMapper {
         SeedAnOrder sao = null;
         if (ao != null) {
             sao = new SeedAnOrder();          
-            sao.id = ao.getId();
-            sao.orderId = ao.getOrderId().getOrderId();
+            sao.id = "" + ao.getId();
+            sao.orderId = "" + ao.getOrderId().getOrderId();
             sao.barcode = ao.getBarcode().getBarcode();
             sao.price = "" + ao.getPrice();
             sao.amount = ao.getAmount();     

@@ -40,7 +40,7 @@ public class AppuserMapper {
         SeedUser su = null;
         if (u != null) {
             su = new SeedUser();          
-            su.userId = u.getUserId(); 
+            su.userId = "" + u.getUserId(); 
             su.login = u.getLogin();
             su.role = u.getRole();
             su.firstName = u.getFirstName();
@@ -104,14 +104,14 @@ public class AppuserMapper {
         Appuser u = null;
         //first, check if it exists
         if (su.userId != null) {
-            u = userRepository.findOne(su.userId);
+            u = userRepository.findOne(Long.parseLong(su.userId));
         }
         if (u == null) { //not found, create new
             logger.debug("Creating new user");
             u = newUser();
         }
         logger.debug("Updating existing user");
-        u.setUserId(su.userId);
+        u.setUserId(Long.parseLong(su.userId));
         u.setFirstName(su.firstName);
         u.setSecName(su.secName);
         u.setThirdName(su.thirdName);

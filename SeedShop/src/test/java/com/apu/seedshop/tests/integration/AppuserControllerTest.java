@@ -74,7 +74,7 @@ public class AppuserControllerTest {
     public void addUserTest() throws Exception{
         SeedUserAddRequest rq = new SeedUserAddRequest();
         rq.user = new SeedUser();
-        rq.user.userId = 100l;
+        rq.user.userId = "100";
         rq.user.login = "";
         rq.user.secName = "A";
         rq.user.firstName = "P";
