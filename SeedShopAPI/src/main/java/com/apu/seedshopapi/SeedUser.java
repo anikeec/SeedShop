@@ -13,6 +13,8 @@ public class SeedUser {
     public Long userId;
     @XmlElement(required=false)
     public String login;
+    @XmlElement(required=false)
+    public String role;
     @XmlElement(required=true)
     public String secName;
     @XmlElement(required=true)

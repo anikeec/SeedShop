@@ -42,6 +42,7 @@ public class AppuserMapper {
             su = new SeedUser();          
             su.userId = u.getUserId(); 
             su.login = u.getLogin();
+            su.role = u.getRole();
             su.firstName = u.getFirstName();
             su.secName = u.getSecName();
             su.thirdName = u.getThirdName();
