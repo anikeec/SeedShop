@@ -40,9 +40,17 @@ public class AppuserController {
     
     @RequestMapping(path="/users/byid/{userid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SeedUserListReply getUserById(@PathVariable Long userid ){
-        SeedUserListReply reply = new SeedUserListReply();
-        reply.users.add(userMapper.fromInternal(userService.getUserById(userid)));        
-        return reply;
+        SeedUserListReply rep = new SeedUserListReply();
+        try{
+            Appuser user = userService.getUserById(userid);
+            if(user == null)    throw new Exception("User with current id not found.");
+            rep.users.add(userMapper.fromInternal(user));
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error getting user. Expetion: "+e.getMessage(),e);
+        }
+        return rep;
     }
     
     @RequestMapping(path="/users/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
