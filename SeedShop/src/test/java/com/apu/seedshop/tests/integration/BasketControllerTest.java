@@ -38,40 +38,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class BasketControllerTest {
-    public final static String AUTH_HTTP_HEADER ="X-Authorization";
-    private static String token = null;
+//    public final static String AUTH_HTTP_HEADER ="X-Authorization";
+//    private static String token = null;
     @Autowired
     private MockMvc mockMvc;
     
     private String testSessIdRead = "12345678901234567890123456789015";
     private String testSessId = "12345678901234567890123456789012";
     
-    @Before
-    public void login() throws Exception {
-        if(token!=null){
-            return;
-        }
-        LoginRequest rq = new LoginRequest();
-        rq.login = "librarian1";
-        rq.password = "qwerty";
-        ObjectMapper om = new ObjectMapper();
-        String content = om.writeValueAsString(rq);
-        MvcResult result = mockMvc.perform(post("/auth")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(content)
-        )
-                .andExpect(status().isOk())
-                .andReturn();
-        String reply = result.getResponse().getContentAsString();
-        LoginReply lr = om.readValue(reply, LoginReply.class);
-        token = lr.token;
-    }
+//    @Before
+//    public void login() throws Exception {
+//        if(token!=null){
+//            return;
+//        }
+//        LoginRequest rq = new LoginRequest();
+//        rq.login = "librarian1";
+//        rq.password = "qwerty";
+//        ObjectMapper om = new ObjectMapper();
+//        String content = om.writeValueAsString(rq);
+//        MvcResult result = mockMvc.perform(post("/auth")
+//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                .content(content)
+//        )
+//                .andExpect(status().isOk())
+//                .andReturn();
+//        String reply = result.getResponse().getContentAsString();
+//        LoginReply lr = om.readValue(reply, LoginReply.class);
+//        token = lr.token;
+//    }
         
     @Test
     public void getBasketTest() throws Exception {
         this.mockMvc.perform(get("/basket/all/" + testSessIdRead)
-                                .header(AUTH_HTTP_HEADER, token))
+//                                .header(AUTH_HTTP_HEADER, token)
+                            )
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"barcode\":\"1\"")));
     }
@@ -96,7 +97,7 @@ public class BasketControllerTest {
         MvcResult result = mockMvc.perform(post("/basket/add")
                  .accept(MediaType.APPLICATION_JSON_UTF8)
                  .contentType(MediaType.APPLICATION_JSON_UTF8)
-                 .header(AUTH_HTTP_HEADER, token)
+//                 .header(AUTH_HTTP_HEADER, token)
                  .content(content)
          )
            .andExpect(status().isOk())
@@ -116,7 +117,7 @@ public class BasketControllerTest {
             mockMvc.perform(delete("/basket/del/invoice")
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
-                            .header(AUTH_HTTP_HEADER, token)
+//                            .header(AUTH_HTTP_HEADER, token)
                             .content(content)
                            )
                     .andExpect(status().isOk());                  
@@ -199,7 +200,7 @@ public class BasketControllerTest {
         MvcResult result = mockMvc.perform(post("/basket/add")
                  .accept(MediaType.APPLICATION_JSON_UTF8)
                  .contentType(MediaType.APPLICATION_JSON_UTF8)
-                 .header(AUTH_HTTP_HEADER, token)
+//                 .header(AUTH_HTTP_HEADER, token)
                  .content(content)
          )
            .andExpect(status().isOk())
