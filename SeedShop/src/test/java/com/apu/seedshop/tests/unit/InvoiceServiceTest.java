@@ -68,7 +68,7 @@ public class InvoiceServiceTest {
     @Test
     public void testGetAllInvoices() throws Exception {
         logger.debug("Test - getAllInvoices");
-        int expResult = 2;
+        int expResult = 1;
         int result = invoiceService.getAllInvoices().size();
         assert(expResult <= result);
     }
