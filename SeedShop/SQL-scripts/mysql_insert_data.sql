@@ -1,14 +1,15 @@
 use seedsdb;
 
-INSERT INTO USER_GENDER(gender_id, name) VALUES (0, 'F');
-INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'M');
+INSERT INTO USER_GENDER(gender_id, name) VALUES (0, 'U');
+INSERT INTO USER_GENDER(gender_id, name) VALUES (1, 'F');
+INSERT INTO USER_GENDER(gender_id, name) VALUES (2, 'M');
 
-INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city) VALUES 
-(3, '', '', '', '', '', '0', NULL, 1, '', '', '', '');
-INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, login, passwd_hash, role, sess_id) VALUES 
-(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', NULL, 1, 'Украина', 'Киевская', 'Броварской', 'Бровары', 'librarian1', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', 'ROLE_ADMIN', 12345678901234567890123456789012);
-INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount, birthday, gender_id, country, region, area, city, login, passwd_hash, sess_id) VALUES 
-(2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', NULL, 1, 'Грузия', '', '', 'Тбилиси', 'Oleg', 'g3456f6364fh', 12345678901234567890123456789015);
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount,  gender_id, country, region, area, city, temp, used) VALUES 
+(3, '', '', '', '', '', '0', 1, '', '', '', '', false, true);
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount,  gender_id, country, region, area, city, login, passwd_hash, role, sess_id, temp, used) VALUES 
+(1, 'Петров', 'Петр', 'Петрович', 'peter@bk.ru', '380502103706', '0.5', 2, 'Украина', 'Киевская', 'Броварской', 'Бровары', 'librarian1', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', 'ROLE_ADMIN', 12345678901234567890123456789012, true, false);
+INSERT INTO APPUSER(user_id, sec_name, first_name, third_name, email, phones, discount,  gender_id, country, region, area, city, login, passwd_hash, sess_id) VALUES 
+(2, 'Сидоров', 'Олег', 'Петрович', 'oleg@gmail.com', '3806741903706', '0', 2, 'Грузия', '', '', 'Тбилиси', 'Oleg', 'g3456f6364fh', 12345678901234567890123456789015);
 
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (0, 'Самовывоз', 1);
 INSERT INTO DELIVERY_SERVICE(delivery_id, name, collect_avail) VALUES (1, 'Новая почта', 1);
