@@ -22,7 +22,7 @@ public class SeedUser {
     @XmlElement(required=true)
     public String thirdName;
     @XmlElement(required=true)
-    public String gender; 
+    public Integer genderId; 
     @XmlElement(required=true)
     public String email;
     @XmlElement(required=true)

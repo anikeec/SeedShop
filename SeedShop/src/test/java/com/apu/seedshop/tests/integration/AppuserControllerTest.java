@@ -87,7 +87,7 @@ public class AppuserControllerTest {
         rq.user.region = "C";
         rq.user.area = "C";
         rq.user.city = "C";
-        rq.user.gender = "M";
+        rq.user.genderId = 0;
         rq.user.temp = "true";
         rq.user.used = "true";
         

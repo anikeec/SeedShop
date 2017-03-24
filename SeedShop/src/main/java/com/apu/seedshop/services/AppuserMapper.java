@@ -50,7 +50,7 @@ public class AppuserMapper {
             su.phones = u.getPhones();
             su.discount = "" + u.getDiscount();
             su.birthday = "" + u.getBirthday();            
-            su.gender = u.getGenderId().getName();
+            su.genderId = u.getGenderId().getGenderId();
             su.country = u.getCountry();
             su.region = u.getRegion();
             su.area = u.getArea();
@@ -126,7 +126,7 @@ public class AppuserMapper {
         u.setDiscount(new BigDecimal(su.discount));
         u.setEmail(su.email);
         u.setPhones(su.phones);
-        u.setGenderId(ugRepository.findByName(su.gender).get(0));
+        u.setGenderId(ugRepository.findOne(su.genderId));
         u.setCountry(su.country);
         u.setRegion(su.region);
         u.setArea(su.area);
