@@ -12,15 +12,11 @@ public class SeedProduct {
     @XmlElement(required=true)
     public String barcode;
     @XmlElement(required=true)
-    public String name;
+    public Integer aProductId;
     @XmlElement(required=true)
-    public String weight;
+    public Integer packingId;
     @XmlElement(required=true)
-    public String amount;
-    @XmlElement(required=true)
-    public String manufact; 
-    @XmlElement(required=true)
-    public String pack;
+    public Integer manufactId; 
     @XmlElement(required=true)
     public String price; 
     @XmlElement(required=true)

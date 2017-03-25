@@ -3,6 +3,7 @@
  * 
  */
 package com.apu.seedshop.services;
+import com.apu.seedshop.jpa.AnOrder;
 import com.apu.seedshop.jpa.Product;
 import com.apu.seedshop.repository.ProductRepository;
 import java.util.List;
@@ -14,10 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-private static final Logger logger =  LoggerFactory.getLogger(ProductService.class);   
+    private static final Logger logger =  LoggerFactory.getLogger(ProductService.class);   
 
-@Autowired
-ProductRepository productRepository;
+    @Autowired
+    ProductRepository productRepository;
+    @Autowired
+    ProductMapper ProductMapper;
 
   
     public List<Product> getAllProducts(){
@@ -45,4 +48,25 @@ ProductRepository productRepository;
             productRepository.save(p);
         }
     }
+    
+    public Product addProduct(Product p) throws IllegalArgumentException {  
+        if(p == null)    
+            throw new IllegalArgumentException("ProductController."
+                    + "addProduct(). Input Product item = null");
+        logger.debug(String.format("Adding product with barcode %s", 
+                        p.getBarcode()));
+        p = productRepository.save(p);
+        return p;
+    }
+    
+    public void delTestProduct(String barcode) throws IllegalArgumentException {
+        if(barcode == null)    throw new IllegalArgumentException("barcode = null");
+        Product p = productRepository.findOne(barcode);
+        if(p!=null){
+            logger.debug(String.format("Deleting test product with id %s",                                         
+                                        p.getProductId()));
+            productRepository.delete(barcode);
+        }
+    }
+    
 }

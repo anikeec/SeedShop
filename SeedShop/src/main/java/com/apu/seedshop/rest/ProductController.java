@@ -8,7 +8,9 @@ import com.apu.seedshop.jpa.Product;
 import com.apu.seedshop.services.ProductMapper;
 import com.apu.seedshop.services.ProductService;
 import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedProduct;
 import com.apu.seedshopapi.SeedProductListReply;
+import com.apu.seedshopapi.SeedProductReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,21 @@ public class ProductController {
             logger.error("Error delete product. Expetion: " + e.getMessage(),e);
         }
         return rep;       
+    }
+    
+    @RequestMapping(path="/products/add", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedProductReply addInvoice( @RequestBody SeedProduct req){
+        SeedProductReply rep = new SeedProductReply();
+        try{
+           Product p;
+           p = productService.addProduct(productMapper.toInternal(req));
+           rep.product = productMapper.fromInternal(p);
+        }catch(IllegalArgumentException e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding product. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
     }
     
 }

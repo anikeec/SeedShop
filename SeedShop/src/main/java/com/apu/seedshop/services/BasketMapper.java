@@ -53,11 +53,9 @@ public class BasketMapper {
             item.orderId = "" + order.getId();                    
             item.count = order.getAmount();
             product = productService.getProductByBarcode(item.product.barcode);
-            item.product.name = product.getProductId().getName();
-            item.product.manufact = product.getManufactId().getName();
-            item.product.pack = product.getPackingId().getPackId().getName();
-            item.product.weight = "" + product.getPackingId().getWeight();
-            item.product.amount = "" + product.getPackingId().getAmount();
+            item.product.aProductId = product.getProductId().getProductId();
+            item.product.manufactId = product.getManufactId().getManufactId();
+            item.product.packingId = product.getPackingId().getPackingId();
             item.product.price = "" + product.getPrice();                            
             rep.basketItems.add(item);
         }        
