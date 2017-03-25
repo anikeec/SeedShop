@@ -16,6 +16,6 @@ public class SeedAProduct {
     @XmlElement(required=true)
     public String name;    
     @XmlElement(required=true)
-    public String user;
+    public String used;
          
 }

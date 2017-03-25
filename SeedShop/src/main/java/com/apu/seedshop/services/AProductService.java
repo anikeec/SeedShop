@@ -3,8 +3,8 @@
  * 
  */
 package com.apu.seedshop.services;
-import com.apu.seedshop.jpa.Product;
-import com.apu.seedshop.repository.ProductRepository;
+import com.apu.seedshop.jpa.AProduct;
+import com.apu.seedshop.repository.AProductRepository;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,36 +13,55 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ProductService {
-private static final Logger logger =  LoggerFactory.getLogger(ProductService.class);   
+public class AProductService {
+    private static final Logger logger =  LoggerFactory.getLogger(AProductService.class);   
 
-@Autowired
-ProductRepository productRepository;
+    @Autowired
+    AProductRepository aProductRepository;
+    @Autowired
+    AProductMapper AProductMapper;
 
   
-    public List<Product> getAllProducts(){
-        return  productRepository.findAll();
+    public List<AProduct> getAllAProducts(){
+        return  aProductRepository.findAll();
     }
 
-    public Product getProductByBarcode(String barcode) throws IllegalArgumentException {
-        if(barcode == null)    throw new IllegalArgumentException("barcode = null");
-        Product p = productRepository.findOne(barcode);
+    public AProduct getAProductById(Integer id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
+        AProduct p = aProductRepository.findOne(id);
         return p;
     }
 
-    public void delProduct(String barcode) throws IllegalArgumentException {
-        if(barcode == null)    throw new IllegalArgumentException("barcode = null");
-        Product p = productRepository.findOne(barcode);
+    public void delAProduct(Integer id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
+        AProduct p = aProductRepository.findOne(id);
         if(p!=null){
-            logger.debug(String.format("Deleting product %s, %s, %s, %s with id %s",                                         
-                                        p.getProductId(), 
-                                        p.getManufactId(), 
-                                        p.getPackingId(),
-                                        p.getPrice(),
+            logger.debug(String.format("Deleting aproduct %s, %s, %s with id %s",                                         
+                                        p.getName(), 
+                                        p.getParentId(), 
+                                        p.getUsed(),
                                         p.getProductId()));
-            //productRepository.delete(p);
             p.setUsed(false);
-            productRepository.save(p);
+            aProductRepository.save(p);
+        }
+    }
+    
+    public AProduct addAProduct(AProduct p) throws IllegalArgumentException {  
+        if(p == null)    
+            throw new IllegalArgumentException("AProductService."
+                    + "addAProduct(). Input AProduct item = null");
+        logger.debug(String.format("Adding aproduct with id %s", p.getProductId()));
+        p = aProductRepository.save(p);
+        return p;
+    }
+    
+    public void delTestAProduct(Integer id) throws IllegalArgumentException {
+        if(id == null)    throw new IllegalArgumentException("id = null");
+        AProduct p = aProductRepository.findOne(id);
+        if(p!=null){
+            logger.debug(String.format("Deleting test aproduct with id %s",                                         
+                                        p.getProductId()));
+            aProductRepository.delete(id);
         }
     }
 }
