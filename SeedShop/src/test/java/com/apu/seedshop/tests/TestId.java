@@ -21,4 +21,8 @@ public class TestId {
     public static final Integer TestIdPackServInteger = 105;
     public static final Integer TestIdPackServPackNew = 106;
     public static final Integer TestIdPackServPack = TestIdPackServInteger;
+    
+    public static final Integer TestIdDeliveryStatusServInteger = 107;
+    public static final Integer TestIdDeliveryStatusServDSNew = 108;
+    public static final Integer TestIdDeliveryStatusServDS = TestIdDeliveryStatusServInteger;
 }

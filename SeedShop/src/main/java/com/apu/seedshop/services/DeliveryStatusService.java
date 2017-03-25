@@ -30,6 +30,14 @@ DeliveryStatusRepository dsRepository;
         return p;
     }
     
+    public DeliveryStatus addDeliveryStatus(DeliveryStatus ds) throws IllegalArgumentException {      
+        if(ds == null)    throw new IllegalArgumentException("p = null");
+        logger.debug(String.format("Adding DeliveryStatus %s with id %s", 
+                        ds.getStatus(), ds.getStatusId()));
+        ds = dsRepository.save(ds);
+        return ds;
+    }
+    
     public void delDeliveryStatus(Integer id) throws IllegalArgumentException {
         if(id == null) throw new IllegalArgumentException("delDeliveryStatus. id = null");
         DeliveryStatus temp = dsRepository.findOne(id);
@@ -38,6 +46,16 @@ DeliveryStatusRepository dsRepository;
                     temp.getStatusId()));
             temp.setUsed(false);
             dsRepository.save(temp);
+        }
+    }
+    
+    public void delTestDeliveryStatus(Integer id) throws IllegalArgumentException {
+        if(id == null) throw new IllegalArgumentException("delDeliveryStatus. id = null");
+        DeliveryStatus temp = dsRepository.findOne(id);
+        if(temp!=null){
+            logger.debug(String.format("Deleting test deliveryStatus with id %s",                    
+                    temp.getStatusId()));
+            dsRepository.delete(id);
         }
     }
     
