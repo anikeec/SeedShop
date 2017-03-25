@@ -3,6 +3,7 @@ package com.apu.seedshop.services;
 import com.apu.seedshop.jpa.Packing;
 import com.apu.seedshop.repository.PackingRepository;
 import com.apu.seedshopapi.SeedPacking;
+import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,17 @@ public class PackingMapper {
     @Autowired
     PackingRepository pRepository;
     
+    @Autowired
+    PackService packService;
+    
 /**
  * Maps internal JPA model to external REST model
  * @param inp internal Packing model
  * @return external REST SeedPacking model
  */
     public SeedPacking fromInternal(Packing inp) throws IllegalArgumentException {
-        if(inp == null) throw new IllegalArgumentException("fromInternal. inp = null");
+        if(inp == null) 
+            throw new IllegalArgumentException("PackingMapper. fromInternal. input = null");
         SeedPacking result = new SeedPacking();          
         result.packingId = inp.getPackingId();
         result.packId = inp.getPackId().getPackId();
@@ -46,8 +51,55 @@ public class PackingMapper {
             idOK = !pRepository.exists(id);
         }
         item.setPackingId(id);
-        item.setUsed(true);  
+        item.setAmount(0);
+        item.setWeight(new BigDecimal(0));
+        item.setUsed(true); 
+        item.setPackId(null);
         return item;
+    }
+    
+/**
+ * Maps external REST model to internal Packing;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param sp REST model
+ * @return internal Packing with all required fields set
+ */
+    public Packing toInternal(SeedPacking sp) throws IllegalArgumentException {
+        Packing packing = null;
+        if(sp == null) 
+            throw new IllegalArgumentException("PackingMapper. toInternal. input = null");
+        
+        if (sp.packingId != null) {     //first, check if it exists
+            packing = pRepository.findOne(sp.packingId);            
+        }
+        if(packing == null){            //not found, create new
+            logger.debug("Creating new packing");
+            packing = newPacking();
+        } else {
+            logger.debug("Updating existing packing");
+        }      
+        
+        packing.setAmount(sp.amount);
+        
+        if(sp.weight != null) {
+            packing.setWeight(new BigDecimal(sp.weight));
+        } else {
+            packing.setWeight(null);
+        }
+        
+        if(sp.packId != null) {
+            packing.setPackId(packService.getPackById(sp.packId));
+        } else {
+            packing.setPackId(null);
+        }
+
+        if(sp.used != null)
+            packing.setUsed(sp.used.equals("true"));
+        else
+            packing.setUsed(null);
+        
+        return packing;
     }
 
 }

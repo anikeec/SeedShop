@@ -5,10 +5,13 @@
  */
 package com.apu.seedshop.tests.unit;
 
+import com.apu.seedshop.jpa.Pack;
 import com.apu.seedshop.jpa.Packing;
+import com.apu.seedshop.services.PackMapper;
 import com.apu.seedshop.services.PackService;
+import com.apu.seedshop.services.PackingMapper;
 import com.apu.seedshop.services.PackingService;
-import java.math.BigDecimal;
+import com.apu.seedshop.tests.TestId;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,14 +29,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PackingServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(PackingServiceTest.class);
-    Integer testIdRead = 1;
-    Integer testId = 100;
     
     @Autowired
-    PackingService packingService;
-    
+    PackMapper packMapper;    
     @Autowired
     PackService packService;
+    @Autowired
+    PackingMapper packingMapper;    
+    @Autowired
+    PackingService packingService;
     
     public PackingServiceTest() {
     }
@@ -48,10 +52,21 @@ public class PackingServiceTest {
     
     @Before
     public void setUp() {
+        Pack pack = packMapper.newPack();
+        pack.setPackId(TestId.TestIdPackingServPack);
+        pack.setName("test");
+        packService.addPack(pack);
+        
+        Packing packing = packingMapper.newPacking();
+        packing.setPackingId(TestId.TestIdPackingServPacking);
+        packing.setPackId(pack);
+        packingService.addPacking(packing);
     }
     
     @After
     public void tearDown() {
+        packingService.delTestPacking(TestId.TestIdPackingServPacking);
+        packService.delTestPack(TestId.TestIdPackingServPack);
     }
 
     /**
@@ -61,7 +76,7 @@ public class PackingServiceTest {
     @Test
     public void testGetAllPackings() throws Exception {
         logger.debug("Test - getAllPackings");
-        int expResult = 2;
+        int expResult = 1;
         int result = packingService.getAllPackings().size();
         assert(expResult <= result);
     }
@@ -74,7 +89,8 @@ public class PackingServiceTest {
     public void testGetPackingById() throws Exception {
         logger.debug("Test - getPackingById");
         Packing expResult = null;
-        Packing result = packingService.getPackingById(testIdRead);
+        Packing result = 
+                packingService.getPackingById(TestId.TestIdPackingServPacking);
         assert(expResult != result);
     }
 
@@ -85,24 +101,28 @@ public class PackingServiceTest {
     @Test
     public void testAddPacking() throws Exception {
         logger.debug("Test - addPacking");
-        Packing p = new Packing();        
-        p.setPackingId(testId);
-        p.setWeight(new BigDecimal(20.0));
-        p.setAmount(10);
-        p.setPackId(packService.getPackById(testIdRead));
-        Packing expResult = p;
-        packingService.addPacking(p);
-        Packing result = packingService.getPackingById(testId);
+        
+        Pack pack = packService.getPackById(TestId.TestIdPackingServPack);
+        
+        Packing packing = packingMapper.newPacking();
+        packing.setPackingId(TestId.TestIdPackingServPackingNew);
+        packing.setPackId(pack);
+        packingService.addPacking(packing);    
+
+        Packing expResult = packing;
+        Packing result = 
+                packingService.getPackingById(TestId.TestIdPackingServPackingNew);
         assertEquals(expResult, result);
-        packingService.delPacking(testId);
-        result = packingService.getPackingById(testId);
+        packingService.delPacking(TestId.TestIdPackingServPackingNew);
+        result = packingService.getPackingById(TestId.TestIdPackingServPackingNew);
         if(result.getUsed() == false) {
             result = null;
         }
         expResult = null;
         assertEquals(expResult, result);
-        packingService.delTestPacking(testId);
-        result = packingService.getPackingById(testId);
+        
+        packingService.delTestPacking(TestId.TestIdPackingServPackingNew);
+        result = packingService.getPackingById(TestId.TestIdPackingServPackingNew);
         expResult = null;
         assertEquals(expResult, result);
     }
