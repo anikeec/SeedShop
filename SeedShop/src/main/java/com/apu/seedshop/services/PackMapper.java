@@ -15,7 +15,7 @@ public class PackMapper {
     public static final Long LIBRARIANS_GROUP_ID = 1L;
     
     @Autowired
-    PackRepository mRepository;
+    PackRepository pRepository;
     
 /**
  * Maps internal JPA model to external REST model
@@ -23,7 +23,8 @@ public class PackMapper {
  * @return external REST SeedPack model
  */
     public SeedPack fromInternal(Pack inp) throws IllegalArgumentException {
-        if(inp == null) throw new IllegalArgumentException("fromInternal. inp = null");
+        if(inp == null) 
+            throw new IllegalArgumentException("PackMapper. fromInternal. input = null");
         SeedPack result = new SeedPack();          
         result.packId = inp.getPackId();
         result.name = inp.getName();
@@ -41,11 +42,42 @@ public class PackMapper {
         int id = 0;
         while (!idOK) {
             id++;
-            idOK = !mRepository.exists(id);
+            idOK = !pRepository.exists(id);
         }
         item.setPackId(id);
         item.setUsed(true);  
         return item;
+    }
+    
+/**
+ * Maps external REST model to internal Pack;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param sp REST model
+ * @return internal Pack with all required fields set
+ */
+    public Pack toInternal(SeedPack sp) throws IllegalArgumentException {
+        Pack p = null;
+        if(sp == null) 
+            throw new IllegalArgumentException("PackMapper. toInternal. input = null");
+        
+        if (sp.packId != null) {    //first, check if it exists
+            p = pRepository.findOne(sp.packId);            
+        }
+        if(p == null){              //not found, create new
+            logger.debug("Creating new pack");
+            p = newPack();
+        } else {
+            logger.debug("Updating existing pack");
+        }        
+
+        p.setName(sp.name);
+        if(sp.used != null)
+            p.setUsed(sp.used.equals("true"));
+        else
+            p.setUsed(null);
+        
+        return p;
     }
 
 }

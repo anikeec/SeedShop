@@ -8,6 +8,7 @@ import com.apu.seedshop.jpa.Pack;
 import com.apu.seedshop.services.PackMapper;
 import com.apu.seedshop.services.PackService;
 import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedPack;
 import com.apu.seedshopapi.SeedPackReply;
 import com.apu.seedshopapi.SeedPackListReply;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
@@ -63,6 +65,21 @@ public class PackController {
             logger.error("Error delete Pack. Expetion: " + e.getMessage(),e);
         }
         return rep;       
+    }
+    
+    @RequestMapping(path="/pack/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedPackReply addInvoice( @RequestBody SeedPack req){
+        SeedPackReply rep = new SeedPackReply();
+        try{
+           Pack p;
+           p = pService.addPack(pMapper.toInternal(req));
+           rep.pack = pMapper.fromInternal(p);
+        }catch(IllegalArgumentException e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding pack. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
     }
     
 }

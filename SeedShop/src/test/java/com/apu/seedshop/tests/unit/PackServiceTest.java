@@ -6,8 +6,9 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.Pack;
+import com.apu.seedshop.services.PackMapper;
 import com.apu.seedshop.services.PackService;
-import java.util.List;
+import com.apu.seedshop.tests.TestId;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,8 +26,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PackServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(PackServiceTest.class);
-    Integer testId = 100;
     
+    @Autowired
+    PackMapper packMapper;
     @Autowired
     PackService packService;
     
@@ -43,10 +45,15 @@ public class PackServiceTest {
     
     @Before
     public void setUp() {
+        Pack pack = packMapper.newPack();
+        pack.setPackId(TestId.TestIdPackServPack);
+        pack.setName("test");
+        packService.addPack(pack);
     }
     
     @After
     public void tearDown() {
+        packService.delTestPack(TestId.TestIdPackServPack);
     }
 
     /**
@@ -56,7 +63,7 @@ public class PackServiceTest {
     @Test
     public void testGetAllPacks() throws Exception {
         logger.debug("Test - getAllPacks");
-        int expResult = 2;
+        int expResult = 1;
         int result = packService.getAllPacks().size();
         assert(expResult <= result);
     }
@@ -68,9 +75,8 @@ public class PackServiceTest {
     @Test
     public void testGetPackById() throws Exception {
         logger.debug("Test - getPackById");
-        Integer packId = 1;
         Pack expResult = null;
-        Pack result = packService.getPackById(packId);
+        Pack result = packService.getPackById(TestId.TestIdPackServPack);
         assert(expResult != result);
     }
 
@@ -81,22 +87,25 @@ public class PackServiceTest {
     @Test
     public void testAddPack() throws Exception {
         logger.debug("Test - addPack");
-        Pack p = new Pack();
-        p.setPackId(testId);
-        p.setName("Test name.");
-        Pack expResult = p;
-        packService.addPack(p);
-        Pack result = packService.getPackById(testId);
+        
+        Pack pack = packMapper.newPack();
+        pack.setPackId(TestId.TestIdPackServPackNew);
+        pack.setName("test");
+        packService.addPack(pack);
+
+        Pack expResult = pack;
+        Pack result = packService.getPackById(TestId.TestIdPackServPackNew);
         assertEquals(expResult, result);
-        packService.delPack(testId);
-        result = packService.getPackById(testId);
+        packService.delPack(TestId.TestIdPackServPackNew);
+        result = packService.getPackById(TestId.TestIdPackServPackNew);
         if(result.getUsed() == false) {
             result = null;
         }
         expResult = null;
         assertEquals(expResult, result);
-        packService.delTestPack(testId);
-        result = packService.getPackById(testId);
+        
+        packService.delTestPack(TestId.TestIdPackServPackNew);
+        result = packService.getPackById(TestId.TestIdPackServPackNew);
         expResult = null;
         assertEquals(expResult, result);
     }
