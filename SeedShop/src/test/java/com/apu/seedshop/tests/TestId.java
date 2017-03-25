@@ -25,4 +25,8 @@ public class TestId {
     public static final Integer TestIdDeliveryStatusServInteger = 107;
     public static final Integer TestIdDeliveryStatusServDSNew = 108;
     public static final Integer TestIdDeliveryStatusServDS = TestIdDeliveryStatusServInteger;
+    
+    public static final Integer TestIdDeliveryServiceServInteger = 107;
+    public static final Integer TestIdDeliveryServiceServDSNew = 108;
+    public static final Integer TestIdDeliveryServiceServDS = TestIdDeliveryServiceServInteger;
 }
