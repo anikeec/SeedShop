@@ -48,7 +48,7 @@ public class DeliveryServiceServiceTest {
         DeliveryService ds = delivStatusMapper.newDeliveryService();
         ds.setDeliveryId(TestId.TestIdDeliveryServiceServDS);
         ds.setName("test");
-        ds.setCollectAvail(0);
+        ds.setCollectAvail(false);
         delivStatusService.addDeliveryService(ds);
     }
     
@@ -93,7 +93,7 @@ public class DeliveryServiceServiceTest {
         DeliveryService ds = delivStatusMapper.newDeliveryService();
         ds.setDeliveryId(TestId.TestIdDeliveryServiceServDSNew);
         ds.setName("test");
-        ds.setCollectAvail(0);
+        ds.setCollectAvail(false);
         delivStatusService.addDeliveryService(ds);
 
         DeliveryService expResult = ds;

@@ -50,7 +50,7 @@ public class DeliveryService implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "collect_avail")
-    private int collectAvail;
+    private Boolean collectAvail;
     @Column(name = "used")
     private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "deliveryId")
@@ -63,7 +63,7 @@ public class DeliveryService implements Serializable {
         this.deliveryId = deliveryId;
     }
 
-    public DeliveryService(Integer deliveryId, String name, int collectAvail) {
+    public DeliveryService(Integer deliveryId, String name, Boolean collectAvail) {
         this.deliveryId = deliveryId;
         this.name = name;
         this.collectAvail = collectAvail;
@@ -85,11 +85,11 @@ public class DeliveryService implements Serializable {
         this.name = name;
     }
 
-    public int getCollectAvail() {
+    public Boolean getCollectAvail() {
         return collectAvail;
     }
 
-    public void setCollectAvail(int collectAvail) {
+    public void setCollectAvail(Boolean collectAvail) {
         this.collectAvail = collectAvail;
     }
 
