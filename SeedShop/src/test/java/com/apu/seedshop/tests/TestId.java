@@ -5,7 +5,7 @@
  */
 package com.apu.seedshop.tests;
 
-public class TestId {
+public class TestId {    
     public static final String  TestIdProdServBarcode = "123456789012";
     public static final Integer TestIdProdServInteger = 102;
     public static final Integer TestIdProdServPacking = TestIdProdServInteger;
@@ -42,4 +42,13 @@ public class TestId {
     public static final Integer TestIdProductLocationServInteger = 113;
     public static final Integer TestIdProductLocationServPLNew = 114;
     public static final Integer TestIdProductLocationServPL = TestIdProductLocationServInteger;
+        
+    public static final Integer TestIdAvailServInteger = 115;
+    public static final Integer TestIdAvailServAvail = TestIdAvailServInteger;
+    public static final String  TestIdAvailServProd = "123456789012";    
+    public static final Integer TestIdAvailServPacking = TestIdAvailServInteger;
+    public static final Integer TestIdAvailServPack = TestIdAvailServInteger;
+    public static final Integer TestIdAvailServManuf = TestIdAvailServInteger;
+    public static final Integer TestIdAvailServAProd = TestIdAvailServInteger;
+    public static final Integer TestIdAvailServLocation = TestIdAvailServInteger;
 }

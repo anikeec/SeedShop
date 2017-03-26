@@ -32,7 +32,7 @@ public class AvailabilityController {
     @RequestMapping(path="/avail/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SeedAvailabilityListReply getAllAvailabilitys(){
         SeedAvailabilityListReply reply = new SeedAvailabilityListReply();
-        for(Availability temp: avService.getAllAvailabilitys()){
+        for(Availability temp: avService.getAllAvailabilities()){
             reply.availabilities.add(avMapper.fromInternal(temp));    
         }
         return reply;

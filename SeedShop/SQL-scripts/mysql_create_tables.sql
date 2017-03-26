@@ -189,8 +189,8 @@ CREATE TABLE AN_ORDER(
 
 CREATE TABLE AVAILABILITY(
  id INT NOT NULL,
- location_id INT,
- barcode VARCHAR(15),
+ location_id INT NOT NULL,
+ barcode VARCHAR(15) NOT NULL,
  available INT DEFAULT 0,
  reserv INT DEFAULT 0,
  PRIMARY KEY (id),

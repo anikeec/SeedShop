@@ -19,7 +19,7 @@ public class AvailabilityService {
     @Autowired
     AvailabilityRepository availabilityRepository;
   
-    public List<Availability> getAllAvailabilitys(){
+    public List<Availability> getAllAvailabilities(){
         return  availabilityRepository.findAll();
     }
 
@@ -45,7 +45,6 @@ public class AvailabilityService {
         if(m!=null){
             logger.debug(String.format("Deleting Availability with id %s", id));
             availabilityRepository.delete(id);
-            availabilityRepository.save(m);
         }
     }
     

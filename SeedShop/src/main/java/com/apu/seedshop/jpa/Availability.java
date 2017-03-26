@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Availability.findAll", query = "SELECT a FROM Availability a")
     , @NamedQuery(name = "Availability.findById", query = "SELECT a FROM Availability a WHERE a.id = :id")
-    , @NamedQuery(name = "Availability.findByLocationId", query = "SELECT a FROM Availability a WHERE a.locationId = :locationId")
     , @NamedQuery(name = "Availability.findByAvailable", query = "SELECT a FROM Availability a WHERE a.available = :available")
     , @NamedQuery(name = "Availability.findByReserv", query = "SELECT a FROM Availability a WHERE a.reserv = :reserv")})
 public class Availability implements Serializable {
@@ -44,10 +43,10 @@ public class Availability implements Serializable {
     @Column(name = "reserv")
     private Integer reserv;
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private ProductLocation locationId;
     @JoinColumn(name = "barcode", referencedColumnName = "barcode")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Product barcode;
 
     public Availability() {
