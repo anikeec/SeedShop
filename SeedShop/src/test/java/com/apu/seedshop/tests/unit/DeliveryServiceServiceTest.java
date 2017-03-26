@@ -54,7 +54,7 @@ public class DeliveryServiceServiceTest {
     
     @After
     public void tearDown() {
-        delivStatusService.delTestDeliveryService(TestId.TestIdDeliveryServiceServDS);
+        delivStatusService.delDeliveryServiceFull(TestId.TestIdDeliveryServiceServDS);
     }
 
     /**
@@ -108,7 +108,7 @@ public class DeliveryServiceServiceTest {
         expResult = null;
         assertEquals(expResult, result);
         
-        delivStatusService.delTestDeliveryService(TestId.TestIdDeliveryServiceServDSNew);
+        delivStatusService.delDeliveryServiceFull(TestId.TestIdDeliveryServiceServDSNew);
         result = delivStatusService.getDeliveryServiceById(TestId.TestIdDeliveryServiceServDSNew);
         expResult = null;
         assertEquals(expResult, result);

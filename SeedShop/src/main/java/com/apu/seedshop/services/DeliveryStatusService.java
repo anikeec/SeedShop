@@ -49,7 +49,7 @@ DeliveryStatusRepository dsRepository;
         }
     }
     
-    public void delTestDeliveryStatus(Integer id) throws IllegalArgumentException {
+    public void delDeliveryStatusFull(Integer id) throws IllegalArgumentException {
         if(id == null) throw new IllegalArgumentException("delDeliveryStatus. id = null");
         DeliveryStatus temp = dsRepository.findOne(id);
         if(temp!=null){

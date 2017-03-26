@@ -49,7 +49,7 @@ DeliveryServiceRepository dservRepository;
         }
     }
     
-    public void delTestDeliveryService(Integer id) throws IllegalArgumentException {
+    public void delDeliveryServiceFull(Integer id) throws IllegalArgumentException {
         if(id == null) throw new IllegalArgumentException("delDeliveryService. id = null");
         DeliveryService temp = dservRepository.findOne(id);
         if(temp!=null){
