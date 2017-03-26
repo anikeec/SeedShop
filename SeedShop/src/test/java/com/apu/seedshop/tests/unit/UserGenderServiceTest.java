@@ -57,7 +57,7 @@ public class UserGenderServiceTest {
     public UserGender createTestUserGender(Integer id) {
         UserGender ug = ugMapper.newUserGender();
         ug.setGenderId(id);
-        ug.setName("Test");
+        ug.setName("T");
         UserGender res = null;
         try {
             res = ugService.addUserGender(ug);
