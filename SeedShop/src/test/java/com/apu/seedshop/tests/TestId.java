@@ -29,4 +29,9 @@ public class TestId {
     public static final Integer TestIdDeliveryServiceServInteger = 107;
     public static final Integer TestIdDeliveryServiceServDSNew = 108;
     public static final Integer TestIdDeliveryServiceServDS = TestIdDeliveryServiceServInteger;
+    
+    public static final Integer TestIdManufactServInteger = 109;
+    public static final Integer TestIdManufactServManufactNew = 110;
+    public static final Integer TestIdManufactServManufact = TestIdManufactServInteger;
+    public static final Integer TestIdManufactServPack = TestIdManufactServInteger;
 }

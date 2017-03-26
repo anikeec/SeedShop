@@ -6,7 +6,9 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.Manufacture;
+import com.apu.seedshop.services.ManufactureMapper;
 import com.apu.seedshop.services.ManufactureService;
+import com.apu.seedshop.tests.TestId;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,10 +28,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ManufactureServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(ManufactureServiceTest.class);
-    Integer testId = 100;
+    //Integer testId = 100;
     
     @Autowired
     ManufactureService manufactureService;
+    @Autowired
+    ManufactureMapper manufactureMapper;
     
     public ManufactureServiceTest() {
     }
@@ -44,10 +48,25 @@ public class ManufactureServiceTest {
     
     @Before
     public void setUp() {
+        createTestManufacture(TestId.TestIdManufactServManufact);
     }
     
     @After
     public void tearDown() {
+        removeTestManufacture(TestId.TestIdManufactServManufact);
+    }
+    
+    public Manufacture createTestManufacture(Integer id) {
+        Manufacture m = manufactureMapper.newManufacture();
+        m.setManufactId(id);
+        m.setName("test");
+        m.setAddress("test");
+        m.setUsed(true);
+        return manufactureService.addManufacture(m);
+    }
+    
+    public void removeTestManufacture(Integer id) {
+        manufactureService.delTestManufacture(id);
     }
 
     /**
@@ -57,7 +76,7 @@ public class ManufactureServiceTest {
     @Test
     public void testGetAllManufactures() throws Exception {
         logger.debug("Test - getAllManufactures");
-        int expResult = 2;
+        int expResult = 1;
         int result = manufactureService.getAllManufactures().size();
         assert(expResult <= result);
     }
@@ -69,9 +88,9 @@ public class ManufactureServiceTest {
     @Test
     public void testGetManufactureById() throws Exception {
         logger.debug("Test - getManufactureById");
-        Integer manufactId = 1;
         Manufacture expResult = null;
-        Manufacture result = manufactureService.getManufactureById(manufactId);
+        Manufacture result = 
+            manufactureService.getManufactureById(TestId.TestIdManufactServManufact);
         assert(expResult != result);
     }
 
@@ -81,27 +100,28 @@ public class ManufactureServiceTest {
      */
     @Test
     public void testAddManufacture() throws Exception {
-        Manufacture result;
         logger.debug("Test - addManufacture");
-        Manufacture m = new Manufacture();
-        m.setManufactId(testId);
-        m.setName("Test name");
-        m.setAddress("Test address.");
-        m.setUsed(true);
+        
+        Manufacture m = 
+            createTestManufacture(TestId.TestIdManufactServManufactNew);
         Manufacture expResult = m;
-        manufactureService.addManufacture(m);
-        result = manufactureService.getManufactureById(testId);        
+        Manufacture result = 
+            manufactureService.getManufactureById(TestId.TestIdManufactServManufactNew);        
         assertEquals(expResult, result);
-        manufactureService.delManufacture(testId);
-        result = manufactureService.getManufactureById(testId);
+        
+        manufactureService.delManufacture(TestId.TestIdManufactServManufactNew);
+        result = 
+            manufactureService.getManufactureById(TestId.TestIdManufactServManufactNew);
         if(result.getUsed() == false) {
             result = null;
         }
         expResult = null;
-        assertEquals(expResult, result); 
+        assertEquals(expResult, result);
+        
         //real delete test manufacture
-        manufactureService.delTestManufacture(testId);
-        result = manufactureService.getManufactureById(testId);
+        removeTestManufacture(TestId.TestIdManufactServManufactNew);
+        result = 
+            manufactureService.getManufactureById(TestId.TestIdManufactServManufactNew);
         expResult = null;
         assertEquals(expResult, result);
     }
