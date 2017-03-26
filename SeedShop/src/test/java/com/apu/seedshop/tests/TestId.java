@@ -38,4 +38,8 @@ public class TestId {
     public static final Integer TestIdUserGenderServInteger = 111;
     public static final Integer TestIdUserGenderServUGNew = 112;
     public static final Integer TestIdUserGenderServUG = TestIdUserGenderServInteger;
+    
+    public static final Integer TestIdProductLocationServInteger = 113;
+    public static final Integer TestIdProductLocationServPLNew = 114;
+    public static final Integer TestIdProductLocationServPL = TestIdProductLocationServInteger;
 }

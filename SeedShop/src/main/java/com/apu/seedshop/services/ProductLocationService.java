@@ -48,10 +48,10 @@ ProductLocationRepository plRepository;
         }
     }
     
-    public void delTestProductLocation(Integer packId){
+    public void delProductLocationFull(Integer packId){
         ProductLocation p = plRepository.findOne(packId);
         if(p!=null){
-            logger.debug(String.format("Deleting test ProductLocation with id %s", packId));
+            logger.debug(String.format("Deleting ProductLocation full with id %s", packId));
             plRepository.delete(packId);
         }
     }
