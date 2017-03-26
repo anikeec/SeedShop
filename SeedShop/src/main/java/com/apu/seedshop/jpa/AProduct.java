@@ -50,7 +50,7 @@ public class AProduct implements Serializable {
     private Boolean used;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Collection<Product> productCollection;
-    @OneToMany(mappedBy = "parentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
     private Collection<AProduct> aProductCollection;
     @JoinColumn(name = "parent_id", referencedColumnName = "product_id")
     @ManyToOne
