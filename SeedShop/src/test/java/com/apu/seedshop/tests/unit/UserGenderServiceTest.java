@@ -6,7 +6,9 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.UserGender;
+import com.apu.seedshop.services.UserGenderMapper;
 import com.apu.seedshop.services.UserGenderService;
+import com.apu.seedshop.tests.TestId;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,8 +27,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserGenderServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(UserGenderServiceTest.class);
-    Integer testId = 100;
     
+    @Autowired
+    UserGenderMapper ugMapper;
     @Autowired
     UserGenderService ugService;
     
@@ -43,10 +46,29 @@ public class UserGenderServiceTest {
     
     @Before
     public void setUp() {
+        createTestUserGender(TestId.TestIdUserGenderServUG);
     }
     
     @After
     public void tearDown() {
+        removeTestUserGender(TestId.TestIdUserGenderServUG);
+    }
+    
+    public UserGender createTestUserGender(Integer id) {
+        UserGender ug = ugMapper.newUserGender();
+        ug.setGenderId(id);
+        ug.setName("Test");
+        UserGender res = null;
+        try {
+            res = ugService.addUserGender(ug);
+        } catch(Exception e) {
+            logger.debug("Exception:" + e.getCause() + e.getMessage());
+        }
+        return res;
+    }
+    
+    public void removeTestUserGender(Integer id) {
+        ugService.delUserGenderFull(id);
     }
 
     /**
@@ -56,7 +78,7 @@ public class UserGenderServiceTest {
     @Test
     public void testGetAll() throws Exception {
         logger.debug("Test - getAll");
-        int expResult = 2;
+        int expResult = 1;
         int result = ugService.getAll().size();
         assert(expResult <= result);
     }
@@ -68,9 +90,9 @@ public class UserGenderServiceTest {
     @Test
     public void testGetUserGenderById() throws Exception {
         logger.debug("Test - getUserGenderById");
-        int id = 1;
         UserGender expResult = null;
-        UserGender result = ugService.getUserGenderById(id);
+        UserGender result = 
+            ugService.getUserGenderById(TestId.TestIdUserGenderServUG);
         assert(expResult != result);
     }
 
@@ -81,7 +103,7 @@ public class UserGenderServiceTest {
     @Test
     public void testFindUserGenderByName() throws Exception {
         logger.debug("Test - findUserGenderByName");
-        String name = "M";
+        String name = "T";
         int expResult = 1;
         int result = ugService.findUserGenderByName(name).size();
         assertEquals(expResult, result);
@@ -94,22 +116,25 @@ public class UserGenderServiceTest {
     @Test
     public void testAddUserGender() throws Exception {
         logger.debug("Test - addUserGender");
-        UserGender ug = new UserGender();
-        ug.setGenderId(testId);
-        ug.setName("T");
+        
+        UserGender ug = 
+            createTestUserGender(TestId.TestIdUserGenderServUGNew);        
         UserGender expResult = ug;
         ugService.addUserGender(ug);
-        UserGender result = ugService.getUserGenderById(testId);        
-        assertEquals(expResult, result);        
-        ugService.delUserGender(testId);
-        result = ugService.getUserGenderById(testId);
+        UserGender result = 
+            ugService.getUserGenderById(TestId.TestIdUserGenderServUGNew);        
+        assertEquals(expResult, result); 
+        
+        ugService.delUserGender(TestId.TestIdUserGenderServUGNew);
+        result = ugService.getUserGenderById(TestId.TestIdUserGenderServUGNew);
         if(result.getUsed() == false) {
             result = null;
         }
         expResult = null;
         assertEquals(expResult, result);
-        ugService.delTestUserGender(testId);
-        result = ugService.getUserGenderById(testId);
+        
+        ugService.delUserGenderFull(TestId.TestIdUserGenderServUGNew);
+        result = ugService.getUserGenderById(TestId.TestIdUserGenderServUGNew);
         expResult = null;
         assertEquals(expResult, result);
     }

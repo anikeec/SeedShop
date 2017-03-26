@@ -34,4 +34,8 @@ public class TestId {
     public static final Integer TestIdManufactServManufactNew = 110;
     public static final Integer TestIdManufactServManufact = TestIdManufactServInteger;
     public static final Integer TestIdManufactServPack = TestIdManufactServInteger;
+    
+    public static final Integer TestIdUserGenderServInteger = 111;
+    public static final Integer TestIdUserGenderServUGNew = 112;
+    public static final Integer TestIdUserGenderServUG = TestIdUserGenderServInteger;
 }

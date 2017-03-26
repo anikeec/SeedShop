@@ -8,6 +8,7 @@ package com.apu.seedshop.jpa;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -45,7 +46,7 @@ public class UserGender implements Serializable {
     private String name;
     @Column(name = "used")
     private Boolean used;
-    @OneToMany(mappedBy = "genderId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genderId")
     private Collection<Appuser> appuserCollection;
 
     public UserGender() {

@@ -44,7 +44,8 @@ public class UserGenderService {
 
     public UserGender addUserGender(UserGender ug) throws IllegalArgumentException {
         if(ug == null)    throw new IllegalArgumentException("ug = null");
-        logger.debug(String.format("Adding user gender %s with id %s", ug.getName(), ug.getGenderId()));
+        logger.debug(String.format("Adding user gender %s with id %s", 
+                ug.getName(), ug.getGenderId()));
         ug = ugRepository.save(ug);
         return ug;
     }
@@ -53,18 +54,19 @@ public class UserGenderService {
         if(id == null)    throw new IllegalArgumentException("id = null");
         UserGender ug = ugRepository.findOne(id);
         if(ug!=null){
-            logger.debug(String.format("Deleting user gender %s with id %s", ug.getName(), ug.getGenderId()));
-            //ugRepository.delete(id);
+            logger.debug(String.format("Deleting user gender %s with id %s", 
+                    ug.getName(), ug.getGenderId()));
             ug.setUsed(false);
             ugRepository.save(ug);
         }
     }
     
-    public void delTestUserGender(Integer id){
+    public void delUserGenderFull(Integer id){
         if(id == null)    throw new IllegalArgumentException("id = null");
         UserGender ug = ugRepository.findOne(id);
         if(ug!=null){
-            logger.debug(String.format("Deleting test user gender %s with id %s", ug.getName(), ug.getGenderId()));
+            logger.debug(String.format("Deleting user full gender %s with id %s", 
+                    ug.getName(), ug.getGenderId()));
             ugRepository.delete(id);
         }
     }
