@@ -48,10 +48,10 @@ public class ManufactureService {
         }
     }
     
-    public void delTestManufacture(Integer manufactId){
+    public void delManufactureFull(Integer manufactId){
         Manufacture m = manufactureRepository.findOne(manufactId);
         if(m!=null){
-            logger.debug(String.format("Deleting test manufacture with id %s", manufactId));
+            logger.debug(String.format("Deleting manufacture full with id %s", manufactId));
             manufactureRepository.delete(manufactId);
         }
     }

@@ -55,11 +55,11 @@ public class AProductService {
         return p;
     }
     
-    public void delTestAProduct(Integer id) throws IllegalArgumentException {
+    public void delAProductFull(Integer id) throws IllegalArgumentException {
         if(id == null)    throw new IllegalArgumentException("id = null");
         AProduct p = aProductRepository.findOne(id);
         if(p!=null){
-            logger.debug(String.format("Deleting test aproduct with id %s",                                         
+            logger.debug(String.format("Deleting aproduct full with id %s",                                         
                                         p.getProductId()));
             aProductRepository.delete(id);
         }

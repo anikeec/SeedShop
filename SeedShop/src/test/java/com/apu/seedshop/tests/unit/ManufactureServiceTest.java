@@ -66,7 +66,7 @@ public class ManufactureServiceTest {
     }
     
     public void removeTestManufacture(Integer id) {
-        manufactureService.delTestManufacture(id);
+        manufactureService.delManufactureFull(id);
     }
 
     /**

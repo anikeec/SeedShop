@@ -105,11 +105,11 @@ public class ProductServiceTest {
     
     @After
     public void tearDown() {
-        productService.delTestProduct(TestId.TestIdProdServBarcode);
-        packingService.delTestPacking(TestId.TestIdProdServPacking);
+        productService.delProductFull(TestId.TestIdProdServBarcode);
+        packingService.delPackingFull(TestId.TestIdProdServPacking);
         packService.delPackFull(TestId.TestIdProdServPack);
-        manufactureService.delTestManufacture(TestId.TestIdProdServManuf);
-        aProductService.delTestAProduct(TestId.TestIdProdServAProd);      
+        manufactureService.delManufactureFull(TestId.TestIdProdServManuf);
+        aProductService.delAProductFull(TestId.TestIdProdServAProd);      
     }
 
     /**
@@ -119,7 +119,7 @@ public class ProductServiceTest {
     @Test
     public void testGetAllProducts() throws Exception {
         logger.debug("Test - getAllProducts");
-        int expResult = 2;
+        int expResult = 1;
         int result = productService.getAllProducts().size();
         assert(expResult <= result);
     }
