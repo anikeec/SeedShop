@@ -107,7 +107,7 @@ public class ProductServiceTest {
     public void tearDown() {
         productService.delTestProduct(TestId.TestIdProdServBarcode);
         packingService.delTestPacking(TestId.TestIdProdServPacking);
-        packService.delTestPack(TestId.TestIdProdServPack);
+        packService.delPackFull(TestId.TestIdProdServPack);
         manufactureService.delTestManufacture(TestId.TestIdProdServManuf);
         aProductService.delTestAProduct(TestId.TestIdProdServAProd);      
     }

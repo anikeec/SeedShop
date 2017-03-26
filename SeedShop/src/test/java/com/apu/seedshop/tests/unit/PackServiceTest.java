@@ -29,8 +29,6 @@ public class PackServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(PackServiceTest.class);
     
     @Autowired
-    PackRepository packRepository;
-    @Autowired
     PackMapper packMapper;
     @Autowired
     PackService packService;
@@ -64,11 +62,7 @@ public class PackServiceTest {
     }
     
     public void removeTestPack(Integer id) {
-        Pack p = packRepository.findOne(id);
-        if(p!=null){
-            logger.debug(String.format("Deleting test pack with id %s", id));
-            packRepository.delete(id);
-        }
+        packService.delPackFull(id);
     }
 
     /**

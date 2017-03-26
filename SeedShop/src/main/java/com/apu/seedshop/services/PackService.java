@@ -48,4 +48,13 @@ public class PackService {
         }
     }
     
+    public void delPackFull(Integer packId) throws IllegalArgumentException {
+        if(packId == null)    throw new IllegalArgumentException("packId = null");
+        Pack p = packRepository.findOne(packId);
+        if(p!=null){
+            logger.debug(String.format("Deleting pack full with id %s", packId));
+            packRepository.delete(packId);
+        }
+    }
+    
 }

@@ -66,7 +66,7 @@ public class PackingServiceTest {
     @After
     public void tearDown() {
         packingService.delTestPacking(TestId.TestIdPackingServPacking);
-        packService.delTestPack(TestId.TestIdPackingServPack);
+        packService.delPackFull(TestId.TestIdPackingServPack);
     }
 
     /**
