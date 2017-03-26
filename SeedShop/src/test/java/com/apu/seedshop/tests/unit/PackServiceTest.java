@@ -6,6 +6,7 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.Pack;
+import com.apu.seedshop.repository.PackRepository;
 import com.apu.seedshop.services.PackMapper;
 import com.apu.seedshop.services.PackService;
 import com.apu.seedshop.tests.TestId;
@@ -28,6 +29,8 @@ public class PackServiceTest {
     private static final Logger logger =  LoggerFactory.getLogger(PackServiceTest.class);
     
     @Autowired
+    PackRepository packRepository;
+    @Autowired
     PackMapper packMapper;
     @Autowired
     PackService packService;
@@ -45,12 +48,27 @@ public class PackServiceTest {
     
     @Before
     public void setUp() {
-        packService.createTestPack(TestId.TestIdPackServPack);
+        createTestPack(TestId.TestIdPackServPack);
     }
     
     @After
     public void tearDown() {
-        packService.delTestPack(TestId.TestIdPackServPack);
+        removeTestPack(TestId.TestIdPackServPack);
+    }
+    
+    public Pack createTestPack(Integer id) {
+        Pack pack = packMapper.newPack();
+        pack.setPackId(id);
+        pack.setName("test");
+        return packService.addPack(pack);
+    }
+    
+    public void removeTestPack(Integer id) {
+        Pack p = packRepository.findOne(id);
+        if(p!=null){
+            logger.debug(String.format("Deleting test pack with id %s", id));
+            packRepository.delete(id);
+        }
     }
 
     /**
@@ -85,7 +103,7 @@ public class PackServiceTest {
     public void testAddPack() throws Exception {
         logger.debug("Test - addPack");
         
-        Pack pack = packService.createTestPack(TestId.TestIdPackServPackNew);
+        Pack pack = createTestPack(TestId.TestIdPackServPackNew);
         Pack expResult = pack;
         Pack result = packService.getPackById(TestId.TestIdPackServPackNew);
         assertEquals(expResult, result);
@@ -98,7 +116,7 @@ public class PackServiceTest {
         expResult = null;
         assertEquals(expResult, result);
         
-        packService.delTestPack(TestId.TestIdPackServPackNew);
+        removeTestPack(TestId.TestIdPackServPackNew);
         result = packService.getPackById(TestId.TestIdPackServPackNew);
         expResult = null;
         assertEquals(expResult, result);

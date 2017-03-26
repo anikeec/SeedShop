@@ -48,31 +48,4 @@ public class PackService {
         }
     }
     
-    public Pack createTestPack(Integer id) throws IllegalArgumentException {      
-        if(id == null)    
-            throw new IllegalArgumentException("id = null");
-        Pack p = null;
-        if(packRepository.exists(id)) {
-            p = packRepository.findOne(id);
-            logger.debug(String.format("Updating test pack %s with id %s", 
-                        p.getName(), p.getPackId()));
-        } else {
-            p = new Pack();
-            p.setPackId(id);
-            logger.debug(String.format("Adding test pack %s with id %s", 
-                        p.getName(), p.getPackId()));
-        }        
-        p.setName("test");
-        p = packRepository.save(p);
-        return p;
-    }
-    
-    public void delTestPack(Integer packId){
-        Pack p = packRepository.findOne(packId);
-        if(p!=null){
-            logger.debug(String.format("Deleting test pack with id %s", packId));
-            packRepository.delete(packId);
-        }
-    }
-    
 }
