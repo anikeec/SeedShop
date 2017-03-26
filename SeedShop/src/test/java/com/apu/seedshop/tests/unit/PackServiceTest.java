@@ -6,7 +6,6 @@
 package com.apu.seedshop.tests.unit;
 
 import com.apu.seedshop.jpa.Pack;
-import com.apu.seedshop.repository.PackRepository;
 import com.apu.seedshop.services.PackMapper;
 import com.apu.seedshop.services.PackService;
 import com.apu.seedshop.tests.TestId;

@@ -65,8 +65,8 @@ public class PackingServiceTest {
     
     @After
     public void tearDown() {
-        packingService.delTestPacking(TestId.TestIdPackingServPacking);
-        packService.delPackFull(TestId.TestIdPackingServPack);
+        packingService.delPackingFull(TestId.TestIdPackingServPacking);
+        packService.delPackFull(TestId.TestIdPackingServPack);        
     }
 
     /**
@@ -121,7 +121,7 @@ public class PackingServiceTest {
         expResult = null;
         assertEquals(expResult, result);
         
-        packingService.delTestPacking(TestId.TestIdPackingServPackingNew);
+        packingService.delPackingFull(TestId.TestIdPackingServPackingNew);
         result = packingService.getPackingById(TestId.TestIdPackingServPackingNew);
         expResult = null;
         assertEquals(expResult, result);

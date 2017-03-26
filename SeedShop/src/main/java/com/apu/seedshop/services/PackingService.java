@@ -47,10 +47,10 @@ public class PackingService {
         }
     }
     
-    public void delTestPacking(Integer packingId){
+    public void delPackingFull(Integer packingId){
         Packing p = packingRepository.findOne(packingId);
         if(p!=null){
-            logger.debug(String.format("Deleting test packing with id %s", packingId));
+            logger.debug(String.format("Deleting packing full with id %s", packingId));
             packingRepository.delete(packingId);
         }
     }
