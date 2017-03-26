@@ -45,23 +45,12 @@ public class PackServiceTest {
     
     @Before
     public void setUp() {
-        createTestPack(TestId.TestIdPackServPack);
+        packService.createTestPack(TestId.TestIdPackServPack);
     }
     
     @After
     public void tearDown() {
-        removeTestPack(TestId.TestIdPackServPack);
-    }
-    
-    public Pack createTestPack(Integer id) {
-        Pack pack = packMapper.newPack();
-        pack.setPackId(id);
-        pack.setName("test");
-        return packService.addPack(pack);
-    }
-    
-    public void removeTestPack(Integer id) {
-        packService.delTestPack(id);
+        packService.delTestPack(TestId.TestIdPackServPack);
     }
 
     /**
@@ -96,7 +85,7 @@ public class PackServiceTest {
     public void testAddPack() throws Exception {
         logger.debug("Test - addPack");
         
-        Pack pack = createTestPack(TestId.TestIdPackServPackNew);
+        Pack pack = packService.createTestPack(TestId.TestIdPackServPackNew);
         Pack expResult = pack;
         Pack result = packService.getPackById(TestId.TestIdPackServPackNew);
         assertEquals(expResult, result);
@@ -109,7 +98,7 @@ public class PackServiceTest {
         expResult = null;
         assertEquals(expResult, result);
         
-        removeTestPack(TestId.TestIdPackServPackNew);
+        packService.delTestPack(TestId.TestIdPackServPackNew);
         result = packService.getPackById(TestId.TestIdPackServPackNew);
         expResult = null;
         assertEquals(expResult, result);
