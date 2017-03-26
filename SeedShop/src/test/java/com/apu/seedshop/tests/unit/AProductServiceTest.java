@@ -5,9 +5,9 @@
  */
 package com.apu.seedshop.tests.unit;
 
-import com.apu.seedshop.jpa.DeliveryStatus;
-import com.apu.seedshop.services.DeliveryStatusMapper;
-import com.apu.seedshop.services.DeliveryStatusService;
+import com.apu.seedshop.jpa.AProduct;
+import com.apu.seedshop.services.AProductMapper;
+import com.apu.seedshop.services.AProductService;
 import com.apu.seedshop.tests.TestId;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,15 +24,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DeliveryStatusServiceTest {
-    private static final Logger logger =  LoggerFactory.getLogger(DeliveryStatusServiceTest.class);
+public class AProductServiceTest {
+    private static final Logger logger =  LoggerFactory.getLogger(AProductServiceTest.class);
     
     @Autowired
-    DeliveryStatusMapper delivStatusMapper;
+    AProductMapper aProductMapper;
     @Autowired
-    DeliveryStatusService delivStatusService;
+    AProductService aProductService;
     
-    public DeliveryStatusServiceTest() {
+    public AProductServiceTest() {
     }
     
     @BeforeClass
@@ -45,69 +45,77 @@ public class DeliveryStatusServiceTest {
     
     @Before
     public void setUp() {
-        DeliveryStatus ds = delivStatusMapper.newDeliveryStatus();
-        ds.setStatusId(TestId.TestIdDeliveryStatusServDS);
-        ds.setStatus("test");
-        delivStatusService.addDeliveryStatus(ds);
+        try {
+            AProduct app = aProductMapper.newAProduct();
+            app.setParentId(null);
+            app.setProductId(TestId.TestIdAProductServAPparent);
+            app.setName("test");
+            aProductService.addAProduct(app);
+            AProduct ap = aProductMapper.newAProduct();
+            ap.setParentId(app);
+            ap.setProductId(TestId.TestIdAProductServAP);
+            ap.setName("test");
+            aProductService.addAProduct(ap);
+        } catch(Exception e) {
+            logger.error("Exception:" + e.getCause() + e.getMessage());
+        } 
     }
     
     @After
     public void tearDown() {
-        delivStatusService.delDeliveryStatusFull(TestId.TestIdDeliveryStatusServDS);
+        aProductService.delAProductFull(TestId.TestIdAProductServAP);
+        aProductService.delAProductFull(TestId.TestIdAProductServAPparent);
     }
 
     /**
-     * Test of getAllDeliveryStatuss method, of class DeliveryStatusService.
+     * Test of getAllAProducts method, of class AProductService.
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetAllDeliveryStatuss() throws Exception {
-        logger.debug("Test - getAllDeliveryStatuss");
+    public void testGetAllAProducts() throws Exception {
+        logger.debug("Test - getAllAProducts");
         int expResult = 1;
-        int result = delivStatusService.getAllDeliveryStatuses().size();
+        int result = aProductService.getAllAProducts().size();
         assert(expResult <= result);
     }
 
     /**
-     * Test of getDeliveryStatusById method, of class DeliveryStatusService.
+     * Test of getAProductById method, of class AProductService.
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetDeliveryStatusById() throws Exception {
-        logger.debug("Test - getDeliveryStatusById");
-        DeliveryStatus expResult = null;
-        DeliveryStatus result = delivStatusService.getDeliveryStatusById(
-                                            TestId.TestIdDeliveryStatusServDS);
-        assert(expResult != result);
+    public void testGetAProductById() throws Exception {
+        logger.debug("Test - getAProductById");
+        AProduct expResult = 
+            aProductService.getAProductById(TestId.TestIdAProductServAPparent);
+        AProduct result = 
+            aProductService.getAProductById(TestId.TestIdAProductServAP).getParentId();
+        assertEquals(expResult,result);
     }
 
     /**
-     * Test of addDeliveryStatus method, of class DeliveryStatusService.
+     * Test of deleteAProduct method, of class AProductService.
      * @throws java.lang.Exception
      */
     @Test
-    public void testAddDeliveryStatus() throws Exception {
-        logger.debug("Test - addDeliveryStatus");
-        
-        DeliveryStatus ds = delivStatusMapper.newDeliveryStatus();
-        ds.setStatusId(TestId.TestIdDeliveryStatusServDSNew);
-        ds.setStatus("test");
-        delivStatusService.addDeliveryStatus(ds);
+    public void testDeleteAProduct() throws Exception {
+        logger.debug("Test - addAProduct");
 
-        DeliveryStatus expResult = ds;
-        DeliveryStatus result = 
-                delivStatusService.getDeliveryStatusById(TestId.TestIdDeliveryStatusServDSNew);
+        AProduct expResult = 
+            aProductService.getAProductById(TestId.TestIdAProductServAPparent);
+        AProduct result = 
+            aProductService.getAProductById(TestId.TestIdAProductServAP).getParentId();
         assertEquals(expResult, result);
-        delivStatusService.delDeliveryStatus(TestId.TestIdDeliveryStatusServDSNew);
-        result = delivStatusService.getDeliveryStatusById(TestId.TestIdDeliveryStatusServDSNew);
+        
+        aProductService.delAProduct(TestId.TestIdAProductServAP);
+        result = aProductService.getAProductById(TestId.TestIdAProductServAP);
         if(result.getUsed() == false) {
             result = null;
         }
         expResult = null;
         assertEquals(expResult, result);
-        
-        delivStatusService.delDeliveryStatusFull(TestId.TestIdDeliveryStatusServDSNew);
-        result = delivStatusService.getDeliveryStatusById(TestId.TestIdDeliveryStatusServDSNew);
+        aProductService.delAProductFull(TestId.TestIdAProductServAPparent);
+        result = aProductService.getAProductById(TestId.TestIdAProductServAP);
         expResult = null;
         assertEquals(expResult, result);
     }

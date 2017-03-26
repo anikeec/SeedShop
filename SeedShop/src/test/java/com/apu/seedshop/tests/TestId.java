@@ -51,4 +51,8 @@ public class TestId {
     public static final Integer TestIdAvailServManuf = TestIdAvailServInteger;
     public static final Integer TestIdAvailServAProd = TestIdAvailServInteger;
     public static final Integer TestIdAvailServLocation = TestIdAvailServInteger;
+    
+    public static final Integer TestIdAProductServInteger = 116;
+    public static final Integer TestIdAProductServAPparent = 117;
+    public static final Integer TestIdAProductServAP = TestIdAProductServInteger;
 }

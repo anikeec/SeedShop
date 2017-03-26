@@ -4,11 +4,15 @@
  */
 package com.apu.seedshop.rest;
 
-import com.apu.seedshop.jpa.AnOrder;
-import com.apu.seedshop.services.AnOrderMapper;
-import com.apu.seedshop.services.AnOrderService;
+import com.apu.seedshop.jpa.AProduct;
+import com.apu.seedshop.services.AProductMapper;
+import com.apu.seedshop.services.AProductService;
+import com.apu.seedshopapi.SeedAProductFull;
+import com.apu.seedshopapi.SeedAProductFullListReply;
+import com.apu.seedshopapi.SeedAProductFullReply;
 import com.apu.seedshopapi.SeedGenericReply;
-import com.apu.seedshopapi.SeedAnOrderListReply;
+import com.apu.seedshopapi.SeedAProductListReply;
+import com.apu.seedshopapi.SeedAProductReply;
 import com.apu.seedshopapi.SeedDeleteForIdListRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,60 +26,99 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class AnOrderController {
-    private static final Logger logger =  LoggerFactory.getLogger(AnOrderController.class);
+public class AProductController {
+    private static final Logger logger =  LoggerFactory.getLogger(AProductController.class);
     @Autowired         
-    AnOrderService anOrderService;
+    AProductService aProductService;
     @Autowired
-    AnOrderMapper anOrderMapper;    
+    AProductMapper aProductMapper;    
     
-    @RequestMapping(path="/orders/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedAnOrderListReply getAllProducts(){
-        SeedAnOrderListReply reply = new SeedAnOrderListReply();
-        for(AnOrder ao: anOrderService.getAllAnOrders()){
-           reply.orders.add(anOrderMapper.fromInternal(ao));    
-        }
-        return reply;
-    }
-    
-    @RequestMapping(path="/orders/byorderid/{orderid}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedAnOrderListReply getAnOrdersByOrderId(@PathVariable Long orderid ){
-        SeedAnOrderListReply reply = new SeedAnOrderListReply();
-        for(AnOrder ao: anOrderService.getAnOrdersByOrderId(orderid)) {
-            reply.orders.add(anOrderMapper.fromInternal(ao));  
-        }
-        return reply;
-    }
-    
-    @RequestMapping(path="/orders/del/{id}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedGenericReply delAnOrder(@PathVariable Long id ){
-            SeedGenericReply rep = new SeedGenericReply();
-        try{
-            anOrderService.delAnOrder(id);
-        }catch(Exception e){
-            rep.retcode = -1;
-            rep.error_message = e.getMessage();
-            logger.error("Error delete order. Expetion: " + e.getMessage(),e);
-        }
-        return rep;       
-    }
-    
-    @RequestMapping(path="/orders/del/list",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedGenericReply delListOrders(@RequestBody SeedDeleteForIdListRequest req){
-        SeedGenericReply rep = new SeedGenericReply();
-        try{
-            AnOrder order;
-            for(Long id:req.itemsId) {
-                order = anOrderService.getAnOrderById(id);
-                order.getOrderId().getAnOrderCollection().remove(order); //maybe its hack???
-                anOrderService.delAnOrder(id);
+    @RequestMapping(path="/aproduct/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedAProductListReply getAllAProducts(){
+        SeedAProductListReply rep = new SeedAProductListReply();
+        try {
+            for(AProduct ao: aProductService.getAllAProducts()){
+               rep.aProducts.add(aProductMapper.fromInternal(ao));    
             }
         }catch(Exception e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
-            logger.error("Error delete anOrder. Expetion: " + e.getMessage(),e);
+            logger.error("Error query aProducts. Expetion: " + e.getMessage(),e);
         }
-        return rep;       
+        return rep;
     }
+    
+    @RequestMapping(path="/aproduct/byid/{id}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedAProductReply getAProductByOrderId(@PathVariable Integer id ){
+        SeedAProductReply rep = new SeedAProductReply();
+        try {
+            AProduct product = null;
+            product = aProductService.getAProductById(id);
+            rep.aProduct = aProductMapper.fromInternal(product);
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error query aProduct. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
+    @RequestMapping(path="/aproductf/all",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedAProductFullListReply getAllAProductsFull(){
+        SeedAProductFullListReply rep = new SeedAProductFullListReply();
+        try {
+            SeedAProductFull apf = null;
+            AProduct product = null;
+            for(AProduct ao: aProductService.getAllAProducts()){
+                apf = new SeedAProductFull();
+                product = ao;
+                apf.aProduct = aProductMapper.fromInternal(ao);
+                while(true){
+                    if(product.getParentId() == null) break;
+                    product = product.getParentId();
+                    apf.parent.add(0,aProductMapper.fromInternal(product));  
+                }
+                rep.aProductsF.add(apf);    
+            }
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error query aProducts. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
+    @RequestMapping(path="/aproductf/byid/{id}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedAProductFullReply getAProductFullByOrderId(@PathVariable Integer id ){
+        SeedAProductFullReply rep = new SeedAProductFullReply();
+        try {
+            AProduct product = null;
+            product = aProductService.getAProductById(id);
+            rep.aProductF.aProduct = aProductMapper.fromInternal(product);
+            while(true){
+                if(product.getParentId() == null) break;
+                product = product.getParentId();
+                rep.aProductF.parent.add(0,aProductMapper.fromInternal(product));  
+            }
+        }catch(Exception e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error query aProduct. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
+//    @RequestMapping(path="/aproduct/del/{id}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    public SeedGenericReply delAProduct(@PathVariable Long id ){
+//            SeedGenericReply rep = new SeedGenericReply();
+//        try{
+//            anOrderService.delAProduct(id);
+//        }catch(Exception e){
+//            rep.retcode = -1;
+//            rep.error_message = e.getMessage();
+//            logger.error("Error delete order. Expetion: " + e.getMessage(),e);
+//        }
+//        return rep;       
+//    }
     
 }

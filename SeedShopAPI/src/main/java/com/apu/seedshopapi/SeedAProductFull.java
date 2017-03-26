@@ -4,18 +4,16 @@
  */
 package com.apu.seedshopapi;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class SeedAProduct {
+public class SeedAProductFull {
     @XmlElement(required=true)
-    public Integer productId;
+    public List<SeedAProduct> parent = new ArrayList<>();
     @XmlElement(required=true)
-    public Integer parentId;
-    @XmlElement(required=true)
-    public String name;    
-    @XmlElement(required=true)
-    public String used;
+    public SeedAProduct aProduct;
          
 }

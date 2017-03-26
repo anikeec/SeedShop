@@ -1,12 +1,15 @@
 package com.apu.seedshopapi;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class SeedAProductListReply extends SeedGenericReply{
+public class SeedAProductFullReply extends SeedGenericReply{
     @XmlElement(required=true)
-    public List<SeedAProduct> aProducts = new ArrayList<>();
+    public SeedAProductFull aProductF;
+
+    public SeedAProductFullReply() {
+        this.aProductF = new SeedAProductFull();
+    }   
+    
 }

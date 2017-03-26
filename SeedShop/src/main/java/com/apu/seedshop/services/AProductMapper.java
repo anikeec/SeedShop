@@ -31,7 +31,10 @@ public class AProductMapper {
         SeedAProduct result = new SeedAProduct();          
         result.name = inp.getName();
         result.productId = inp.getProductId();
-        result.parentId = inp.getParentId().getProductId();        
+        if(inp.getParentId() != null)
+            result.parentId = inp.getParentId().getProductId();
+        else       
+            result.parentId = null;
         result.used = inp.getUsed().toString();
         return result;
     }
