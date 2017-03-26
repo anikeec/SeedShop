@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "delivery_status")
@@ -41,9 +41,7 @@ public class DeliveryStatus implements Serializable {
     @NotNull
     @Column(name = "status_id")
     private Integer statusId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "status")
     private String status;
     @Column(name = "used")
@@ -56,11 +54,6 @@ public class DeliveryStatus implements Serializable {
 
     public DeliveryStatus(Integer statusId) {
         this.statusId = statusId;
-    }
-
-    public DeliveryStatus(Integer statusId, String status) {
-        this.statusId = statusId;
-        this.status = status;
     }
 
     public Integer getStatusId() {

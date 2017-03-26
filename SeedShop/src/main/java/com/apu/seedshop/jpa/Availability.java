@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "availability")
@@ -44,10 +44,10 @@ public class Availability implements Serializable {
     @Column(name = "reserv")
     private Integer reserv;
     @JoinColumn(name = "location_id", referencedColumnName = "location_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ProductLocation locationId;
     @JoinColumn(name = "barcode", referencedColumnName = "barcode")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Product barcode;
 
     public Availability() {

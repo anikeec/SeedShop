@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "user_gender")
@@ -40,9 +40,7 @@ public class UserGender implements Serializable {
     @NotNull
     @Column(name = "gender_id")
     private Integer genderId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1)
+    @Size(max = 1)
     @Column(name = "name")
     private String name;
     @Column(name = "used")
@@ -55,11 +53,6 @@ public class UserGender implements Serializable {
 
     public UserGender(Integer genderId) {
         this.genderId = genderId;
-    }
-
-    public UserGender(Integer genderId, String name) {
-        this.genderId = genderId;
-        this.name = name;
     }
 
     public Integer getGenderId() {

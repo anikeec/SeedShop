@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "an_order")
@@ -40,16 +40,12 @@ public class AnOrder implements Serializable {
     @Column(name = "id")
     private Long id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "price")
     private BigDecimal price;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "amount")
-    private int amount;
+    private Integer amount;
     @JoinColumn(name = "barcode", referencedColumnName = "barcode")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Product barcode;
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     @ManyToOne(optional = false)
@@ -60,12 +56,6 @@ public class AnOrder implements Serializable {
 
     public AnOrder(Long id) {
         this.id = id;
-    }
-
-    public AnOrder(Long id, BigDecimal price, int amount) {
-        this.id = id;
-        this.price = price;
-        this.amount = amount;
     }
 
     public Long getId() {
@@ -84,11 +74,11 @@ public class AnOrder implements Serializable {
         this.price = price;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 

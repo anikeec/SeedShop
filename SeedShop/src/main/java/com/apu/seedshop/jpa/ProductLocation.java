@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "product_location")
@@ -41,9 +41,7 @@ public class ProductLocation implements Serializable {
     @NotNull
     @Column(name = "location_id")
     private Integer locationId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
+    @Size(max = 15)
     @Column(name = "name")
     private String name;
     @Column(name = "used")
@@ -62,11 +60,6 @@ public class ProductLocation implements Serializable {
 
     public ProductLocation(Integer locationId) {
         this.locationId = locationId;
-    }
-
-    public ProductLocation(Integer locationId, String name) {
-        this.locationId = locationId;
-        this.name = name;
     }
 
     public Integer getLocationId() {

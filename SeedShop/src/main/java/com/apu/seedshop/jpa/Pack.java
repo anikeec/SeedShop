@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "pack")
@@ -41,9 +41,7 @@ public class Pack implements Serializable {
     @NotNull
     @Column(name = "pack_id")
     private Integer packId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "name")
     private String name;
     @Column(name = "used")
@@ -56,11 +54,6 @@ public class Pack implements Serializable {
 
     public Pack(Integer packId) {
         this.packId = packId;
-    }
-
-    public Pack(Integer packId, String name) {
-        this.packId = packId;
-        this.name = name;
     }
 
     public Integer getPackId() {

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "invoice")
@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")
     , @NamedQuery(name = "Invoice.findByOrderId", query = "SELECT i FROM Invoice i WHERE i.orderId = :orderId")
-	, @NamedQuery(name = "Invoice.findByUserId", query = "SELECT i FROM Invoice i WHERE i.userId = :userId")
+    , @NamedQuery(name = "Invoice.findByUserId", query = "SELECT i FROM Invoice i WHERE i.userId = :userId")
     , @NamedQuery(name = "Invoice.findByOrderDate", query = "SELECT i FROM Invoice i WHERE i.orderDate = :orderDate")
     , @NamedQuery(name = "Invoice.findByPaidDate", query = "SELECT i FROM Invoice i WHERE i.paidDate = :paidDate")
     , @NamedQuery(name = "Invoice.findBySentDate", query = "SELECT i FROM Invoice i WHERE i.sentDate = :sentDate")
@@ -48,23 +48,14 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Invoice.findByFirstName", query = "SELECT i FROM Invoice i WHERE i.firstName = :firstName")
     , @NamedQuery(name = "Invoice.findByThirdName", query = "SELECT i FROM Invoice i WHERE i.thirdName = :thirdName")
     , @NamedQuery(name = "Invoice.findByPhone", query = "SELECT i FROM Invoice i WHERE i.phone = :phone")
+    , @NamedQuery(name = "Invoice.findByCountry", query = "SELECT i FROM Invoice i WHERE i.country = :country")
+    , @NamedQuery(name = "Invoice.findByRegion", query = "SELECT i FROM Invoice i WHERE i.region = :region")
+    , @NamedQuery(name = "Invoice.findByArea", query = "SELECT i FROM Invoice i WHERE i.area = :area")
+    , @NamedQuery(name = "Invoice.findByCity", query = "SELECT i FROM Invoice i WHERE i.city = :city")
     , @NamedQuery(name = "Invoice.findByDeliveryOffice", query = "SELECT i FROM Invoice i WHERE i.deliveryOffice = :deliveryOffice")
     , @NamedQuery(name = "Invoice.findByPrepayment", query = "SELECT i FROM Invoice i WHERE i.prepayment = :prepayment")
     , @NamedQuery(name = "Invoice.findByDeclaration", query = "SELECT i FROM Invoice i WHERE i.declaration = :declaration")})
 public class Invoice implements Serializable {
-
-    @Size(max = 20)
-    @Column(name = "country")
-    private String country;
-    @Size(max = 30)
-    @Column(name = "region")
-    private String region;
-    @Size(max = 30)
-    @Column(name = "area")
-    private String area;
-    @Size(max = 30)
-    @Column(name = "city")
-    private String city;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,8 +63,6 @@ public class Invoice implements Serializable {
     @NotNull
     @Column(name = "order_id")
     private Long orderId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "order_date")
     @Temporal(TemporalType.DATE)
     private Date orderDate;
@@ -101,6 +90,18 @@ public class Invoice implements Serializable {
     @Size(max = 40)
     @Column(name = "phone")
     private String phone;
+    @Size(max = 20)
+    @Column(name = "country")
+    private String country;
+    @Size(max = 30)
+    @Column(name = "region")
+    private String region;
+    @Size(max = 30)
+    @Column(name = "area")
+    private String area;
+    @Size(max = 30)
+    @Column(name = "city")
+    private String city;
     @Column(name = "delivery_office")
     private Integer deliveryOffice;
     @Column(name = "prepayment")
@@ -147,11 +148,6 @@ public class Invoice implements Serializable {
 
     public Invoice(Long orderId) {
         this.orderId = orderId;
-    }
-
-    public Invoice(Long orderId, Date orderDate) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
     }
 
     public Long getOrderId() {
@@ -232,6 +228,38 @@ public class Invoice implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Integer getDeliveryOffice() {
@@ -371,38 +399,6 @@ public class Invoice implements Serializable {
     @Override
     public String toString() {
         return "com.apu.seedshop.jpa.Invoice[ orderId=" + orderId + " ]";
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
     
 }

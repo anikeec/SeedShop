@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "product")
@@ -46,8 +46,6 @@ public class Product implements Serializable {
     @Column(name = "barcode")
     private String barcode;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "price")
     private BigDecimal price;
     @Column(name = "used")
@@ -71,11 +69,6 @@ public class Product implements Serializable {
 
     public Product(String barcode) {
         this.barcode = barcode;
-    }
-
-    public Product(String barcode, BigDecimal price) {
-        this.barcode = barcode;
-        this.price = price;
     }
 
     public String getBarcode() {

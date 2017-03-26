@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "delivery_service")
@@ -42,13 +42,9 @@ public class DeliveryService implements Serializable {
     @NotNull
     @Column(name = "delivery_id")
     private Integer deliveryId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "collect_avail")
     private Boolean collectAvail;
     @Column(name = "used")
@@ -61,12 +57,6 @@ public class DeliveryService implements Serializable {
 
     public DeliveryService(Integer deliveryId) {
         this.deliveryId = deliveryId;
-    }
-
-    public DeliveryService(Integer deliveryId, String name, Boolean collectAvail) {
-        this.deliveryId = deliveryId;
-        this.name = name;
-        this.collectAvail = collectAvail;
     }
 
     public Integer getDeliveryId() {

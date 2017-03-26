@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author apu
+ * @author Ksusha
  */
 @Entity
 @Table(name = "manufacture")
@@ -42,14 +42,10 @@ public class Manufacture implements Serializable {
     @NotNull
     @Column(name = "manufact_id")
     private Integer manufactId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "address")
     private String address;
     @Column(name = "used")
@@ -62,12 +58,6 @@ public class Manufacture implements Serializable {
 
     public Manufacture(Integer manufactId) {
         this.manufactId = manufactId;
-    }
-
-    public Manufacture(Integer manufactId, String name, String address) {
-        this.manufactId = manufactId;
-        this.name = name;
-        this.address = address;
     }
 
     public Integer getManufactId() {
