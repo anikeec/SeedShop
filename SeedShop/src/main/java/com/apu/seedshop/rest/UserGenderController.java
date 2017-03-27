@@ -8,6 +8,7 @@ import com.apu.seedshop.jpa.UserGender;
 import com.apu.seedshop.services.UserGenderMapper;
 import com.apu.seedshop.services.UserGenderService;
 import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedUserGender;
 import com.apu.seedshopapi.SeedUserGenderReply;
 import com.apu.seedshopapi.SeedUserGenderListReply;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
@@ -63,6 +65,20 @@ public class UserGenderController {
             logger.error("Error delete UserGender. Expetion: " + e.getMessage(),e);
         }
         return rep;       
+    }
+    
+    @RequestMapping(path="/ugender/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedGenericReply addInvoice(@RequestBody SeedUserGender req){
+        SeedGenericReply rep = new SeedGenericReply();
+        try{
+           UserGender p;
+           p = ugService.addUserGender(ugMapper.toInternal(req));
+        }catch(IllegalArgumentException e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding UserGender. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
     }
     
 }

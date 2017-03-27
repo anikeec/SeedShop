@@ -68,7 +68,7 @@ public class ProductLocationMapper {
         if(p == null){                  //not found, create new
             logger.debug("Creating new ProductLocation");
             p = newProductLocation();
-            if(spl.locationId != null)
+            if(spl.locationId != null) 
                 p.setLocationId(spl.locationId);
         } else {
             logger.debug("Updating existing ProductLocation");
