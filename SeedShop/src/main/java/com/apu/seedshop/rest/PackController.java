@@ -54,7 +54,7 @@ public class PackController {
         return rep;
     }
     
-    @RequestMapping(path="/pack/del/{id}", method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path="/pack/del/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SeedGenericReply delPack(@PathVariable Integer id ) {
         SeedGenericReply rep = new SeedGenericReply();
         try{
@@ -68,12 +68,11 @@ public class PackController {
     }
     
     @RequestMapping(path="/pack/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedPackReply addInvoice( @RequestBody SeedPack req){
-        SeedPackReply rep = new SeedPackReply();
+    public SeedGenericReply addInvoice( @RequestBody SeedPack req){
+        SeedGenericReply rep = new SeedGenericReply();
         try{
            Pack p;
            p = pService.addPack(pMapper.toInternal(req));
-           rep.pack = pMapper.fromInternal(p);
         }catch(IllegalArgumentException e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();

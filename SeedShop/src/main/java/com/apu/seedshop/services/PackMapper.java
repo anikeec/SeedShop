@@ -60,6 +60,8 @@ public class PackMapper {
         Pack p = null;
         if(sp == null) 
             throw new IllegalArgumentException("PackMapper. toInternal. input = null");
+        if(sp.name == null) 
+            throw new IllegalArgumentException("PackName = null");
         
         if (sp.packId != null) {    //first, check if it exists
             p = pRepository.findOne(sp.packId);            
@@ -67,8 +69,7 @@ public class PackMapper {
         if(p == null){              //not found, create new
             logger.debug("Creating new pack");
             p = newPack();
-            if(sp.packId != null)
-                p.setPackId(sp.packId);
+            if(sp.packId != null)   p.setPackId(sp.packId);
         } else {
             logger.debug("Updating existing pack");
         }        
