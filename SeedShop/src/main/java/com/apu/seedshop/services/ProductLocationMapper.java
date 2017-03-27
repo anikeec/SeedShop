@@ -59,6 +59,8 @@ public class ProductLocationMapper {
         ProductLocation p = null;
         if(spl == null) 
             throw new IllegalArgumentException("ProductLocationMapper. toInternal. input = null");
+        if(spl.name == null) 
+            throw new IllegalArgumentException("ProductLocationName = null");
         
         if (spl.locationId != null) {    //first, check if it exists
             p = plRepository.findOne(spl.locationId);            
@@ -71,7 +73,6 @@ public class ProductLocationMapper {
         } else {
             logger.debug("Updating existing ProductLocation");
         }        
-
         p.setName(spl.name);
         if(spl.used != null)
             p.setUsed(spl.used.equals("true"));
