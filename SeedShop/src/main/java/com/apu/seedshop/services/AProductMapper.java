@@ -76,6 +76,7 @@ public class AProductMapper {
         if(aProduct == null){            //not found, create new
             logger.debug("Creating new aproduct");
             aProduct = newAProduct();
+            if(sp.productId != null)    aProduct.setProductId(sp.productId);
         } else {
             logger.debug("Updating existing aproduct");
         }      
@@ -90,8 +91,6 @@ public class AProductMapper {
 
         if(sp.used != null)
             aProduct.setUsed(sp.used.equals("true"));
-        else
-            aProduct.setUsed(null);
         
         return aProduct;
     }

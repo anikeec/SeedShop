@@ -74,12 +74,13 @@ public class ProductMapper {
         if(sp == null) 
             throw new IllegalArgumentException("ProductMapper. toInternal. input = null");
         
-        if (sp.packingId != null) {     //first, check if it exists
+        if (sp.barcode != null) {     //first, check if it exists
             product = productRepository.findOne(sp.barcode);            
         }
         if(product == null){            //not found, create new
             logger.debug("Creating new product");
             product = newProduct();
+            if(sp.barcode != null)    product.setBarcode(sp.barcode);
         } else {
             logger.debug("Updating existing product");
         }      
@@ -110,8 +111,6 @@ public class ProductMapper {
 
         if(sp.used != null)
             product.setUsed(sp.used.equals("true"));
-        else
-            product.setUsed(null);
         
         return product;
     }

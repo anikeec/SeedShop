@@ -76,6 +76,7 @@ public class PackingMapper {
         if(packing == null){            //not found, create new
             logger.debug("Creating new packing");
             packing = newPacking();
+            if(sp.packingId != null)    packing.setPackingId(sp.packingId);
         } else {
             logger.debug("Updating existing packing");
         }      
@@ -96,8 +97,6 @@ public class PackingMapper {
 
         if(sp.used != null)
             packing.setUsed(sp.used.equals("true"));
-        else
-            packing.setUsed(null);
         
         return packing;
     }
