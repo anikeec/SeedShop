@@ -73,6 +73,14 @@ public class ProductMapper {
         Product product = null;
         if(sp == null) 
             throw new IllegalArgumentException("ProductMapper. toInternal. input = null");
+        if(sp.manufactId == null) 
+            throw new IllegalArgumentException("manufactId = null");
+        if(sp.packingId == null) 
+            throw new IllegalArgumentException("packingId = null");
+        if(sp.aProductId == null) 
+            throw new IllegalArgumentException("aProductId = null");
+        if(sp.price == null) 
+            throw new IllegalArgumentException("price = null");
         
         if (sp.barcode != null) {     //first, check if it exists
             product = productRepository.findOne(sp.barcode);            
@@ -85,29 +93,10 @@ public class ProductMapper {
             logger.debug("Updating existing product");
         }      
         
-        if(sp.price != null) {
-            product.setPrice(new BigDecimal(sp.price));
-        } else {
-            product.setPrice(null);
-        }
-        
-        if(sp.manufactId != null) {
-            product.setManufactId(manufactureService.getManufactureById(sp.manufactId));
-        } else {
-            product.setManufactId(null);
-        }
-        
-        if(sp.packingId != null) {
-            product.setPackingId(packingService.getPackingById(sp.packingId));
-        } else {
-            product.setPackingId(null);
-        }
-        
-        if(sp.aProductId != null) {
-            product.setProductId(aProductService.getAProductById(sp.aProductId));
-        } else {
-            product.setProductId(null);
-        }
+        product.setPrice(new BigDecimal(sp.price));        
+        product.setManufactId(manufactureService.getManufactureById(sp.manufactId));
+        product.setPackingId(packingService.getPackingById(sp.packingId));
+        product.setProductId(aProductService.getAProductById(sp.aProductId));
 
         if(sp.used != null)
             product.setUsed(sp.used.equals("true"));

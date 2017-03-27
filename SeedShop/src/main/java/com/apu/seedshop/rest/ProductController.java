@@ -46,7 +46,7 @@ public class ProductController {
         return reply;
     }
     
-    @RequestMapping(path="/products/del/{barcode}",  method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path="/products/del/{barcode}",  method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SeedGenericReply delProduct(@PathVariable String barcode ){
             SeedGenericReply rep = new SeedGenericReply();
         try{
@@ -60,12 +60,12 @@ public class ProductController {
     }
     
     @RequestMapping(path="/products/add", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedProductReply addInvoice( @RequestBody SeedProduct req){
-        SeedProductReply rep = new SeedProductReply();
+    public SeedGenericReply addInvoice( @RequestBody SeedProduct req){
+        SeedGenericReply rep = new SeedGenericReply();
         try{
            Product p;
            p = productService.addProduct(productMapper.toInternal(req));
-           rep.product = productMapper.fromInternal(p);
+           //rep.product = productMapper.fromInternal(p);
         }catch(IllegalArgumentException e){
             rep.retcode = -1;
             rep.error_message = e.getMessage();
