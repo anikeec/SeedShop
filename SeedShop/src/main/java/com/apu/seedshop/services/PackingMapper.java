@@ -69,6 +69,8 @@ public class PackingMapper {
         Packing packing = null;
         if(sp == null) 
             throw new IllegalArgumentException("PackingMapper. toInternal. input = null");
+        if(sp.packId == null) 
+            throw new IllegalArgumentException("packId = null");
         
         if (sp.packingId != null) {     //first, check if it exists
             packing = pRepository.findOne(sp.packingId);            
@@ -89,11 +91,7 @@ public class PackingMapper {
             packing.setWeight(null);
         }
         
-        if(sp.packId != null) {
-            packing.setPackId(packService.getPackById(sp.packId));
-        } else {
-            packing.setPackId(null);
-        }
+        packing.setPackId(packService.getPackById(sp.packId));
 
         if(sp.used != null)
             packing.setUsed(sp.used.equals("true"));
