@@ -45,6 +45,9 @@ ProductLocationRepository plRepository;
             logger.debug(String.format("Deleting ProductLocation with id %s", packId));
             p.setUsed(false);
             plRepository.save(p);
+        } else {
+            logger.error("Not found productLocation with id = " + packId);
+            throw new IllegalArgumentException("Not found productLocation with id = " + packId);
         }
     }
     

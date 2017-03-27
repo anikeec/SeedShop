@@ -47,5 +47,36 @@ public class ProductLocationMapper {
         item.setUsed(true);  
         return item;
     }
+    
+/**
+ * Maps external REST model to internal ProductLocation;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param spl REST model
+ * @return internal ProductLocation with all required fields set
+ */
+    public ProductLocation toInternal(SeedProductLocation spl) throws IllegalArgumentException {
+        ProductLocation p = null;
+        if(spl == null) 
+            throw new IllegalArgumentException("ProductLocationMapper. toInternal. input = null");
+        
+        if (spl.locationId != null) {    //first, check if it exists
+            p = plRepository.findOne(spl.locationId);            
+        }
+        if(p == null){                  //not found, create new
+            logger.debug("Creating new ProductLocation");
+            p = newProductLocation();
+            if(spl.locationId != null)
+                p.setLocationId(spl.locationId);
+        } else {
+            logger.debug("Updating existing ProductLocation");
+        }        
+
+        p.setName(spl.name);
+        if(spl.used != null)
+            p.setUsed(spl.used.equals("true"));
+        
+        return p;
+    }
 
 }

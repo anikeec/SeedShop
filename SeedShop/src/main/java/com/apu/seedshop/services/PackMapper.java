@@ -67,6 +67,8 @@ public class PackMapper {
         if(p == null){              //not found, create new
             logger.debug("Creating new pack");
             p = newPack();
+            if(sp.packId != null)
+                p.setPackId(sp.packId);
         } else {
             logger.debug("Updating existing pack");
         }        
@@ -74,8 +76,6 @@ public class PackMapper {
         p.setName(sp.name);
         if(sp.used != null)
             p.setUsed(sp.used.equals("true"));
-        else
-            p.setUsed(null);
         
         return p;
     }
