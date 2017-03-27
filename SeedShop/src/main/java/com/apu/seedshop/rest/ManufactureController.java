@@ -8,6 +8,7 @@ import com.apu.seedshop.jpa.Manufacture;
 import com.apu.seedshop.services.ManufactureMapper;
 import com.apu.seedshop.services.ManufactureService;
 import com.apu.seedshopapi.SeedGenericReply;
+import com.apu.seedshopapi.SeedManufacture;
 import com.apu.seedshopapi.SeedManufactureReply;
 import com.apu.seedshopapi.SeedManufactureListReply;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
@@ -52,7 +54,7 @@ public class ManufactureController {
         return rep;
     }
     
-    @RequestMapping(path="/manufacture/del/{id}", method=RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path="/manufacture/del/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SeedGenericReply delManufacture(@PathVariable Integer id ) {
         SeedGenericReply rep = new SeedGenericReply();
         try{
@@ -63,6 +65,20 @@ public class ManufactureController {
             logger.error("Error delete Manufacture. Expetion: " + e.getMessage(),e);
         }
         return rep;       
+    }
+    
+    @RequestMapping(path="/manufacture/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedGenericReply addManufacture(@RequestBody SeedManufacture req){
+        SeedGenericReply rep = new SeedGenericReply();
+        try{
+           Manufacture p;
+           p = mService.addManufacture(mMapper.toInternal(req));
+        }catch(IllegalArgumentException e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding Manufacture. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
     }
     
 }

@@ -48,5 +48,40 @@ public class ManufactureMapper {
         item.setUsed(true);  
         return item;
     }
+    
+/**
+ * Maps external REST model to internal Manufacture;
+ * If user does not exists in DB then creates new. If user already exists
+ * then fetches user from DB and sets all fields from external REST model
+ * @param sm REST model
+ * @return internal Manufacture with all required fields set
+ */
+    public Manufacture toInternal(SeedManufacture sm) throws IllegalArgumentException {
+        Manufacture m = null;
+        if(sm == null) 
+            throw new IllegalArgumentException("ManufactureMapper. toInternal. input = null");
+        if(sm.name == null) 
+            throw new IllegalArgumentException("ManufactureName = null");
+        if(sm.adress == null) 
+            throw new IllegalArgumentException("ManufactureAdress = null");
+        
+        if (sm.manufactureId != null) {    //first, check if it exists
+            m = mRepository.findOne(sm.manufactureId);            
+        }
+        if(m == null){                  //not found, create new
+            logger.debug("Creating new Manufacture");
+            m = newManufacture();
+            if(sm.manufactureId != null)
+                m.setManufactId(sm.manufactureId);
+        } else {
+            logger.debug("Updating existing Manufacture");
+        }        
+        m.setName(sm.name);
+        m.setAddress(sm.adress);
+        if(sm.used != null)
+            m.setUsed(sm.used.equals("true"));
+        
+        return m;
+    }
 
 }
