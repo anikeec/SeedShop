@@ -90,11 +90,10 @@ public class AvailabilityMapper {
         } catch (Exception e) {
             throw new IllegalArgumentException("Error: product with current Location " +
                     sav.locationId + " is absent!");
-        }
-          //first, check if it exists
+        }         
              
         avList = (List<Availability>)product.getAvailabilityCollection();
-        
+        //first, check if it exists
         if(avList != null) {        
             if(!avList.isEmpty()) {
                 logger.debug("Updating existing Availability");            

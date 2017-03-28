@@ -1,5 +1,6 @@
 package com.apu.seedshop.tests.integration;
 
+import com.apu.seedshop.tests.TestId;
 import com.apu.seedshopapi.LoginReply;
 import com.apu.seedshopapi.LoginRequest;
 import com.apu.seedshopapi.SeedAvailability;
@@ -39,9 +40,6 @@ public class AvailabilityControllerTest {
     @Autowired
     private MockMvc mockMvc;
     
-    private String testSessIdRead = "12345678901234567890123456789015";
-    private String testSessId = "12345678901234567890123456789012";
-    
 //    @Before
 //    public void login() throws Exception {
 //        if(token!=null){
@@ -65,8 +63,8 @@ public class AvailabilityControllerTest {
 //    }
         
     @Test
-    public void getAvailabilityTest() throws Exception {
-        this.mockMvc.perform(get("/avail/all/" + testSessIdRead)
+    public void getAllAvailabilitiesTest() throws Exception {
+        this.mockMvc.perform(get("/avail/all/")
 //                                .header(AUTH_HTTP_HEADER, token)
                             )
                 .andDo(print()).andExpect(status().isOk())
@@ -74,13 +72,22 @@ public class AvailabilityControllerTest {
     }
     
     @Test
-    public void addNewAvailabilityTest() throws Exception{
+    public void getAvailabilityByIdTest() throws Exception {
+        this.mockMvc.perform(get("/avail/byid/" + TestId.TestIdAvailContrAvailId)
+//                                .header(AUTH_HTTP_HEADER, token)
+                            )
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("\"barcode\":\"1\"")));
+    }
+    
+    @Test
+    public void addDelNewAvailabilityTest() throws Exception{
         SeedAvailability rq = new SeedAvailability();
-        rq.barcode = "5";
-        rq.locationId = 1;
+        rq.barcode = TestId.TestIdAvailContrProdBarcode;
+        rq.locationId = TestId.TestIdAvailContrLocId;
+        rq.id = TestId.TestIdAvailContrAvailIdNew;
         rq.available = 10;
-        rq.reserv = 20;
-        rq.id = 1000;
+        rq.reserv = 20;        
         
         ObjectMapper om = new ObjectMapper();
         String content = om.writeValueAsString(rq);
@@ -96,15 +103,20 @@ public class AvailabilityControllerTest {
          
         String reply = result.getResponse().getContentAsString();
         SeedGenericReply ir = om.readValue(reply, SeedGenericReply.class);
-        assertEquals("Return code in not 0",ir.retcode.longValue(), 0L);
+        assertEquals("Add. Return code in not 0",ir.retcode.longValue(), 0L);
         
         if(ir.retcode==0){
-            mockMvc.perform(delete("/avail/del/" + 1000)
+            result = mockMvc.perform(delete("/avail/del/" + 
+                                                TestId.TestIdAvailContrAvailIdNew)
                             .accept(MediaType.APPLICATION_JSON_UTF8)
                             .contentType(MediaType.APPLICATION_JSON_UTF8)
 //                            .header(AUTH_HTTP_HEADER, token)
                            )
-                    .andExpect(status().isOk());                  
+                    .andExpect(status().isOk())
+                    .andReturn();
+            reply = result.getResponse().getContentAsString();
+            ir = om.readValue(reply, SeedGenericReply.class);
+            assertEquals("Delete. Return code in not 0",ir.retcode.longValue(), 0L);
         }
     }
 }
