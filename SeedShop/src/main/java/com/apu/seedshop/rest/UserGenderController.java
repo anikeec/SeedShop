@@ -68,7 +68,7 @@ public class UserGenderController {
     }
     
     @RequestMapping(path="/ugender/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedGenericReply addInvoice(@RequestBody SeedUserGender req){
+    public SeedGenericReply addUserGender(@RequestBody SeedUserGender req){
         SeedGenericReply rep = new SeedGenericReply();
         try{
            UserGender p;

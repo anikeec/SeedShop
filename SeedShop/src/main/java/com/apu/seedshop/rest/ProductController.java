@@ -60,7 +60,7 @@ public class ProductController {
     }
     
     @RequestMapping(path="/products/add", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public SeedGenericReply addInvoice( @RequestBody SeedProduct req){
+    public SeedGenericReply addProduct( @RequestBody SeedProduct req){
         SeedGenericReply rep = new SeedGenericReply();
         try{
            Product p;

@@ -7,6 +7,7 @@ package com.apu.seedshop.rest;
 import com.apu.seedshop.jpa.Availability;
 import com.apu.seedshop.services.AvailabilityMapper;
 import com.apu.seedshop.services.AvailabilityService;
+import com.apu.seedshopapi.SeedAvailability;
 import com.apu.seedshopapi.SeedGenericReply;
 import com.apu.seedshopapi.SeedAvailabilityReply;
 import com.apu.seedshopapi.SeedAvailabilityListReply;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController; 
@@ -48,6 +50,20 @@ public class AvailabilityController {
             rep.retcode = -1;
             rep.error_message = e.getMessage();
             logger.error("Error find Availability. Expetion: " + e.getMessage(),e);
+        }
+        return rep;
+    }
+    
+    @RequestMapping(path="/avail/add",  method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public SeedGenericReply addAvailability(@RequestBody SeedAvailability req){
+        SeedGenericReply rep = new SeedGenericReply();
+        try{
+           Availability p;
+           p = avService.addAvailability(avMapper.toInternal(req));
+        }catch(IllegalArgumentException e){
+            rep.retcode = -1;
+            rep.error_message = e.getMessage();
+            logger.error("Error adding Availability. Expetion: " + e.getMessage(),e);
         }
         return rep;
     }
